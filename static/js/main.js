@@ -13,5 +13,4 @@ async function fetchNews() {
     results.appendChild(card);
   });
 }
-
 document.getElementById('fetchBtn').addEventListener('click', fetchNews);
