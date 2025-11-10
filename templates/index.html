@@ -1,41 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SmartWorld News - AI Summaries</title>
-  <!-- Google AdSense Verification Placeholder -->
-  <!-- <meta name="google-site-verification" content="PASTE_YOUR_VERIFICATION_CODE_HERE" /> -->
-  <link rel="stylesheet" href="/static/css/style.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-1511379920245657"
-      crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartWorld News AI</title>
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
+    crossorigin="anonymous"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+    #container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #333; }
+    input { width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+    button { padding: 10px 16px; margin-left: 10px; font-size: 16px; cursor: pointer; border: none; background: #007bff; color: white; border-radius: 8px; }
+    button:hover { background: #0056b3; }
+    #news-container { margin-top: 20px; }
+    .article { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .article h3 { margin: 0; }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>SmartWorld News</h1>
-
-    <!-- AdSense Banner Placeholder -->
-   
-    <!-- End Banner -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-1511379920245657"
-     crossorigin="anonymous"></script>
-<!-- newsads -->
-<ins class="adsbygoogle"
-   
-     data-ad-client="pub-1511379920245657"
-     data-ad-slot="4863982899"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-    <p>Enter a topic and press fetch — the AI will summarize headlines for you.</p>
-    <div class="controls">
-      <input id="topic" placeholder="e.g. technology, bitcoin, india" />
+  <div id="container">
+    <h1>📰 SmartWorld News AI</h1>
+    <div>
+      <input id="topic" placeholder="Enter topic (e.g. technology, AI, sports)" />
       <button id="fetchBtn">Fetch News</button>
     </div>
-    <div id="results"></div>
+    <div id="news-container"></div>
+
+    <ins class="adsbygoogle"
+         style="display:block;margin:20px 0"
+         data-ad-client="ca-pub-1511379920245657"
+         data-ad-slot="9876543210"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
   </div>
-  <script src="/static/js/main.js"></script>
+
+  <script>
+    const apiBase = window.location.origin; // works on local + Railway
+    const topicInput = document.getElementById("topic");
+    const newsContainer = document.getElementById("news-container");
+
+    async function fetchNews() {
+      const topic = topicInput.value.trim() || "world";
+      newsContainer.innerHTML = `<p>Fetching news for <b>${topic}</b>...</p>`;
+
+      try {
+        const res = await fetch(`${apiBase}/api/news?topic=${encodeURIComponent(topic)}`);
+        if (!res.ok) throw new Error(`Server returned ${res.status}`);
+        const data = await res.json();
+
+        if (!data.articles || data.articles.length === 0) {
+          newsContainer.innerHTML = "<p>No articles found.</p>";
+          return;
+        }
+
+        newsContainer.innerHTML = data.articles.map(a => `
+          <div class="article">
+            <a href="${a.url}" target="_blank"><h3>${a.title}</h3></a>
+            <p>${a.summary || ""}</p>
+            <small>Source: ${a.source || "Unknown"}</small>
+          </div>
+        `).join("");
+      } catch (err) {
+        console.error("Fetch error:", err);
+        newsContainer.innerHTML = "<p>Error fetching news. Check console logs.</p>";
+      }
+    }
+
+    // Click event
+    document.getElementById("fetchBtn").addEventListener("click", fetchNews);
+
+    // Press Enter to search
+    topicInput.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") fetchNews();
+    });
+  </script>
 </body>
 </html>
