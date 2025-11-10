@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>AI News Search</title>
+  <meta charset="UTF-8">
+  <title>Smart World News</title>
 
-  <!-- ✅ Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
-    crossorigin="anonymous"></script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
   <style>
     body {
@@ -29,7 +28,7 @@
 
     .search-bar {
       text-align: center;
-      margin: 30px 0;
+      margin: 30px 0 10px;
     }
 
     input {
@@ -56,11 +55,72 @@
       font-size: 1em;
       cursor: pointer;
       transition: all 0.3s ease;
+      margin-left: 5px;
     }
 
     button:hover {
       background: #0059cc;
       transform: translateY(-2px);
+    }
+
+    .trending {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .trending h2 {
+      color: #333;
+      font-size: 1.4em;
+      margin-bottom: 15px;
+    }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .topics button {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 18px;
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .topics button:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(90deg, #0059cc, #00a3cc);
+    }
+
+    .sort-bar {
+      text-align: center;
+      margin: 15px 0 25px;
+    }
+
+    .sort-bar label {
+      font-size: 1em;
+      color: #333;
+      margin-right: 8px;
+    }
+
+    .sort-bar select {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      background: #f9f9f9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sort-bar select:hover {
+      border-color: #00a3cc;
+      box-shadow: 0 0 5px rgba(0, 198, 255, 0.3);
     }
 
     #news {
@@ -100,6 +160,12 @@
       line-height: 1.5;
     }
 
+    .amazon-ad h2 {
+      color: #111;
+      font-size: 1.3em;
+      margin-bottom: 10px;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -109,7 +175,6 @@
       color: #555;
     }
 
-    /* Responsive tweak */
     @media (max-width: 600px) {
       input {
         width: 180px;
@@ -122,7 +187,7 @@
 </head>
 <body>
 
-  <!-- ✅ AdSense Ad -->
+  <!-- Top AdSense -->
   <ins class="adsbygoogle"
        style="display:block"
        data-ad-client="ca-pub-1511379920245657"
@@ -131,15 +196,54 @@
        data-full-width-responsive="true"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-  <header>AI News Search</header>
+  <header>Smart World News</header>
 
   <section class="search-bar">
     <input id="topic" placeholder="Search topic..." />
     <button onclick="fetchNews()">Search</button>
   </section>
 
+  <!-- Sort by Time -->
+  <div class="sort-bar">
+    <label for="sort">🕒 Sort by:</label>
+    <select id="sort" onchange="sortNews()">
+      <option value="latest" selected>Latest First</option>
+      <option value="oldest">Oldest First</option>
+    </select>
+  </div>
+
+  <!-- Trending Topics -->
+  <section class="trending">
+    <h2>🔥 Trending Topics</h2>
+    <div class="topics">
+      <button onclick="searchTopic('Technology')">Technology</button>
+      <button onclick="searchTopic('AI')">AI</button>
+      <button onclick="searchTopic('World')">World</button>
+      <button onclick="searchTopic('Business')">Business</button>
+      <button onclick="searchTopic('Health')">Health</button>
+      <button onclick="searchTopic('Sports')">Sports</button>
+      <button onclick="searchTopic('Entertainment')">Entertainment</button>
+      <button onclick="searchTopic('Science')">Science</button>
+    </div>
+  </section>
+
+  <!-- Amazon Affiliate Ad -->
+  <div class="amazon-ad" style="text-align:center; margin:30px 0;">
+    <h2>🛍️ Featured Tech Deals</h2>
+    <script type="text/javascript">
+      amzn_assoc_ad_type = "responsive_search_widget";
+      amzn_assoc_tracking_id = "yourname-21";  <!-- Replace with your ID -->
+      amzn_assoc_marketplace = "amazon";
+      amzn_assoc_region = "IN";
+      amzn_assoc_default_search_key = "AI gadgets";
+    </script>
+    <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=IN"></script>
+  </div>
+
+  <!-- News Cards -->
   <main id="news"></main>
 
+  <!-- Bottom AdSense -->
   <div style="text-align:center; margin-top: 30px;">
     <ins class="adsbygoogle"
          style="display:block"
@@ -151,32 +255,55 @@
   </div>
 
   <footer>
-    © 2025 Smart World News • Powered by AI News Search
+    © 2025 Smart World News • May contain affiliate links
   </footer>
 
   <script>
+    let currentArticles = [];
+
     async function fetchNews() {
       const topic = document.getElementById('topic').value || 'technology';
       const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
       const data = await res.json();
+      currentArticles = data.articles || [];
+      renderNews();
+    }
+
+    function searchTopic(topic) {
+      document.getElementById('topic').value = topic;
+      fetchNews();
+    }
+
+    function sortNews() {
+      const sortValue = document.getElementById('sort').value;
+      if (sortValue === 'latest') {
+        currentArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+      } else {
+        currentArticles.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
+      }
+      renderNews();
+    }
+
+    function renderNews() {
       const container = document.getElementById('news');
       container.innerHTML = '';
-
-      if (!data.articles || data.articles.length === 0) {
+      if (currentArticles.length === 0) {
         container.innerHTML = '<p style="text-align:center; color:#777;">No news found.</p>';
         return;
       }
-
-      data.articles.forEach(a => {
+      currentArticles.forEach(a => {
         const div = document.createElement('div');
         div.className = 'card';
+        const date = a.publishedAt ? new Date(a.publishedAt).toLocaleString() : '';
         div.innerHTML = `
           <h3><a href="${a.url}" target="_blank">${a.title}</a></h3>
+          <p style="font-size:0.9em; color:#666;">${date}</p>
           <p>${a.summary || ''}</p>
         `;
         container.appendChild(div);
       });
     }
   </script>
+
 </body>
 </html>
