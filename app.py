@@ -1,51 +1,44 @@
-from flask import Flask, jsonify, request, render_template
-from flask_cors import CORS
-import requests
 import os
+from flask import Flask, request, jsonify, render_template
+import requests
 
-# Initialize Flask app
 app = Flask(__name__)
-CORS(app)
 
-# Home route (renders the main page if using templates/index.html)
-@app.route("/")
-def home():
-    return render_template("index.html")
+NEWSAPI_KEY = os.environ.get('60fd4da6f6804c968a27999e80f50449')
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
-# News API route
-@app.route("/api/news", methods=["GET"])
+def fetch_headlines(query='technology', page_size=10):
+    if not NEWSAPI_KEY:
+        return [{'title': 'Add NEWSAPI_KEY to fetch live headlines.', 'description': 'No API key provided.'}]
+    url = 'https://newsapi.org/v2/top-headlines'
+    params = {'apiKey': NEWSAPI_KEY, 'q': query, 'pageSize': page_size, 'language': 'en'}
+    resp = requests.get(url, params=params, timeout=10)
+    data = resp.json()
+    return data.get('articles', [])
+
+def summarize_text(text):
+    if not text:
+        return 'No summary available.'
+    parts = text.split('.')
+    return '. '.join(parts[:2]) + '.'
+
+@app.route('/api/news')
 def get_news():
-    topic = request.args.get("topic", "technology")
-    api_key = '60fd4da6f6804c968a27999e80f50449'  # store your key as Railway variable
+    q = request.args.get('q', 'technology')
+    articles = fetch_headlines(q)
+    summarized = []
+    for a in articles:
+        summarized.append({
+            'title': a.get('title', ''),
+            'url': a.get('url', ''),
+            'source': a.get('source', {}).get('name', ''),
+            'summary': summarize_text(a.get('description', ''))
+        })
+    return jsonify({'articles': summarized})
 
-    if not api_key:
-        return jsonify({"error": "Missing NEWS_API_KEY in environment"}), 500
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-    # Example using NewsAPI
-    url = f"https://newsapi.org/v2/everything?q={topic}&language=en&sortBy=publishedAt&apiKey={api_key}"
-
-    try:
-        response = requests.get(url)
-        data = response.json()
-
-        # Format response for frontend
-        articles = []
-        for article in data.get("articles", []):
-            articles.append({
-                "title": article.get("title"),
-                "url": article.get("url"),
-                "summary": article.get("description"),
-                "source": article.get("source", {}).get("name")
-            })
-
-        return jsonify({"articles": articles})
-
-    except Exception as e:
-        print("Error fetching news:", e)
-        return jsonify({"error": "Failed to fetch news"}), 500
-
-
-# Entry point for Railway or local run
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=False)
