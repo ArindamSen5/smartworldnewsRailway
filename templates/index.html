@@ -1,20 +1,21 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SmartWorld News - AI Summaries</title>
-  <!-- Google AdSense Verification Placeholder -->
-  <!-- <meta name="google-site-verification" content="PASTE_YOUR_VERIFICATION_CODE_HERE" /> -->
-  <link rel="stylesheet" href="/static/css/style.css" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-1511379920245657"
-      crossorigin="anonymous"></script>
+  <title>SmartWorld News</title>
+
+  <!-- ✅ Google AdSense script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
+
+  <style>
+    body { font-family: Arial; background: #f4f6f8; margin: 20px; }
+    h1 { text-align: center; }
+    input, button { padding: 10px; border-radius: 6px; margin: 5px; }
+    .card { background: white; padding: 10px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Latest News Search</h1>
-
-   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
      crossorigin="anonymous"></script>
 <!-- newsadsv1 -->
 <ins class="adsbygoogle"
@@ -26,16 +27,39 @@
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-    <p>Enter a topic and press fetch — the AI will summarize headlines for you.</p>
-    <div class="controls">
-      <input id="topic" placeholder="e.g. technology, bitcoin, india" />
-      <button id="fetchBtn">Fetch News</button>
-    </div>
-    <div id="results"></div>
+  <h1>SmartWorld News</h1>
+
+  <div style="text-align:center">
+    <input id="topic" placeholder="Search topic..." />
+    <button onclick="fetchNews()">Search</button>
   </div>
-  <script src="/static/js/main.js"></script>
+
+  <div id="news"></div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1511379920245657"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <script>
+    async function fetchNews() {
+      const topic = document.getElementById('topic').value || 'technology';
+      const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
+      const data = await res.json();
+      const container = document.getElementById('news');
+      container.innerHTML = '';
+      (data.articles || []).forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `<h3><a href="${a.url}" target="_blank">${a.title}</a></h3><p>${a.summary || ''}</p>`;
+        container.appendChild(div);
+      });
+    }
+  </script>
 </body>
 </html>
