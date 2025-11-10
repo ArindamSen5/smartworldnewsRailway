@@ -22,18 +22,11 @@ def summarize_text(text):
     return '. '.join(parts[:2]) + '.'
 
 @app.route('/api/news')
-def get_news():
-    q = request.args.get('q', 'technology')
-    articles = fetch_headlines(q)
-    summarized = []
-    for a in articles:
-        summarized.append({
-            'title': a.get('title', ''),
-            'url': a.get('url', ''),
-            'source': a.get('source', {}).get('name', ''),
-            'summary': summarize_text(a.get('description', ''))
-        })
-    return jsonify({'articles': summarized})
+ topic = request.args.get("topic", "technology")
+    api_url = f"https://newsapi.org/v2/everything?q={topic}&apiKey='60fd4da6f6804c968a27999e80f50449'"
+    r = requests.get(api_url)
+    data = r.json()
+    return jsonify(data)
 
 @app.route('/')
 def index():
