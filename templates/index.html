@@ -1,48 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartWorld News</title>
-  <style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
-     crossorigin="anonymous"></script>
-    body { font-family: Arial; background: #f9f9f9; margin: 0; padding: 20px; }
-    h1 { text-align: center; }
-    input { padding: 8px; width: 300px; }
-    button { padding: 8px 16px; }
-    .article { background: #fff; margin: 10px 0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    a { text-decoration: none; color: #007bff; }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SmartWorld News - AI Summaries</title>
+  <!-- Google AdSense Verification Placeholder -->
+  <!-- <meta name="google-site-verification" content="PASTE_YOUR_VERIFICATION_CODE_HERE" /> -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
+      crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>SmartWorld News</h1>
-  <div style="text-align:center;">
-    <input type="text" id="topic" placeholder="Enter topic..." />
-    <button onclick="fetchNews()">Fetch News</button>
-  </div>
-  <div id="news"></div>
+  <div class="container">
+    <h1>SmartWorld News</h1>
 
-  <script>
-    async function fetchNews() {
-      const topic = document.getElementById('topic').value || 'technology';
-      const response = await fetch(`/api/news?topic=${topic}`);
-      const data = await response.json();
-      const container = document.getElementById('news');
-      container.innerHTML = '';
-      if (data.articles) {
-        data.articles.forEach(article => {
-          const div = document.createElement('div');
-          div.className = 'article';
-          div.innerHTML = `<h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-                           <p>${article.summary || 'No description available.'}</p>
-                           <small>Source: ${article.source}</small>`;
-          container.appendChild(div);
-        });
-      } else {
-        container.innerHTML = '<p>No articles found.</p>';
-      }
-    }
-  </script>
+    <!-- AdSense Banner Placeholder -->
+    <ins class="adsbygoogle"
+         style="display:block;margin:10px 0"
+         data-ad-client="ca-pub-1511379920245657"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <!-- End Banner -->
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
+     crossorigin="anonymous"></script>
+<!-- newsadsv1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1511379920245657"
+     data-ad-slot="3438510147"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    <p>Enter a topic and press fetch — the AI will summarize headlines for you.</p>
+    <div class="controls">
+      <input id="topic" placeholder="e.g. technology, bitcoin, india" />
+      <button id="fetchBtn">Fetch News</button>
+    </div>
+    <div id="results"></div>
+  </div>
+  <script src="/static/js/main.js"></script>
 </body>
 </html>
