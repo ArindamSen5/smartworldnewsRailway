@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="google-site-verification" content="sx72cQA7m7NI4-UiTid6tBNCyip02QYb7TK79ENu09I" />
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart World News</title>
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
   <style>
+    /* Global Styles */
     body {
       font-family: "Segoe UI", Arial, sans-serif;
       background: linear-gradient(to bottom right, #eef2f3, #ffffff);
@@ -24,9 +25,10 @@
       text-align: center;
       font-size: 2em;
       font-weight: bold;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     }
 
+    /* Search Bar */
     .search-bar {
       text-align: center;
       margin: 30px 0 10px;
@@ -44,7 +46,7 @@
 
     input:focus {
       border-color: #00c6ff;
-      box-shadow: 0 0 5px rgba(0, 198, 255, 0.5);
+      box-shadow: 0 0 5px rgba(0,198,255,0.5);
     }
 
     button {
@@ -64,6 +66,34 @@
       transform: translateY(-2px);
     }
 
+    /* Sort Bar */
+    .sort-bar {
+      text-align: center;
+      margin: 15px 0 25px;
+    }
+
+    .sort-bar label {
+      font-size: 1em;
+      color: #333;
+      margin-right: 8px;
+    }
+
+    .sort-bar select {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      background: #f9f9f9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sort-bar select:hover {
+      border-color: #00a3cc;
+      box-shadow: 0 0 5px rgba(0,198,255,0.3);
+    }
+
+    /* Trending Topics */
     .trending {
       text-align: center;
       margin: 20px 0;
@@ -98,50 +128,25 @@
       background: linear-gradient(90deg, #0059cc, #00a3cc);
     }
 
-    .sort-bar {
-      text-align: center;
-      margin: 15px 0 25px;
-    }
-
-    .sort-bar label {
-      font-size: 1em;
-      color: #333;
-      margin-right: 8px;
-    }
-
-    .sort-bar select {
-      padding: 10px 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-      background: #f9f9f9;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .sort-bar select:hover {
-      border-color: #00a3cc;
-      box-shadow: 0 0 5px rgba(0, 198, 255, 0.3);
-    }
-
+    /* News Cards */
     #news {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 0 30px 40px;
+      padding: 0 15px 40px;
     }
 
     .card {
       background: white;
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
     }
 
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
 
     .card h3 {
@@ -161,12 +166,14 @@
       line-height: 1.5;
     }
 
+    /* Amazon Ad */
     .amazon-ad h2 {
       color: #111;
       font-size: 1.3em;
       margin-bottom: 10px;
     }
 
+    /* Load More Button */
     #loadMoreBtn {
       display: inline-block;
       padding:12px 25px;
@@ -184,6 +191,7 @@
       background:#0059cc;
     }
 
+    /* Footer */
     footer {
       text-align: center;
       padding: 20px;
@@ -193,12 +201,27 @@
       color: #555;
     }
 
+    /* Responsive */
     @media (max-width: 600px) {
       input {
-        width: 180px;
+        width: 90%;
       }
       button {
-        margin-top: 10px;
+        margin: 10px 0 0 0;
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 400px) {
+      header {
+        font-size: 1.5em;
+        padding: 15px 5px;
+      }
+      .card {
+        padding: 15px;
+      }
+      .amazon-ad h2 {
+        font-size: 1.1em;
       }
     }
   </style>
@@ -216,12 +239,13 @@
 
   <header>Smart World News</header>
 
+  <!-- Search Bar -->
   <section class="search-bar">
     <input id="topic" placeholder="Search topic..." />
     <button onclick="fetchNews()">Search</button>
   </section>
 
-  <!-- Sort by Time -->
+  <!-- Sort -->
   <div class="sort-bar">
     <label for="sort">🕒 Sort by:</label>
     <select id="sort" onchange="sortNews()">
@@ -250,7 +274,7 @@
     <h2>🛍️ Featured Tech Deals</h2>
     <script type="text/javascript">
       amzn_assoc_ad_type = "responsive_search_widget";
-      amzn_assoc_tracking_id = "online0c2b4-21";  <!-- Replace with your ID -->
+      amzn_assoc_tracking_id = "online0c2b4-21";  // Replace with your ID
       amzn_assoc_marketplace = "amazon";
       amzn_assoc_region = "IN";
       amzn_assoc_default_search_key = "AI gadgets";
