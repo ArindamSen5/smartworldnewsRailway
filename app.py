@@ -16,7 +16,7 @@ def home():
 @app.route("/api/news", methods=["GET"])
 def get_news():
     topic = request.args.get("topic", "technology")
-    api_key = os.environ.get('60fd4da6f6804c968a27999e80f50449')  # store your key as Railway variable
+    api_key = '60fd4da6f6804c968a27999e80f50449'  # store your key as Railway variable
 
     if not api_key:
         return jsonify({"error": "Missing NEWS_API_KEY in environment"}), 500
