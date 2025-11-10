@@ -4,8 +4,7 @@ import requests
 
 app = Flask(__name__)
 
-NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY')
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+NEWSAPI_KEY = os.environ.get('60fd4da6f6804c968a27999e80f50449')
 
 def fetch_headlines(query='technology', page_size=10):
     if not NEWSAPI_KEY:
