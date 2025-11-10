@@ -9,7 +9,6 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
   <style>
-    /* Global Styles */
     body {
       font-family: "Segoe UI", Arial, sans-serif;
       background: linear-gradient(to bottom right, #eef2f3, #ffffff);
@@ -28,12 +27,7 @@
       box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     }
 
-    /* Search Bar */
-    .search-bar {
-      text-align: center;
-      margin: 30px 0 10px;
-    }
-
+    .search-bar { text-align: center; margin: 30px 0 10px; }
     input {
       padding: 12px 15px;
       border-radius: 8px;
@@ -43,12 +37,7 @@
       outline: none;
       transition: all 0.3s ease;
     }
-
-    input:focus {
-      border-color: #00c6ff;
-      box-shadow: 0 0 5px rgba(0,198,255,0.5);
-    }
-
+    input:focus { border-color: #00c6ff; box-shadow: 0 0 5px rgba(0,198,255,0.5); }
     button {
       padding: 12px 20px;
       border: none;
@@ -60,24 +49,10 @@
       transition: all 0.3s ease;
       margin-left: 5px;
     }
+    button:hover { background: #0059cc; transform: translateY(-2px); }
 
-    button:hover {
-      background: #0059cc;
-      transform: translateY(-2px);
-    }
-
-    /* Sort Bar */
-    .sort-bar {
-      text-align: center;
-      margin: 15px 0 25px;
-    }
-
-    .sort-bar label {
-      font-size: 1em;
-      color: #333;
-      margin-right: 8px;
-    }
-
+    .sort-bar { text-align: center; margin: 15px 0 25px; }
+    .sort-bar label { font-size: 1em; color: #333; margin-right: 8px; }
     .sort-bar select {
       padding: 10px 15px;
       border-radius: 8px;
@@ -87,31 +62,11 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+    .sort-bar select:hover { border-color: #00a3cc; box-shadow: 0 0 5px rgba(0,198,255,0.3); }
 
-    .sort-bar select:hover {
-      border-color: #00a3cc;
-      box-shadow: 0 0 5px rgba(0,198,255,0.3);
-    }
-
-    /* Trending Topics */
-    .trending {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .trending h2 {
-      color: #333;
-      font-size: 1.4em;
-      margin-bottom: 15px;
-    }
-
-    .topics {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
+    .trending { text-align: center; margin: 20px 0; }
+    .trending h2 { color: #333; font-size: 1.4em; margin-bottom: 15px; }
+    .topics { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
     .topics button {
       background: linear-gradient(90deg, #0072ff, #00c6ff);
       color: white;
@@ -122,13 +77,8 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
+    .topics button:hover { transform: translateY(-2px); background: linear-gradient(90deg, #0059cc, #00a3cc); }
 
-    .topics button:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(90deg, #0059cc, #00a3cc);
-    }
-
-    /* News Cards */
     #news {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -143,37 +93,13 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
     }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+    .card h3 { margin: 0 0 10px; font-size: 1.2em; color: #0072ff; }
+    .card a { text-decoration: none; color: inherit; }
+    .card p { font-size: 0.95em; color: #555; line-height: 1.5; }
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    }
+    .amazon-ad h2 { color: #111; font-size: 1.3em; margin-bottom: 10px; }
 
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 1.2em;
-      color: #0072ff;
-    }
-
-    .card a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .card p {
-      font-size: 0.95em;
-      color: #555;
-      line-height: 1.5;
-    }
-
-    /* Amazon Ad */
-    .amazon-ad h2 {
-      color: #111;
-      font-size: 1.3em;
-      margin-bottom: 10px;
-    }
-
-    /* Load More Button */
     #loadMoreBtn {
       display: inline-block;
       padding:12px 25px;
@@ -186,43 +112,18 @@
       transition:0.3s;
       margin: 20px 0;
     }
+    #loadMoreBtn:hover { background:#0059cc; }
 
-    #loadMoreBtn:hover {
-      background:#0059cc;
-    }
+    footer { text-align: center; padding: 20px; background: #f4f6f8; border-top: 1px solid #e0e0e0; font-size: 0.9em; color: #555; }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #f4f6f8;
-      border-top: 1px solid #e0e0e0;
-      font-size: 0.9em;
-      color: #555;
-    }
-
-    /* Responsive */
     @media (max-width: 600px) {
-      input {
-        width: 90%;
-      }
-      button {
-        margin: 10px 0 0 0;
-        width: 90%;
-      }
+      input { width: 90%; }
+      button { margin: 10px 0 0 0; width: 90%; }
     }
-
     @media (max-width: 400px) {
-      header {
-        font-size: 1.5em;
-        padding: 15px 5px;
-      }
-      .card {
-        padding: 15px;
-      }
-      .amazon-ad h2 {
-        font-size: 1.1em;
-      }
+      header { font-size: 1.5em; padding: 15px 5px; }
+      .card { padding: 15px; }
+      .amazon-ad h2 { font-size: 1.1em; }
     }
   </style>
 </head>
@@ -239,7 +140,7 @@
 
   <header>Smart World News</header>
 
-  <!-- Search Bar -->
+  <!-- Search -->
   <section class="search-bar">
     <input id="topic" placeholder="Search topic..." />
     <button onclick="fetchNews()">Search</button>
@@ -274,7 +175,7 @@
     <h2>🛍️ Featured Tech Deals</h2>
     <script type="text/javascript">
       amzn_assoc_ad_type = "responsive_search_widget";
-      amzn_assoc_tracking_id = "online0c2b4-21";  // Replace with your ID
+      amzn_assoc_tracking_id = "online0c2b4-21";
       amzn_assoc_marketplace = "amazon";
       amzn_assoc_region = "IN";
       amzn_assoc_default_search_key = "AI gadgets";
@@ -285,7 +186,7 @@
   <!-- News Cards -->
   <main id="news"></main>
 
-  <!-- Load More Button -->
+  <!-- Load More -->
   <div style="text-align:center;">
     <button id="loadMoreBtn" onclick="loadMoreNews()">Load More News</button>
   </div>
@@ -301,22 +202,32 @@
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <footer>
-    © 2025 Smart World News • May contain affiliate links
-  </footer>
+  <footer>© 2025 Smart World News • May contain affiliate links</footer>
 
   <script>
     let currentArticles = [];
-    let displayedCount = 0;        
-    const articlesPerPage = 5;     
+    let displayedCount = 0;
+    const articlesPerPage = 5;
+
+    const apiKey = '60fd4da6f6804c968a27999e80f50449'; // Replace with your NewsAPI.org key
 
     async function fetchNews() {
       const topic = document.getElementById('topic').value || 'technology';
-      const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
-      const data = await res.json();
-      currentArticles = data.articles || [];
-      displayedCount = 0;
-      renderNews();
+      try {
+        const res = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(topic)}&language=en&pageSize=50&sortBy=publishedAt&apiKey=${apiKey}`);
+        const data = await res.json();
+        currentArticles = (data.articles || []).map(a => ({
+          title: a.title,
+          summary: a.description,
+          url: a.url,
+          publishedAt: a.publishedAt
+        }));
+        displayedCount = 0;
+        renderNews();
+      } catch (err) {
+        console.error(err);
+        alert('Failed to fetch news. Check your API key and internet connection.');
+      }
     }
 
     function searchTopic(topic) {
@@ -327,9 +238,9 @@
     function sortNews() {
       const sortValue = document.getElementById('sort').value;
       if (sortValue === 'latest') {
-        currentArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+        currentArticles.sort((a,b) => new Date(b.publishedAt) - new Date(a.publishedAt));
       } else {
-        currentArticles.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
+        currentArticles.sort((a,b) => new Date(a.publishedAt) - new Date(b.publishedAt));
       }
       displayedCount = 0;
       renderNews();
@@ -337,10 +248,9 @@
 
     function renderNews() {
       const container = document.getElementById('news');
-      if (displayedCount === 0) container.innerHTML = ''; 
+      if (displayedCount === 0) container.innerHTML = '';
 
       const nextBatch = currentArticles.slice(displayedCount, displayedCount + articlesPerPage);
-
       nextBatch.forEach(a => {
         const div = document.createElement('div');
         div.className = 'card';
@@ -360,6 +270,9 @@
     function loadMoreNews() {
       renderNews();
     }
+
+    // Load default topic on page load
+    window.onload = fetchNews;
   </script>
 
 </body>
