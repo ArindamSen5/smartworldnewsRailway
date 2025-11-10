@@ -166,6 +166,23 @@
       margin-bottom: 10px;
     }
 
+    #loadMoreBtn {
+      display: inline-block;
+      padding:12px 25px;
+      border-radius:8px;
+      border:none;
+      background:#0072ff;
+      color:white;
+      font-size:1em;
+      cursor:pointer;
+      transition:0.3s;
+      margin: 20px 0;
+    }
+
+    #loadMoreBtn:hover {
+      background:#0059cc;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -232,8 +249,7 @@
     <h2>🛍️ Featured Tech Deals</h2>
     <script type="text/javascript">
       amzn_assoc_ad_type = "responsive_search_widget";
-      amzn_assoc_tracking_id = "online0c2b4-21";
-      <!-- Replace with your ID -->
+      amzn_assoc_tracking_id = "online0c2b4-21";  <!-- Replace with your ID -->
       amzn_assoc_marketplace = "amazon";
       amzn_assoc_region = "IN";
       amzn_assoc_default_search_key = "AI gadgets";
@@ -243,6 +259,11 @@
 
   <!-- News Cards -->
   <main id="news"></main>
+
+  <!-- Load More Button -->
+  <div style="text-align:center;">
+    <button id="loadMoreBtn" onclick="loadMoreNews()">Load More News</button>
+  </div>
 
   <!-- Bottom AdSense -->
   <div style="text-align:center; margin-top: 30px;">
@@ -261,12 +282,15 @@
 
   <script>
     let currentArticles = [];
+    let displayedCount = 0;        
+    const articlesPerPage = 5;     
 
     async function fetchNews() {
       const topic = document.getElementById('topic').value || 'technology';
       const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
       const data = await res.json();
       currentArticles = data.articles || [];
+      displayedCount = 0;
       renderNews();
     }
 
@@ -282,17 +306,17 @@
       } else {
         currentArticles.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
       }
+      displayedCount = 0;
       renderNews();
     }
 
     function renderNews() {
       const container = document.getElementById('news');
-      container.innerHTML = '';
-      if (currentArticles.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#777;">No news found.</p>';
-        return;
-      }
-      currentArticles.forEach(a => {
+      if (displayedCount === 0) container.innerHTML = ''; 
+
+      const nextBatch = currentArticles.slice(displayedCount, displayedCount + articlesPerPage);
+
+      nextBatch.forEach(a => {
         const div = document.createElement('div');
         div.className = 'card';
         const date = a.publishedAt ? new Date(a.publishedAt).toLocaleString() : '';
@@ -303,6 +327,13 @@
         `;
         container.appendChild(div);
       });
+
+      displayedCount += nextBatch.length;
+      document.getElementById('loadMoreBtn').style.display = displayedCount >= currentArticles.length ? 'none' : 'inline-block';
+    }
+
+    function loadMoreNews() {
+      renderNews();
     }
   </script>
 
