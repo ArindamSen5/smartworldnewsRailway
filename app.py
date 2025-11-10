@@ -4,6 +4,7 @@ import requests
 
 app = Flask(__name__)
 
+
 NEWSAPI_KEY = os.environ.get('60fd4da6f6804c968a27999e80f50449')
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
