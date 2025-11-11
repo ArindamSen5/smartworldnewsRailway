@@ -5,7 +5,7 @@ import requests, os
 app = Flask(__name__, template_folder='templates')
 CORS(app)
 
-NEWS_API_KEY ="60fd4da6f6804c968a27999e80f50449"
+NEWS_API_KEY ="AIzaSyBkuE0mnzj-bakj_vrV_t96CvTiussyMu4"
 
 @app.route("/")
 def index():
