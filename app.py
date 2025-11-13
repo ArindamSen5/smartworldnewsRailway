@@ -7,14 +7,12 @@ CORS(app)
 
 @app.route("/")
 def index():
-    # Renders your index.html that will auto-load the latest tech news
     return render_template("index.html")
 
 @app.route("/api/news")
 def news():
-    # Always fetch the latest Technology news
-    topic = "technology"
-    rss_url = "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-IN&gl=IN&ceid=IN:en"
+    topic = request.args.get("topic", "technology").strip()
+    rss_url = f"https://news.google.com/rss/search?q={topic}+technology&hl=en-IN&gl=IN&ceid=IN:en"
 
     feed = feedparser.parse(rss_url)
 
@@ -22,15 +20,15 @@ def news():
         return jsonify({
             "articles": [{
                 "source": "SmartWorld Demo",
-                "title": "No technology news found right now.",
-                "summary": "Try again later.",
+                "title": "No results found.",
+                "summary": f"No news available for '{topic}'. Try another keyword.",
                 "url": "https://news.google.com/",
                 "published": ""
             }]
         })
 
     articles = []
-    for entry in feed.entries[:10]:  # Fetch top 10 latest tech stories
+    for entry in feed.entries[:10]:
         articles.append({
             "source": "Google News",
             "title": entry.title,
@@ -41,7 +39,5 @@ def news():
 
     return jsonify({"articles": articles})
 
-
 if __name__ == "__main__":
-    # Run Flask app in debug mode (turn off debug=True in production)
     app.run(debug=True, host="0.0.0.0", port=5000)
