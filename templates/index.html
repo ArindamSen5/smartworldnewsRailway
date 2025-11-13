@@ -3,55 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartWorld – Tech News</title>
+  <title>SmartWorld – Latest Tech News</title>
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890"
-    crossorigin="anonymous"></script>
+  <!-- ✅ Google AdSense -->
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
+     crossorigin="anonymous"></script>
 
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f7f9fc;
+      background: #f8fafc;
       margin: 0;
       padding: 0;
     }
+
     header {
-      background: #0d6efd;
+      background: #0078d7;
       color: white;
       text-align: center;
-      padding: 1rem;
-      font-size: 1.5rem;
-      font-weight: 600;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.2rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       position: sticky;
       top: 0;
       z-index: 100;
     }
+
     .search-bar {
-      text-align: center;
-      padding: 1rem;
       background: white;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
       position: sticky;
-      top: 60px;
+      top: 70px;
       z-index: 90;
     }
+
     .search-bar input {
-      padding: 0.6rem;
-      width: 260px;
-      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      width: 240px;
       border: 1px solid #ccc;
-      margin-right: 0.5rem;
+      border-radius: 6px;
+      outline: none;
     }
+
     .search-bar button {
       padding: 0.6rem 1rem;
-      border: none;
-      background: #0d6efd;
+      background: #0078d7;
       color: white;
+      border: none;
       border-radius: 6px;
       cursor: pointer;
+      margin-left: 0.5rem;
     }
+
+    .search-bar button:hover {
+      background: #005fa3;
+    }
+
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -60,6 +71,7 @@
       max-width: 1200px;
       margin: auto;
     }
+
     .card {
       background: white;
       border-radius: 12px;
@@ -67,39 +79,44 @@
       padding: 1rem;
       transition: transform 0.2s ease-in-out;
     }
+
     .card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
     }
-    .title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #222;
-      margin-bottom: 0.5rem;
-    }
+
     .title a {
+      color: #111;
       text-decoration: none;
-      color: inherit;
+      font-weight: 600;
+      font-size: 1.1rem;
     }
+
     .summary {
       font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 0.5rem;
+      color: #444;
+      margin-top: 0.5rem;
     }
+
     .source {
       font-size: 0.8rem;
-      color: #999;
+      color: #888;
+      margin-top: 0.4rem;
     }
+
     footer {
+      background: #f1f1f1;
       text-align: center;
       padding: 1rem;
-      color: #777;
+      color: #555;
       font-size: 0.9rem;
-      background: #f1f1f1;
+      margin-top: 1rem;
     }
+
     .ads-section {
       text-align: center;
       margin: 1.5rem 0;
     }
+
     iframe {
       border: none;
     }
@@ -110,34 +127,37 @@
   <header>📰 SmartWorld – Latest Tech News</header>
 
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search tech topics (AI, gadgets, space...)" />
+    <input type="text" id="searchInput" placeholder="Search tech topics (AI, gadgets, startups...)" />
     <button onclick="searchNews()">🔍 Search</button>
   </div>
 
-  <div class="ads-section">
-    <!-- Google AdSense Ad -->
-    <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-1234567890"
-        data-ad-slot="9876543210"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
+     crossorigin="anonymous"></script>
+<!-- news -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1511379920245657"
+     data-ad-slot="2322607708"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+ <!-- ✅ Amazon Affiliate Banner (replace with your store ID) -->
+    <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0"
+      src="https://rcm-na.amazon-adsystem.com/e/cm?o=15&p=12&l=ur1&category=electronics&banner=1XYZABCDEF&f=ifr&linkID=123456789&tracking_id=online0c2b4-21&store=online0c2b4-21">
+    </iframe>
   </div>
 
   <div id="news-container" class="container">
     <p>Loading latest technology news...</p>
   </div>
 
-  <div class="ads-section">
-    <!-- Amazon Affiliate Ad (replace with your working banner iframe) -->
-    <a href="https://www.amazon.in/electronics-store/b?ie=UTF8&node=976419031&tag=online0c2b4-21" target="_blank">
-      <img src="https://images-na.ssl-images-amazon.com/images/G/31/Events/img23/GW/AprilGW23/Desktop/hero1_1x._CB592286717_.jpg"
-           alt="Shop Electronics on Amazon" width="300" height="250" style="border:none;">
-    </a>
-  </div>
-
-  <footer>© 2025 SmartWorld News | Powered by Flask + AI + Google News</footer>
+ 
+  <footer>
+    © 2025 SmartWorld News | Built with AI & Flask | Powered by Google News
+  </footer>
 
   <script>
     async function loadNews(topic = "technology") {
@@ -153,7 +173,7 @@
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-            <div class="title"><a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a></div>
+            <div class="title"><a href="${article.url}" target="_blank">${article.title}</a></div>
             <div class="summary">${article.summary || ""}</div>
             <div class="source">${article.source} | ${article.published || ""}</div>
           `;
