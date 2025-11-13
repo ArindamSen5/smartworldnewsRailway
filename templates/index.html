@@ -3,196 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Tech News</title>
+  <title>SmartWorld – Tech News</title>
 
-  <!-- ✅ CSS Styling -->
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890"
+    crossorigin="anonymous"></script>
+
   <style>
     body {
-      font-family: 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f7f9fc;
       margin: 0;
       padding: 0;
-      background: #f9fafb;
-      color: #111827;
     }
-
     header {
-      background: linear-gradient(90deg, #111827, #1e3a8a);
+      background: #0d6efd;
       color: white;
       text-align: center;
-      padding: 1.5rem;
-      font-size: 1.7rem;
-      font-weight: 600;
-    }
-
-    #search-container {
-      display: flex;
-      justify-content: center;
       padding: 1rem;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      flex-wrap: wrap;
+      font-size: 1.5rem;
+      font-weight: 600;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-
-    input {
-      width: 60%;
-      min-width: 260px;
+    .search-bar {
+      text-align: center;
+      padding: 1rem;
+      background: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 60px;
+      z-index: 90;
+    }
+    .search-bar input {
       padding: 0.6rem;
-      font-size: 1rem;
-      border: 1px solid #ccc;
+      width: 260px;
       border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 0.5rem;
     }
-
-    button {
-      margin-left: 10px;
+    .search-bar button {
       padding: 0.6rem 1rem;
-      background: #2563eb;
-      color: white;
       border: none;
+      background: #0d6efd;
+      color: white;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 1rem;
     }
-
-    button:hover {
-      background: #1e40af;
-    }
-
-    #news-container {
+    .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      padding: 2rem;
+      gap: 1rem;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: auto;
     }
-
-    .news-card {
+    .card {
       background: white;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       padding: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s ease-in-out;
     }
-
-    .news-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    .card:hover {
+      transform: translateY(-5px);
     }
-
-    .news-card h3 {
-      margin-top: 0;
-      color: #1e3a8a;
+    .title {
       font-size: 1.1rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 0.5rem;
     }
-
-    .news-card p {
-      color: #374151;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-
-    .news-card a {
+    .title a {
       text-decoration: none;
-      color: #2563eb;
-      font-weight: 500;
+      color: inherit;
     }
-
-    .news-card a:hover {
-      text-decoration: underline;
+    .summary {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 0.5rem;
     }
-
-    .ads-section {
-      text-align: center;
-      margin: 2rem 0;
-      padding: 1rem;
-      background: #f3f4f6;
-      border-top: 1px solid #e5e7eb;
-      border-bottom: 1px solid #e5e7eb;
+    .source {
+      font-size: 0.8rem;
+      color: #999;
     }
-
     footer {
       text-align: center;
       padding: 1rem;
-      background: #111827;
-      color: #9ca3af;
+      color: #777;
       font-size: 0.9rem;
+      background: #f1f1f1;
+    }
+    .ads-section {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+    iframe {
+      border: none;
     }
   </style>
-
-  <!-- ✅ Google AdSense (Replace CLIENT ID with yours) -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
-     crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <header>📰 Smart Tech News</header>
+  <header>📰 SmartWorld – Latest Tech News</header>
 
-  <!-- 🔍 Search bar -->
-  <div id="search-container">
-    <input id="topic" type="text" placeholder="Search topic (e.g. AI, Business, Space)" />
-    <button onclick="fetchNews()">Search</button>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search tech topics (AI, gadgets, space...)" />
+    <button onclick="searchNews()">🔍 Search</button>
   </div>
 
-  <!-- 📰 News Section -->
-  <div id="news-container"></div>
-
-  <!-- 💰 Ad Section -->
   <div class="ads-section">
- 
-
-    <!-- ✅ Google AdSense ad block -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
-     crossorigin="anonymous"></script>
-<!-- news -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1511379920245657"
-     data-ad-slot="2322607708"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-    <!-- ✅ Amazon Affiliate Banner (replace with your store ID) -->
-    <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0"
-      src="https://rcm-na.amazon-adsystem.com/e/cm?o=15&p=12&l=ur1&category=electronics&banner=1XYZABCDEF&f=ifr&linkID=123456789&tracking_id=online0c2b4-21&store=online0c2b4-21">
-    </iframe>
+    <!-- Google AdSense Ad -->
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-1234567890"
+        data-ad-slot="9876543210"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <footer>© 2025 SmartWorld News • Powered by Flask + Google RSS</footer>
+  <div id="news-container" class="container">
+    <p>Loading latest technology news...</p>
+  </div>
 
-  <!-- ✅ JS Script -->
+  <div class="ads-section">
+    <!-- Amazon Affiliate Ad (replace with your working banner iframe) -->
+    <a href="https://www.amazon.in/electronics-store/b?ie=UTF8&node=976419031&tag=online0c2b4-21" target="_blank">
+      <img src="https://images-na.ssl-images-amazon.com/images/G/31/Events/img23/GW/AprilGW23/Desktop/hero1_1x._CB592286717_.jpg"
+           alt="Shop Electronics on Amazon" width="300" height="250" style="border:none;">
+    </a>
+  </div>
+
+  <footer>© 2025 SmartWorld News | Powered by Flask + AI + Google News</footer>
+
   <script>
-    async function fetchNews() {
-      const topic = document.getElementById("topic").value || "technology";
+    async function loadNews(topic = "technology") {
       const container = document.getElementById("news-container");
-      container.innerHTML = "<p style='text-align:center;'>Loading news...</p>";
+      container.innerHTML = `<p>Loading ${topic} news...</p>`;
 
       try {
-        const response = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
-        const data = await response.json();
-        const articles = data.articles || [];
+        const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
+        const data = await res.json();
+        container.innerHTML = "";
 
-        if (articles.length === 0) {
-          container.innerHTML = "<p style='text-align:center;'>No news found for this topic.</p>";
-          return;
-        }
-
-        container.innerHTML = articles.map(article => `
-          <div class="news-card">
-            <h3>${article.title}</h3>
-            <p>${article.summary || ""}</p>
-            <a href="${article.url}" target="_blank">Read more →</a>
-            <p style="font-size:0.8rem; color:#6b7280;">${article.published}</p>
-          </div>
-        `).join('');
-      } catch (err) {
-        container.innerHTML = "<p style='text-align:center;'>Error fetching news.</p>";
-        console.error(err);
+        data.articles.forEach(article => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="title"><a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a></div>
+            <div class="summary">${article.summary || ""}</div>
+            <div class="source">${article.source} | ${article.published || ""}</div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (error) {
+        container.innerHTML = "<p>Failed to load news. Please try again later.</p>";
       }
     }
 
-    // Load default news on page open
-    window.onload = fetchNews;
+    function searchNews() {
+      const topic = document.getElementById("searchInput").value.trim();
+      loadNews(topic || "technology");
+    }
+
+    loadNews();
   </script>
 </body>
 </html>
