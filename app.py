@@ -1,11 +1,9 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
-import requests, os
+import feedparser
 
 app = Flask(__name__, template_folder='templates')
 CORS(app)
-
-NEWS_API_KEY ="pub_908b3502018d4557a10f66749c769aa7"
 
 @app.route("/")
 def index():
@@ -14,18 +12,23 @@ def index():
 @app.route("/api/news")
 def news():
     topic = request.args.get("topic", "technology")
-    if not NEWS_API_KEY:
-        return jsonify({
-            "articles": [{
-                "source": "Demo Source",
-                "title": "SmartWorld News demo working!",
-                "summary": "Add your NEWS_API_KEY to show live news.",
-                "url": "https://newsapi.org/"
-            }]
-        })
-    url = f"https://newsapi.org/v2/everything?q={topic}&apiKey={NEWS_API_KEY}"
-    res = requests.get(url)
-    return jsonify(res.json())
     
+    # Google News RSS feed (no API key required)
+    rss_url = f"https://news.google.com/rss/search?q={topic}&hl=en-IN&gl=IN&ceid=IN:en"
+    
+    feed = feedparser.parse(rss_url)
+    
+    articles = []
+    for entry in feed.entries[:10]:  # limit to 10 results
+        articles.append({
+            "source": entry.get("source", {}).get("title", "Google News"),
+            "title": entry.title,
+            "summary": entry.get("summary", ""),
+            "url": entry.link,
+            "published": entry.get("published", "")
+        })
+    
+    return jsonify({"articles": articles})
+
 if __name__ == "__main__":
     app.run(debug=True)
