@@ -49,13 +49,14 @@
         width: 100%;
         border-radius: 12px;
         margin-bottom: 10px;
+        object-fit: cover;
     }
 
     .title {
-        font-size: 17px;
+        font-size: 18px;
         font-weight: bold;
         margin-bottom: 8px;
-        color: #333;
+        color: #222;
     }
 
     .content {
@@ -79,22 +80,12 @@
     .load-more:hover {
         background: #d63236;
     }
-
-    /* Ad Card */
-    .ad-box {
-        margin: 20px 0;
-        background: #fff;
-        padding: 10px;
-        border-radius: 10px;
-        text-align: center;
-        box-shadow: 0px 2px 8px rgba(0,0,0,0.08);
-    }
 </style>
 </head>
 
 <body>
 
-<header>MiniNews • Short Updates</header>
+<header>Mini News</header>
 
 <div class="container" id="news-container"></div>
 
@@ -103,56 +94,50 @@
 <script>
 let page = 1;
 
-// Clickable card without <a href>
+// OPEN NEWS WITHOUT <a>
 function openNews(url) {
     window.open(url, "_blank");
 }
 
-async function loadNews() {
-    try {
-        // Replace with your news API
-        const api = `https://your-api.com/news?page=${page}`;
-        const res = await fetch(api);
-        const data = await res.json();
-
-        const box = document.getElementById("news-container");
-
-        data.forEach((n, index) => {
-
-            // News Card
-            const card = document.createElement("div");
-            card.className = "card";
-            card.onclick = () => openNews(n.url);
-
-            card.innerHTML = `
-                <img class="news-img" src="${n.image || 'https://via.placeholder.com/600x350'}">
-                <div class="title">${n.title}</div>
-                <div class="content">${n.description}</div>
-            `;
-
-            box.appendChild(card);
-
-            // Insert Ad after every 4 news cards
-            if ((index + 1) % 4 === 0) {
-                const adDiv = document.createElement("div");
-                adDiv.className = "ad-box";
-                adDiv.innerHTML = `
-                    <!-- GOOGLE ADSENSE -->
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_CODE_HERE" crossorigin="anonymous"></script>
-                    <ins class="adsbygoogle"
-                        style="display:block"
-                        data-ad-client="YOUR_ADSENSE_CODE_HERE"
-                        data-ad-slot="1234567890"
-                        data-ad-format="auto"></ins>
-                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                `;
-                box.appendChild(adDiv);
-            }
-        });
-
-    } catch (error) {
-        console.log("Error loading:", error);
+// DUMMY NEWS DATA (safe, site won’t break)
+const sampleNews = [
+    {
+        title: "India launches new space mission",
+        description: "ISRO successfully launched a new satellite to boost communication infrastructure.",
+        image: "https://picsum.photos/700/400?random=1",
+        url: "https://news.example.com/1"
+    },
+    {
+        title: "Tech company announces new AI device",
+        description: "The device promises to change the future of automation and productivity.",
+        image: "https://picsum.photos/700/400?random=2",
+        url: "https://news.example.com/2"
+    },
+    {
+        title: "Big update in the entertainment industry",
+        description: "A major celebrity announced a new project that fans are excited about.",
+        image: "https://picsum.photos/700/400?random=3",
+        url: "https://news.example.com/3"
     }
+];
+
+function loadNews() {
+    const container = document.getElementById("news-container");
+
+    // Load 3 sample cards each page
+    sampleNews.forEach(news => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.onclick = () => openNews(news.url);
+
+        card.innerHTML = `
+            <img class="news-img" src="${news.image}" />
+            <div class="title">${news.title}</div>
+            <div class="content">${news.description}</div>
+        `;
+
+        container.appendChild(card);
+    });
 }
 
 function loadMore() {
@@ -160,8 +145,7 @@ function loadMore() {
     loadNews();
 }
 
-// Auto-load first page
-loadNews();
+loadNews(); // Load first set
 </script>
 
 </body>
