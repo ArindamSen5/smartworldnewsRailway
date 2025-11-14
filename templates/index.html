@@ -3,98 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inshorts Style News</title>
+<title>SmartShorts – News in 60 Words</title>
 
 <style>
     body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: #eceff1;
+        font-family: "Inter", sans-serif;
+        background: #f2f4f6;
     }
 
     /* HEADER */
     header {
-        background: #ff3c41;
-        color: #fff;
+        background: #ff3b30;
+        color: white;
         padding: 16px;
-        font-size: 22px;
         text-align: center;
-        font-weight: bold;
+        font-size: 22px;
+        font-weight: 700;
         position: sticky;
         top: 0;
         z-index: 10;
     }
 
-    /* MAIN CONTAINER */
+    /* CONTAINER */
     .container {
         max-width: 600px;
         margin: auto;
-        padding: 15px;
+        padding: 16px;
     }
 
-    /* NEWS CARD (Inshorts Style) */
+    /* NEWS CARD */
     .card {
-        background: #fff;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        padding: 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        cursor: pointer;
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 22px;
         overflow: hidden;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        cursor: pointer;
         transition: 0.2s ease;
+        position: relative;
     }
 
     .card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.20);
     }
 
     .card img {
         width: 100%;
-        height: 230px;
+        height: 240px;
         object-fit: cover;
-        display: block;
     }
 
-    .news-text {
-        padding: 15px;
+    .content {
+        padding: 16px;
     }
 
-    .news-title {
-        font-size: 18px;
-        font-weight: bold;
+    .title {
+        font-size: 19px;
+        font-weight: 700;
         margin-bottom: 8px;
-        color: #333;
+        color: #222;
     }
 
-    .news-desc {
-        color: #555;
+    .desc {
         font-size: 15px;
+        color: #555;
         line-height: 1.5;
     }
 
-    /* LOAD MORE BUTTON */
-    .load-more {
-        width: 100%;
-        background: #ff3c41;
+    /* SHARE BUTTON */
+    .share-btn {
+        background: #ff3b30;
         color: white;
-        padding: 12px;
-        border-radius: 10px;
-        font-size: 17px;
+        padding: 8px 14px;
+        font-size: 14px;
+        border-radius: 8px;
         border: none;
         cursor: pointer;
-        margin-bottom: 30px;
+        margin-top: 12px;
+        display: inline-block;
+        transition: 0.2s ease;
     }
 
-    .load-more:hover {
-        background: #d73236;
+    .share-btn:hover {
+        background: #d73229;
+    }
+
+    /* LOAD MORE */
+    .load-more {
+        width: 100%;
+        background: #ff3b30;
+        color: white;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        font-size: 17px;
+        cursor: pointer;
+        margin-bottom: 30px;
     }
 </style>
 </head>
 
 <body>
 
-<header>Inshorts Mini</header>
+<header>SmartShorts</header>
 
 <div class="container" id="news-container"></div>
 
@@ -103,45 +115,64 @@
 <script>
 let page = 1;
 
-function openNews(url) {
-    window.open(url, "_blank");
-}
-
-// Dummy data for stable UI
-const sampleNews = [
+// DEMO DATA
+const newsData = [
     {
-        title: "ISRO Launches New Satellite",
-        desc: "India successfully launched a communication satellite boosting national connectivity.",
-        img: "https://picsum.photos/800/500?random=10",
+        title: "ISRO Successfully Tests Reusable Rocket",
+        desc: "ISRO has taken a major step toward cost-efficient launches by successfully testing its reusable rocket booster.",
+        img: "https://picsum.photos/800/600?random=21",
         url: "https://news.example.com/a"
     },
     {
-        title: "New Electric Car Unveiled",
-        desc: "A major automobile brand unveiled a long-range electric vehicle with fast charging.",
-        img: "https://picsum.photos/800/500?random=11",
+        title: "AI Startup Raises $100M Funding",
+        desc: "A Bengaluru-based AI startup secured major investment to scale global operations and expand research.",
+        img: "https://picsum.photos/800/600?random=22",
         url: "https://news.example.com/b"
     },
     {
-        title: "Global Markets Rally",
-        desc: "Stock markets across the world saw a positive uptrend amid economic recovery hopes.",
-        img: "https://picsum.photos/800/500?random=12",
+        title: "Electric Cars Sales Surge in India",
+        desc: "EV sales hit a new record as consumers shift toward sustainable mobility options in 2025.",
+        img: "https://picsum.photos/800/600?random=23",
         url: "https://news.example.com/c"
     }
 ];
 
+function openNews(url) {
+    window.open(url, "_blank");
+}
+
+function shareNews(news) {
+    const text = `${news.title}\n\nRead more: ${news.url}`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: news.title,
+            text: news.desc,
+            url: news.url
+        });
+    } else {
+        // fallback for WhatsApp users
+        window.open(
+            `https://wa.me/?text=${encodeURIComponent(text)}`,
+            "_blank"
+        );
+    }
+}
+
 function loadNews() {
     const container = document.getElementById("news-container");
 
-    sampleNews.forEach(n => {
+    newsData.forEach(n => {
         const card = document.createElement("div");
         card.className = "card";
         card.onclick = () => openNews(n.url);
 
         card.innerHTML = `
             <img src="${n.img}">
-            <div class="news-text">
-                <div class="news-title">${n.title}</div>
-                <div class="news-desc">${n.desc}</div>
+            <div class="content">
+                <div class="title">${n.title}</div>
+                <div class="desc">${n.desc}</div>
+                <button class="share-btn" onclick="event.stopPropagation(); shareNews(${JSON.stringify(n).replace(/"/g, '&quot;')})">Share</button>
             </div>
         `;
         container.appendChild(card);
