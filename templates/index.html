@@ -82,34 +82,19 @@ header {
   cursor: pointer;
 }
 
-/* Trending Carousel */
-.trending-wrapper {
+/* Trending Section */
+.trending-section {
   max-width: 1200px;
   margin: 2rem auto;
-  position: relative;
-  overflow: hidden;
 }
-.trending-carousel {
-  display: flex;
-  gap: 0.6rem;
-  height: 60px;
-  align-items: center;
-  font-size: 0.85rem;
+.trending-section h2 {
+  margin-bottom: 1rem;
+  color: #0c66d9;
 }
-.trending-carousel .item {
-  flex: 0 0 auto;
-  background: #0c66d9;
-  color: white;
-  padding: 0.3rem 0.7rem;
-  border-radius: 12px;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: 0.2s;
-}
-.trending-carousel .item:hover {
-  background: #084bb5;
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
 }
 
 /* News Grid */
@@ -133,7 +118,7 @@ header {
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
   transition: 0.2s ease;
   padding: 1rem;
-  min-height: 200px;
+  min-height: 150px;
 }
 .card:hover {
   transform: translateY(-5px) scale(1.02);
@@ -143,7 +128,7 @@ header {
   text-decoration: none;
   color: #0f172a;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -183,7 +168,7 @@ footer {
 }
 
 @media(max-width:768px){
-  .grid { grid-template-columns: 1fr; }
+  .grid, .trending-grid { grid-template-columns: 1fr; }
   .search-section input { width: 70%; }
 }
 </style>
@@ -207,9 +192,10 @@ footer {
   <button onclick="searchNews()">Search</button>
 </div>
 
-<!-- Trending Carousel -->
-<div class="trending-wrapper">
-  <div class="trending-carousel" id="trending-carousel"></div>
+<!-- Trending Section -->
+<div class="trending-section">
+  <h2>Trending</h2>
+  <div id="trending-container" class="trending-grid"></div>
 </div>
 
 <!-- News Grid -->
@@ -224,6 +210,7 @@ footer {
 let currentTopic = 'technology';
 let currentPage = 1;
 const pageSize = 6;
+let displayedUrls = new Set(); // track displayed news
 
 // Load News
 async function loadNews(topic = 'technology', append = false){
@@ -236,13 +223,16 @@ async function loadNews(topic = 'technology', append = false){
     const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${currentPage}&size=${pageSize}`);
     const data = await res.json();
 
-    if(data.articles.length === 0 && !append){
+    // filter out duplicates
+    const newArticles = data.articles.filter(a => !displayedUrls.has(a.url));
+    if(newArticles.length === 0 && !append){
       container.innerHTML = '<p style="text-align:center;">No news found.</p>';
       document.getElementById("loadMoreBtn").style.display="none";
       return;
     }
 
-    data.articles.forEach((a) => {
+    newArticles.forEach(a => {
+      displayedUrls.add(a.url);
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
@@ -254,7 +244,7 @@ async function loadNews(topic = 'technology', append = false){
     });
 
     currentPage++;
-    document.getElementById("loadMoreBtn").style.display = (data.articles.length < pageSize) ? 'none' : 'block';
+    document.getElementById("loadMoreBtn").style.display = (newArticles.length < pageSize) ? 'none' : 'block';
   } catch(err){
     console.error(err);
     if(!append) container.innerHTML="<p style='text-align:center'>Failed to load news.</p>";
@@ -266,6 +256,8 @@ function searchNews(){
   const q = document.getElementById("searchInput").value.trim();
   currentTopic = q || 'technology';
   currentTopic = encodeURIComponent(currentTopic);
+  displayedUrls.clear(); // clear to avoid conflict
+  loadTrending(); // reload trending
   loadNews(currentTopic, false);
 }
 
@@ -274,69 +266,35 @@ document.getElementById("loadMoreBtn").addEventListener('click', ()=>{
   loadNews(currentTopic, true);
 });
 
-// --- Trending Carousel Logic ---
-let trendingArticles = [];
-let trendingIndex = 0;
-const trendingContainer = document.getElementById("trending-carousel");
-let trendingPage = 1;
-const trendingPageSize = 10;
-
-// Load trending dynamically
+// --- Trending Section ---
 async function loadTrending(){
+  const trendingContainer = document.getElementById("trending-container");
+  trendingContainer.innerHTML = '';
   try{
-    const res = await fetch(`/api/news?topic=technology&page=${trendingPage}&size=${trendingPageSize}`);
+    const res = await fetch(`/api/news?topic=technology&page=1&size=10`);
     const data = await res.json();
-    if(data.articles.length === 0) return; 
-    trendingArticles = trendingArticles.concat(data.articles);
-    trendingPage++;
+    const trendingArticles = data.articles.filter(a => !displayedUrls.has(a.url)).slice(0,5);
+
+    trendingArticles.forEach(a => {
+      displayedUrls.add(a.url);
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
+        <div class="summary">${a.summary || ''}</div>
+        <div class="source">${a.source || ''} • ${a.published || ''}</div>
+      `;
+      trendingContainer.appendChild(card);
+    });
   } catch(err){
     console.error(err);
+    trendingContainer.innerHTML = '<p style="text-align:center;">Trending news not available.</p>';
   }
-}
-
-// Render next trending item
-function renderNextTrending(){
-  if(trendingIndex >= trendingArticles.length){
-    loadTrending().then(() => {
-      if(trendingIndex >= trendingArticles.length) trendingIndex = 0;
-      displayTrendingItem(trendingArticles[trendingIndex++]);
-    });
-  } else {
-    displayTrendingItem(trendingArticles[trendingIndex++]);
-  }
-}
-
-// Display item in carousel
-function displayTrendingItem(article){
-  const item = document.createElement("div");
-  item.className = "item";
-  item.textContent = article.title;
-  item.onclick = ()=> window.open(article.url, "_blank");
-  trendingContainer.appendChild(item);
-
-  // Remove first item to keep carousel short
-  if(trendingContainer.children.length > 10){
-    trendingContainer.removeChild(trendingContainer.children[0]);
-  }
-}
-
-// Auto-rotate trending
-function startTrendingRotation(){
-  setInterval(()=>{
-    renderNextTrending();
-  }, 2500); // add new item every 2.5 sec
 }
 
 // Initial load
-loadTrending().then(()=>{
-  for(let i=0; i<5 && i<trendingArticles.length; i++){
-    displayTrendingItem(trendingArticles[i]);
-    trendingIndex++;
-  }
-  startTrendingRotation();
-});
-
-// End Trending Carousel
+loadTrending();
+loadNews(currentTopic);
 </script>
 
 </body>
