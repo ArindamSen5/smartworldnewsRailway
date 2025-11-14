@@ -87,54 +87,30 @@ header {
   max-width: 1200px;
   margin: 2rem auto;
   position: relative;
+  overflow: hidden;
 }
 .trending-carousel {
   display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  gap: 0.8rem;
-  padding-bottom: 0.5rem;
-  height: 80px;
+  gap: 0.6rem;
+  height: 60px;
   align-items: center;
-}
-.trending-carousel::-webkit-scrollbar {
-  display: none;
+  font-size: 0.85rem;
 }
 .trending-carousel .item {
   flex: 0 0 auto;
-  min-width: 200px;
   background: #0c66d9;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: 0.2s;
-  text-align: center;
 }
 .trending-carousel .item:hover {
   background: #084bb5;
 }
-
-/* Arrow Buttons */
-.arrow-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(12, 102, 217, 0.8);
-  border: none;
-  color: white;
-  padding: 0.4rem 0.7rem;
-  font-size: 1.2rem;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-}
-.arrow-left { left: -15px; }
-.arrow-right { right: -15px; }
 
 /* News Grid */
 .grid {
@@ -233,9 +209,7 @@ footer {
 
 <!-- Trending Carousel -->
 <div class="trending-wrapper">
-  <button class="arrow-btn arrow-left" onclick="scrollTrending(-1)">&#10094;</button>
   <div class="trending-carousel" id="trending-carousel"></div>
-  <button class="arrow-btn arrow-right" onclick="scrollTrending(1)">&#10095;</button>
 </div>
 
 <!-- News Grid -->
@@ -300,38 +274,69 @@ document.getElementById("loadMoreBtn").addEventListener('click', ()=>{
   loadNews(currentTopic, true);
 });
 
-// Load Trending dynamically
+// --- Trending Carousel Logic ---
+let trendingArticles = [];
+let trendingIndex = 0;
+const trendingContainer = document.getElementById("trending-carousel");
+let trendingPage = 1;
+const trendingPageSize = 10;
+
+// Load trending dynamically
 async function loadTrending(){
-  const container = document.getElementById("trending-carousel");
-  container.innerHTML = '';
   try{
-    const res = await fetch(`/api/news?topic=technology&page=1&size=10`);
+    const res = await fetch(`/api/news?topic=technology&page=${trendingPage}&size=${trendingPageSize}`);
     const data = await res.json();
-    data.articles.forEach(a=>{
-      const item = document.createElement("div");
-      item.className = "item";
-      item.textContent = a.title;
-      item.onclick = ()=> window.open(a.url, '_blank');
-      container.appendChild(item);
-    });
+    if(data.articles.length === 0) return; 
+    trendingArticles = trendingArticles.concat(data.articles);
+    trendingPage++;
   } catch(err){
     console.error(err);
-    container.innerHTML = '<p style="text-align:center;">Trending news not available.</p>';
   }
 }
 
-// Trending scroll buttons
-function scrollTrending(direction){
-  const container = document.getElementById('trending-carousel');
-  container.scrollBy({
-    left: direction * 220,
-    behavior: 'smooth'
-  });
+// Render next trending item
+function renderNextTrending(){
+  if(trendingIndex >= trendingArticles.length){
+    loadTrending().then(() => {
+      if(trendingIndex >= trendingArticles.length) trendingIndex = 0;
+      displayTrendingItem(trendingArticles[trendingIndex++]);
+    });
+  } else {
+    displayTrendingItem(trendingArticles[trendingIndex++]);
+  }
+}
+
+// Display item in carousel
+function displayTrendingItem(article){
+  const item = document.createElement("div");
+  item.className = "item";
+  item.textContent = article.title;
+  item.onclick = ()=> window.open(article.url, "_blank");
+  trendingContainer.appendChild(item);
+
+  // Remove first item to keep carousel short
+  if(trendingContainer.children.length > 10){
+    trendingContainer.removeChild(trendingContainer.children[0]);
+  }
+}
+
+// Auto-rotate trending
+function startTrendingRotation(){
+  setInterval(()=>{
+    renderNextTrending();
+  }, 2500); // add new item every 2.5 sec
 }
 
 // Initial load
-loadNews(currentTopic);
-loadTrending();
+loadTrending().then(()=>{
+  for(let i=0; i<5 && i<trendingArticles.length; i++){
+    displayTrendingItem(trendingArticles[i]);
+    trendingIndex++;
+  }
+  startTrendingRotation();
+});
+
+// End Trending Carousel
 </script>
 
 </body>
