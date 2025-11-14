@@ -11,6 +11,8 @@ body {
   margin: 0;
   padding-top: 160px;
 }
+
+/* Header */
 header {
   background: #0c66d9;
   color: white;
@@ -24,6 +26,8 @@ header {
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
+
+/* Topics */
 .topics {
   display: flex;
   overflow-x: auto;
@@ -44,6 +48,8 @@ header {
   font-size: 0.9rem;
 }
 .topics span:hover { background: #0c66d9; color:white; }
+
+/* Search Section */
 .search-section {
   background: white;
   padding: 1rem;
@@ -72,7 +78,7 @@ header {
   cursor: pointer;
 }
 
-/* Trending */
+/* Trending Section */
 .trending-section {
   max-width: 1200px;
   margin: 1rem auto;
@@ -86,7 +92,7 @@ header {
 .trending-grid .card {
   background: #0c66d9;
   color: white;
-  min-height: 80px; /* smaller height */
+  min-height: 80px;
   position: relative;
   padding: 0.8rem 1rem 1rem 1rem;
   padding-top: 1.8rem;
@@ -184,65 +190,97 @@ footer { text-align:center;padding:1rem; background:#e2e8f0; color:#475569; marg
 <footer>© 2025 SmartWorld | Clean & Professional Tech News</footer>
 
 <script>
-let currentTopic='technology', currentPage=1, pageSize=6;
-let displayedUrls=new Set();
+let currentTopic = 'technology';
+let currentPage = 1;
+const pageSize = 6;
+let displayedUrls = new Set();
 
-async function loadNews(topic='technology', append=false){
-  if(!append){ currentPage=1; document.getElementById('news-container').innerHTML=''; }
-  const container=document.getElementById('news-container');
+// Safe fetch with error handling
+async function safeFetch(url){
   try{
-    const res=await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${currentPage}&size=${pageSize}`);
-    const data=await res.json();
-    const newArticles=data.articles.filter(a=>!displayedUrls.has(a.url));
-    if(newArticles.length===0){
-      if(!append) container.innerHTML='<p style="text-align:center;">No news found.</p>';
-      return;
+    const res = await fetch(url);
+    if(!res.ok){
+      console.error('Server returned', res.status);
+      return null;
     }
-    newArticles.forEach(a=>{
-      displayedUrls.add(a.url);
-      const card=document.createElement('div');
-      card.className='card';
-      card.innerHTML=`<div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
-      <div class="summary">${a.summary||''}</div>
-      <div class="source">${a.source||''} • ${a.published||''}</div>`;
-      container.appendChild(card);
-    });
-    currentPage++;
-    // show load more only if there might be more unique articles
-    document.getElementById("loadMoreBtn").style.display = 'block';
-  } catch(err){ console.error(err); if(!append) container.innerHTML="<p style='text-align:center'>Failed to load news.</p>"; }
+    const data = await res.json();
+    return data;
+  } catch(err){
+    console.error('Fetch failed', err);
+    return null;
+  }
 }
 
+async function loadNews(topic=currentTopic, append=false){
+  if(!append){ currentPage=1; document.getElementById('news-container').innerHTML=''; }
+  const container = document.getElementById('news-container');
+  const url = `/api/news?topic=${encodeURIComponent(topic)}&page=${currentPage}&size=${pageSize}`;
+  const data = await safeFetch(url);
+  if(!data){
+    if(!append) container.innerHTML = "<p style='text-align:center'>Failed to load news. Check server/API.</p>";
+    return;
+  }
+
+  const newArticles = data.articles.filter(a => !displayedUrls.has(a.url));
+  if(newArticles.length === 0){
+    if(!append) container.innerHTML = "<p style='text-align:center'>No news found.</p>";
+    return;
+  }
+
+  newArticles.forEach(a => {
+    displayedUrls.add(a.url);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
+      <div class="summary">${a.summary || ''}</div>
+      <div class="source">${a.source || ''} • ${a.published || ''}</div>
+    `;
+    container.appendChild(card);
+  });
+
+  currentPage++;
+}
+
+// Search
 function searchNews(){
-  const q=document.getElementById('searchInput').value.trim();
-  currentTopic=q||'technology';
+  const q = document.getElementById('searchInput').value.trim();
+  currentTopic = q || 'technology';
   displayedUrls.clear();
   loadTrending();
-  loadNews(currentTopic,false);
+  loadNews(currentTopic, false);
 }
 
+// Load More
 document.getElementById("loadMoreBtn").addEventListener('click', ()=>loadNews(currentTopic,true));
 
+// Trending Section
 async function loadTrending(){
-  const trendingContainer=document.getElementById('trending-container');
-  trendingContainer.innerHTML='';
-  try{
-    const res=await fetch(`/api/news?topic=technology&page=1&size=10`);
-    const data=await res.json();
-    const trendingArticles=data.articles.filter(a=>!displayedUrls.has(a.url)).slice(0,4);
-    trendingArticles.forEach(a=>{
-      displayedUrls.add(a.url);
-      const card=document.createElement('div');
-      card.className='card';
-      card.innerHTML=`<div class="trending-badge">Trending</div>
+  const trendingContainer = document.getElementById('trending-container');
+  trendingContainer.innerHTML = '';
+  const url = `/api/news?topic=technology&page=1&size=10`;
+  const data = await safeFetch(url);
+  if(!data){
+    trendingContainer.innerHTML = '<p style="text-align:center;">Trending news not available.</p>';
+    return;
+  }
+
+  const trendingArticles = data.articles.filter(a => !displayedUrls.has(a.url)).slice(0,4);
+  trendingArticles.forEach(a => {
+    displayedUrls.add(a.url);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="trending-badge">Trending</div>
       <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
-      <div class="summary">${a.summary||''}</div>
-      <div class="source">${a.source||''} • ${a.published||''}</div>`;
-      trendingContainer.appendChild(card);
-    });
-  } catch(err){ console.error(err); trendingContainer.innerHTML='<p style="text-align:center;">Trending news not available.</p>'; }
+      <div class="summary">${a.summary || ''}</div>
+      <div class="source">${a.source || ''} • ${a.published || ''}</div>
+    `;
+    trendingContainer.appendChild(card);
+  });
 }
 
+// Initial load
 loadTrending();
 loadNews(currentTopic);
 </script>
