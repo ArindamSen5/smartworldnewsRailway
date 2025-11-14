@@ -3,81 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartWorld – Latest Tech & AI News</title>
-
-<!-- SEO Meta Tags -->
-<meta name="description" content="SmartWorld brings you the latest technology news, AI breakthroughs, gadgets, mobile launches, space science, and trending tech updates – updated in real-time.">
-<meta name="keywords" content="technology news, AI news, gadgets, smartphones, mobile news, space news, tech updates">
-<meta name="author" content="SmartWorld Tech News">
-
-<!-- OpenGraph -->
-<meta property="og:title" content="SmartWorld – Latest Technology & AI News">
-<meta property="og:description" content="Real-time technology news, AI updates, gadgets, mobile launches & space science.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://web-production-6fb1.up.railway.app/">
-<meta property="og:image" content="https://m.media-amazon.com/images/G/31/img24/Wireless/advantage/May_ART24/MayART/Tallhero_300x250._CB559927508_.jpg">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SmartWorld – Latest Tech News">
-<meta name="twitter:description" content="SmartWorld gives you breaking tech news, AI, gadgets & mobile updates.">
-<meta name="twitter:image" content="https://m.media-amazon.com/images/G/31/img24/Wireless/advantage/May_ART24/MayART/Tallhero_300x250._CB559927508_.jpg">
-
-<!-- Google Site Verification -->
-<meta name="google-site-verification" content="AL94Sg-8s7zPuKsS__Gpgx3rWazamSrLO2BIUeEf1hM" />
-<link rel="canonical" href="https://web-production-6fb1.up.railway.app/">
-
-<!-- Structured Data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "NewsMediaOrganization",
-  "name": "SmartWorld Tech News",
-  "url": "https://web-production-6fb1.up.railway.app/",
-  "logo": "https://web-production-6fb1.up.railway.app/logo.png"
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "SmartWorld – Latest Tech News",
-  "url": "https://web-production-6fb1.up.railway.app/",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://web-production-6fb1.up.railway.app/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
+<title>SmartWorld – Latest Tech News</title>
 
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
 <style>
-  body { font-family: 'Inter', Arial, sans-serif; background:#f1f5f9; margin:0; padding-top:160px; }
-  header { background:#0c66d9; color:white; padding:1rem; font-size:1.8rem; text-align:center; font-weight:700; position:fixed; top:0; width:100%; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,0.25);}
-  .topics { display:flex; overflow-x:auto; gap:10px; padding:0.8rem; background:white; box-shadow:0 1px 6px rgba(0,0,0,0.1); position:sticky; top:60px; z-index:999; }
-  .topics span { padding:6px 12px; background:#e2e8f0; border-radius:20px; cursor:pointer; white-space:nowrap; font-size:0.9rem; }
-  .topics span:hover { background:#0c66d9; color:white; }
-  .search-section { background:white; padding:1rem; text-align:center; box-shadow:0 1px 6px rgba(0,0,0,0.15); position:sticky; top:110px; z-index:998; display:flex; justify-content:center; gap:10px; }
-  .search-section input { width:260px; padding:0.7rem; border-radius:8px; border:1px solid #cbd5e1; }
-  .search-section button { background:#0c66d9; color:white; padding:0.7rem 1rem; border:none; border-radius:8px; cursor:pointer; }
-  .grid { max-width:1200px; margin:1.5rem auto; padding:0 1rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.2rem; }
-  .card { background:white; padding:1rem; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.12); transition:0.2s ease; }
-  .card:hover { transform:translateY(-5px); box-shadow:0 4px 12px rgba(0,0,0,0.18); }
-  .card img { width:100%; height:auto; border-radius:12px; }
-  .card-title a { text-decoration:none; color:#0f172a; font-weight:700; font-size:1.2rem; }
-  .summary { color:#475569; margin-top:0.6rem; }
-  .source { color:#64748b; margin-top:0.6rem; font-size:0.85rem; }
-  .ads-section { text-align:center; margin:1rem 0; grid-column:1/-1; }
-  footer { text-align:center; padding:1rem; background:#e2e8f0; color:#475569; margin-top:2rem; }
-  section.about { max-width:900px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-  @media(max-width:768px){ .grid { grid-template-columns:1fr; } .search-section input { width:70%; } }
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background:#f1f5f9;
+  margin:0;
+  padding-top:160px;
+}
+/* Header */
+header {
+  background:#0c66d9;
+  color:white;
+  padding:1rem;
+  font-size:1.8rem;
+  text-align:center;
+  font-weight:700;
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  box-shadow:0 2px 8px rgba(0,0,0,0.25);
+}
+/* Topics */
+.topics {
+  display:flex;
+  overflow-x:auto;
+  gap:10px;
+  padding:0.8rem;
+  background:white;
+  box-shadow:0 1px 6px rgba(0,0,0,0.1);
+  position:sticky;
+  top:60px;
+  z-index:999;
+}
+.topics span {
+  padding:6px 12px;
+  background:#e2e8f0;
+  border-radius:20px;
+  cursor:pointer;
+  white-space:nowrap;
+  font-size:0.9rem;
+}
+.topics span:hover { background:#0c66d9; color:white; }
+/* Search Section */
+.search-section {
+  background:white;
+  padding:1rem;
+  text-align:center;
+  box-shadow:0 1px 6px rgba(0,0,0,0.15);
+  position:sticky;
+  top:110px;
+  z-index:998;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+.search-section input {
+  width:260px;
+  padding:0.7rem;
+  border-radius:8px;
+  border:1px solid #cbd5e1;
+}
+.search-section button {
+  background:#0c66d9;
+  color:white;
+  padding:0.7rem 1rem;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+/* Grid */
+.grid {
+  max-width:1200px;
+  margin:1.5rem auto;
+  padding:0 1rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1.2rem;
+}
+/* Cards */
+.card {
+  background:white;
+  padding:1rem;
+  border-radius:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.12);
+  transition:0.2s ease;
+}
+.card:hover {
+  transform:translateY(-5px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.18);
+}
+.card img {
+  width:100%;
+  height:auto;
+  border-radius:12px;
+}
+.card-title a {
+  text-decoration:none;
+  color:#0f172a;
+  font-weight:700;
+  font-size:1.2rem;
+}
+.summary { color:#475569; margin-top:0.6rem; }
+.source { color:#64748b; margin-top:0.6rem; font-size:0.85rem; }
+/* Ads Section */
+.ads-section {
+  text-align:center;
+  margin:1rem 0;
+  grid-column:1/-1;
+}
+/* Amazon Grid */
+.amazon-grid a { text-decoration:none; color:black; }
+/* Section Title */
+.section-title { text-align:center; margin-top:40px; }
+/* Footer */
+footer {
+  text-align:center;
+  padding:1rem;
+  background:#e2e8f0;
+  color:#475569;
+  margin-top:2rem;
+}
+/* Floating banners */
+.floating-banner {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:1000;
+}
+.floating-banner img {
+  width:120px;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  cursor:pointer;
+}
+.floating-adsense {
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  z-index:1000;
+}
+/* Trending carousel */
+.trending-carousel {
+  max-width:1200px;
+  margin:2rem auto;
+  overflow:hidden;
+  position:relative;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+.trending-carousel .track {
+  display:flex;
+  transition:transform 0.5s ease;
+}
+.trending-carousel .item {
+  min-width:100%;
+  padding:1rem;
+  box-sizing:border-box;
+}
+.trending-carousel .item a {
+  text-decoration:none;
+  color:#0c66d9;
+  font-weight:700;
+  font-size:1.1rem;
+}
+@media(max-width:768px){
+  .grid { grid-template-columns:1fr; }
+  .search-section input { width:70%; }
+  .floating-banner img { width:100px; }
+}
 </style>
 </head>
-
 <body>
+
 <header>SmartWorld – Latest Technology News</header>
 
 <div class="topics">
@@ -95,50 +199,59 @@
   <button onclick="searchNews()">Search</button>
 </div>
 
+<!-- Trending Carousel -->
+<div class="trending-carousel" id="trending-carousel">
+  <div class="track" id="carousel-track">
+    <div class="item">Loading trending news...</div>
+  </div>
+</div>
+
+<!-- News Grid -->
 <div id="news-container" class="grid">
   <p style="grid-column:1/-1; text-align:center;">Loading latest tech news...</p>
 </div>
 
 <!-- Amazon Affiliate Section -->
-<h2 style="text-align:center; margin-top:40px;">🔥 Today’s Top Tech Deals</h2>
-<div class="grid">
+<h2 class="section-title">🔥 Top Tech Deals</h2>
+<div class="grid amazon-grid">
   <a href="https://www.amazon.in/l/1388921031?tag=online0c2b4-21" target="_blank" class="card">
-    <img src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg">
-    <h3>Best Smartphones Deals</h3>
-    <p class="summary">Top 2025 smartphones under best offers. Updated hourly.</p>
+    <img src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg" alt="Smartphones">
+    <h3>Smartphones Deals</h3>
+    <p>Top 2025 smartphones under best offers. Updated hourly.</p>
   </a>
   <a href="https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21" target="_blank" class="card">
-    <img src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg">
-    <h3>Smartwatches Under ₹2000</h3>
-    <p class="summary">Best-selling budget smartwatches customers buy the most.</p>
+    <img src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg" alt="Smartwatches">
+    <h3>Smartwatches</h3>
+    <p>Best-selling budget smartwatches customers buy the most.</p>
   </a>
   <a href="https://www.amazon.in/s?k=headphone&tag=online0c2b4-21" target="_blank" class="card">
-    <img src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg">
+    <img src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg" alt="Headphones">
     <h3>Headphones & Gaming Headsets</h3>
-    <p class="summary">Highest commission category for affiliates.</p>
+    <p>Highest commission category for affiliates.</p>
   </a>
 </div>
 
-<!-- About Section for SEO -->
-<section class="about">
-  <h2>About SmartWorld Tech News</h2>
-  <p>SmartWorld is an AI-powered technology news aggregator delivering latest updates in AI, gadgets, mobile launches, apps, space science, and global technology trends. News is updated automatically every few minutes.</p>
-  <h3>Popular Topics</h3>
-  <ul>
-    <li>AI & Machine Learning</li>
-    <li>Smartphones & Gadgets</li>
-    <li>Space & Science</li>
-    <li>Security & Cyber Threats</li>
-    <li>Electric Vehicles</li>
-  </ul>
-</section>
+<!-- Floating Amazon Banner -->
+<div class="floating-banner">
+  <a href="https://www.amazon.in/s?k=electronics&tag=online0c2b4-21" target="_blank">
+    <img src="https://m.media-amazon.com/images/G/31/IMG15/Electronics/Meghana/Gateway/SBC/May/Tallhero_300x250._CB559927508_.jpg" alt="Amazon Deals">
+  </a>
+</div>
 
-<!-- Footer -->
+<!-- Floating AdSense -->
+<div class="floating-adsense">
+  <ins class="adsbygoogle"
+       style="display:block;width:120px;height:240px;"
+       data-ad-client="ca-pub-1511379920245657"
+       data-ad-slot="2322607708"></ins>
+</div>
+
 <footer>
   © 2025 SmartWorld | Built Using Flask + AI | Monetized with AdSense + Amazon Affiliate
 </footer>
 
 <script>
+// Load news
 async function loadNews(topic="technology"){
   const container=document.getElementById("news-container");
   container.innerHTML="<p>Loading news...</p>";
@@ -170,6 +283,7 @@ async function loadNews(topic="technology"){
         (adsbygoogle=window.adsbygoogle||[]).push({});
       }
     });
+    loadTrending(data.articles.slice(0,5));
   }catch(err){
     container.innerHTML="<p style='text-align:center'>Failed to load news.</p>";
   }
@@ -179,6 +293,27 @@ function searchNews(){
   loadNews(q||"technology");
 }
 loadNews();
+
+// Trending Carousel
+function loadTrending(topArticles){
+  const track=document.getElementById("carousel-track");
+  track.innerHTML="";
+  topArticles.forEach(a=>{
+    const item=document.createElement("div");
+    item.className="item";
+    item.innerHTML=`<a href="${a.url}" target="_blank">${a.title}</a>`;
+    track.appendChild(item);
+  });
+  let index=0;
+  setInterval(()=>{
+    index = (index+1)%topArticles.length;
+    track.style.transform=`translateX(-${index*100}%)`;
+  },5000);
+}
+
+// Initialize floating AdSense
+(adsbygoogle=window.adsbygoogle||[]).push({});
 </script>
+
 </body>
 </html>
