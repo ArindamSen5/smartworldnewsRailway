@@ -15,6 +15,7 @@ body {
   margin:0;
   padding-top:160px;
 }
+
 /* Header */
 header {
   background:#0c66d9;
@@ -29,6 +30,7 @@ header {
   z-index:1000;
   box-shadow:0 2px 8px rgba(0,0,0,0.25);
 }
+
 /* Topics */
 .topics {
   display:flex;
@@ -50,6 +52,7 @@ header {
   font-size:0.9rem;
 }
 .topics span:hover { background:#0c66d9; color:white; }
+
 /* Search Section */
 .search-section {
   background:white;
@@ -77,22 +80,25 @@ header {
   border-radius:8px;
   cursor:pointer;
 }
-/* Grid */
+
+/* Masonry Grid */
 .grid {
   max-width:1200px;
   margin:1.5rem auto;
   padding:0 1rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:1.2rem;
+  column-count: auto;
+  column-width: 320px;
+  column-gap: 1rem;
 }
-/* Cards */
 .card {
   background:white;
-  padding:1rem;
+  display:inline-block;
+  width:100%;
+  margin-bottom:1rem;
   border-radius:12px;
   box-shadow:0 2px 6px rgba(0,0,0,0.12);
   transition:0.2s ease;
+  break-inside: avoid;
 }
 .card:hover {
   transform:translateY(-5px);
@@ -101,26 +107,32 @@ header {
 .card img {
   width:100%;
   height:auto;
-  border-radius:12px;
+  border-radius:12px 12px 0 0;
 }
 .card-title a {
   text-decoration:none;
   color:#0f172a;
   font-weight:700;
   font-size:1.2rem;
+  display:block;
+  margin:0.6rem 0;
 }
-.summary { color:#475569; margin-top:0.6rem; }
-.source { color:#64748b; margin-top:0.6rem; font-size:0.85rem; }
+.summary { color:#475569; margin-bottom:0.6rem; }
+.source { color:#64748b; font-size:0.85rem; margin-bottom:0.6rem; display:block; }
+
 /* Ads Section */
 .ads-section {
   text-align:center;
   margin:1rem 0;
   grid-column:1/-1;
 }
+
 /* Amazon Grid */
 .amazon-grid a { text-decoration:none; color:black; }
+
 /* Section Title */
 .section-title { text-align:center; margin-top:40px; }
+
 /* Footer */
 footer {
   text-align:center;
@@ -129,6 +141,7 @@ footer {
   color:#475569;
   margin-top:2rem;
 }
+
 /* Floating banners */
 .floating-banner {
   position:fixed;
@@ -148,6 +161,7 @@ footer {
   left:20px;
   z-index:1000;
 }
+
 /* Trending carousel */
 .trending-carousel {
   max-width:1200px;
@@ -173,8 +187,9 @@ footer {
   font-weight:700;
   font-size:1.1rem;
 }
+
 @media(max-width:768px){
-  .grid { grid-template-columns:1fr; }
+  .grid { column-count:1; }
   .search-section input { width:70%; }
   .floating-banner img { width:100px; }
 }
@@ -264,13 +279,16 @@ async function loadNews(topic="technology"){
       count++;
       const card=document.createElement("div");
       card.className="card";
+      const imgSrc = a.image || "https://via.placeholder.com/320x180?text=No+Image";
       card.innerHTML=`
+        <img src="${imgSrc}" alt="News Thumbnail">
         <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
         <div class="summary">${a.summary||""}</div>
         <div class="source">${a.source} • ${a.published||""}</div>
       `;
       container.appendChild(card);
-      if(count%4===0){
+
+      if(count%6===0){
         const ad=document.createElement("div");
         ad.className="ads-section";
         ad.innerHTML=`<ins class="adsbygoogle"
