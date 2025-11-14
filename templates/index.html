@@ -3,193 +3,207 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartWorld – Latest Tech News</title>
+  <title>SmartWorld – Tech News Hub</title>
 
-  <!-- ✅ Google AdSense -->
- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
-     crossorigin="anonymous"></script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
+          crossorigin="anonymous"></script>
 
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f8fafc;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f1f5f9;
       margin: 0;
       padding: 0;
     }
 
+    /* HEADER */
     header {
-      background: #0078d7;
+      background: #0c66d9;
       color: white;
+      padding: 1rem;
+      font-size: 1.8rem;
       text-align: center;
-      padding: 1.2rem;
-      font-size: 1.6rem;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
     }
 
-    .search-bar {
+    /* SEARCH BAR */
+    .search-section {
       background: white;
-      padding: 1rem;
+      padding: 1rem 1.2rem;
       text-align: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.15);
       position: sticky;
-      top: 70px;
-      z-index: 90;
+      top: 68px;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
     }
 
-    .search-bar input {
-      padding: 0.6rem 0.8rem;
-      width: 240px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
+    .search-section input {
+      width: 260px;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
     }
 
-    .search-bar button {
-      padding: 0.6rem 1rem;
-      background: #0078d7;
+    .search-section button {
+      background: #0c66d9;
       color: white;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
-      margin-left: 0.5rem;
+      font-weight: 600;
     }
 
-    .search-bar button:hover {
-      background: #005fa3;
+    .search-section button:hover {
+      background: #0a55b7;
     }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1rem;
-      padding: 1.5rem;
+    /* GRID */
+    .grid {
       max-width: 1200px;
-      margin: auto;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 1.2rem;
     }
 
+    /* NEWS CARD */
     .card {
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 1rem;
-      transition: transform 0.2s ease-in-out;
+      padding: 1.2rem;
+      border-radius: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      transition: 0.2s ease-in-out;
     }
 
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     }
 
-    .title a {
-      color: #111;
+    .card-title a {
+      color: #0f172a;
+      font-size: 1.2rem;
+      font-weight: 700;
       text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
+      line-height: 1.4;
     }
 
     .summary {
-      font-size: 0.9rem;
-      color: #444;
-      margin-top: 0.5rem;
+      color: #475569;
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+      line-height: 1.45;
     }
 
     .source {
+      margin-top: 0.7rem;
       font-size: 0.8rem;
-      color: #888;
-      margin-top: 0.4rem;
+      color: #64748b;
+    }
+
+    /* ADS SECTION */
+    .ads-section {
+      margin: 1.5rem auto;
+      text-align: center;
     }
 
     footer {
-      background: #f1f1f1;
-      text-align: center;
+      background: #e2e8f0;
       padding: 1rem;
-      color: #555;
-      font-size: 0.9rem;
-      margin-top: 1rem;
-    }
-
-    .ads-section {
       text-align: center;
-      margin: 1.5rem 0;
-    }
-
-    iframe {
-      border: none;
+      font-size: 0.9rem;
+      color: #475569;
+      margin-top: 2rem;
     }
   </style>
 </head>
 
 <body>
-  <header>📰 SmartWorld – Latest Tech News</header>
 
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search tech topics (AI, gadgets, startups...)" />
-    <button onclick="searchNews()">🔍 Search</button>
-  </div>
+<header>SmartWorld – Latest Technology News</header>
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657"
-     crossorigin="anonymous"></script>
-<!-- news -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1511379920245657"
-     data-ad-slot="2322607708"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
+<!-- SEARCH BAR -->
+<div class="search-section">
+  <input id="searchInput" placeholder="Search AI, gadgets, mobile, space…" />
+  <button onclick="searchNews()">Search</button>
+</div>
+
+<!-- GOOGLE AD -->
+<div class="ads-section">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-1511379920245657"
+       data-ad-slot="2322607708"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<!-- NEWS GRID -->
+<div id="news-container" class="grid">
+  <p style="text-align:center; width:100%">Loading latest tech news...</p>
+</div>
+
+<!-- AMAZON AFFILIATE -->
+<div class="ads-section">
+  <a href="https://www.amazon.in/electronics/b/?ie=UTF8&node=976419031&tag=online0c2b4-21" target="_blank">
+    <img src="https://m.media-amazon.com/images/G/31/IMG15/Electronics/Meghana/Gateway/SBC/May/Tallhero_300x250._CB559927508_.jpg"
+         width="300" height="250"
+         style="border-radius:12px;">
+  </a>
+</div>
+
+<footer>
+  © 2025 SmartWorld | Built Using Flask + AI | Powered by Google News RSS
+</footer>
+
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+  async function loadNews(topic = "technology") {
+    const container = document.getElementById("news-container");
+    container.innerHTML = "<p>Loading news...</p>";
+
+    try {
+      const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
+      const data = await res.json();
+
+      container.innerHTML = "";
+
+      data.articles.forEach(a => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-title">
+            <a href="${a.url}" target="_blank">${a.title}</a>
+          </div>
+          <div class="summary">${a.summary || ""}</div>
+          <div class="source">${a.source} • ${a.published || ""}</div>
+        `;
+        container.appendChild(card);
+      });
+
+    } catch (err) {
+      container.innerHTML = "<p style='text-align:center'>Failed to load news.</p>";
+    }
+  }
+
+  function searchNews() {
+    const q = document.getElementById("searchInput").value.trim();
+    loadNews(q || "technology");
+  }
+
+  loadNews();
 </script>
 
- <!-- ✅ Amazon Affiliate Banner (replace with your store ID) -->
-   
-  </div>
-
-  <div id="news-container" class="container">
-    <p>Loading latest technology news...</p>
-  </div>
- <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0"
-      src="https://rcm-na.amazon-adsystem.com/e/cm?o=15&p=12&l=ur1&category=electronics&banner=1XYZABCDEF&f=ifr&linkID=123456789&tracking_id=online0c2b4-21&store=online0c2b4-21">
-    </iframe>
- 
-  <footer>
-    © 2025 SmartWorld News | Built with AI & Flask | Powered by Google News
-  </footer>
-
-  <script>
-    async function loadNews(topic = "technology") {
-      const container = document.getElementById("news-container");
-      container.innerHTML = `<p>Loading ${topic} news...</p>`;
-
-      try {
-        const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
-        const data = await res.json();
-        container.innerHTML = "";
-
-        data.articles.forEach(article => {
-          const card = document.createElement("div");
-          card.className = "card";
-          card.innerHTML = `
-            <div class="title"><a href="${article.url}" target="_blank">${article.title}</a></div>
-            <div class="summary">${article.summary || ""}</div>
-            <div class="source">${article.source} | ${article.published || ""}</div>
-          `;
-          container.appendChild(card);
-        });
-      } catch (error) {
-        container.innerHTML = "<p>Failed to load news. Please try again later.</p>";
-      }
-    }
-
-    function searchNews() {
-      const topic = document.getElementById("searchInput").value.trim();
-      loadNews(topic || "technology");
-    }
-
-    loadNews();
-  </script>
 </body>
 </html>
