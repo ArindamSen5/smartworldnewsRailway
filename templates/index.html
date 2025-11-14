@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SmartWorld — Short Tech News</title>
+<title>SmartWorld — News App Pro</title>
 
-<!-- Google Fonts (optional) -->
+<!-- Optional font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <!-- Google AdSense: replace ca-pub with your publisher id -->
@@ -13,172 +13,145 @@
 
 <style>
   :root{
-    --bg: #f1f5f9;
+    --bg: #f6f8fb;
+    --surface:#ffffff;
     --card: #ffffff;
-    --text: #0f172a;
-    --muted: #64748b;
-    --accent: #0c66d9;
-    --surface: #ffffff;
-    --radius: 12px;
-    --max-w: 1100px;
+    --text:#091126;
+    --muted:#6b7280;
+    --accent:#0b66d9;
+    --radius:14px;
+    --max-w:1200px;
+    --gap:18px;
   }
   [data-theme="dark"]{
-    --bg: #0b1220;
-    --card: #0e1724;
-    --text: #e6eef8;
-    --muted: #9aa8bf;
-    --accent: #3da3ff;
-    --surface: #071023;
+    --bg:#07101a;
+    --surface:#0b1722;
+    --card:#0e1b26;
+    --text:#e6f0fb;
+    --muted:#9fb0c8;
+    --accent:#3da3ff;
   }
-  *{ box-sizing: border-box; }
-  html,body{ height:100%; }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body{
     margin:0;
-    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
     background:linear-gradient(180deg,var(--bg), #e9eef7 160%);
     color:var(--text);
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
-    padding-top:160px; /* space for header + bars */
+    padding-top:160px;
     line-height:1.45;
   }
 
-  /* HEADER */
+  /* Header */
   header.site-header{
-    position:fixed; top:0; left:0; right:0;
-    height:72px; display:flex; align-items:center; gap:12px;
-    padding:12px 18px; z-index:1200;
-    background: linear-gradient(90deg,var(--accent), #0a57b8);
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+    position:fixed; top:0; left:0; right:0; height:72px; display:flex; align-items:center; gap:12px;
+    padding:12px 18px; z-index:1300; background:linear-gradient(90deg,var(--accent), #0a57b8);
+    color:#fff; box-shadow:0 8px 26px rgba(2,6,23,0.12);
   }
-  .brand{ display:flex; gap:12px; align-items:center; font-weight:700; font-size:1.05rem; }
-  .logo{ width:44px; height:44px; border-radius:10px; display:grid; place-items:center; background:#fff; color:var(--accent); font-weight:800; }
+  .brand{ display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.05rem; }
+  .logo{ width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:#fff;color:var(--accent);font-weight:800; }
 
-  /* Top row: categories + search + dark toggle */
+  /* Top row (categories + search + theme toggle) */
   .top-row{
-    position:fixed; top:72px; left:0; right:0; z-index:1190;
-    display:flex; align-items:center; gap:12px; padding:10px 14px;
-    background: rgba(255,255,255,0.98);
-    box-shadow: 0 1px 6px rgba(2,6,23,0.04);
+    position:fixed; top:72px; left:0; right:0; z-index:1290; display:flex; gap:12px; align-items:center;
+    padding:10px 14px; background:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.94));
+    box-shadow:0 1px 6px rgba(2,6,23,0.04);
   }
-  [data-theme="dark"] .top-row{ background: rgba(6,12,20,0.7); }
+  [data-theme="dark"] .top-row{ background:linear-gradient(180deg, rgba(6,12,20,0.85), rgba(6,12,20,0.72)); }
 
-  .categories{ display:flex; gap:8px; overflow-x:auto; padding:6px; -webkit-overflow-scrolling:touch; }
-  .categories::-webkit-scrollbar{ display:none; }
+  .categories{ display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
+  .categories::-webkit-scrollbar{display:none}
   .chip{
-    padding:8px 12px; border-radius:999px; background:#eef2ff; color:#063b8a; font-weight:700; cursor:pointer; white-space:nowrap;
-    border:1px solid rgba(12,102,217,0.06);
-    transition: transform .12s ease, box-shadow .12s ease;
+    padding:8px 12px; border-radius:999px; background:#eef5ff; color:#073b8a; font-weight:700; cursor:pointer; white-space:nowrap;
+    border:1px solid rgba(11,102,217,0.06); transition:transform .12s ease, box-shadow .12s ease;
   }
-  [data-theme="dark"] .chip{ background: rgba(255,255,255,0.04); color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
-  .chip:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(12,102,217,0.06); }
+  [data-theme="dark"] .chip{ background:rgba(255,255,255,0.04); color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
+  .chip:hover{ transform:translateY(-3px); box-shadow:0 10px 28px rgba(11,102,217,0.06); }
   .chip.active{ background:var(--accent); color:#fff; box-shadow:none; }
 
   .search-wrap{ margin-left:auto; display:flex; gap:10px; align-items:center; }
-  .search-input{
-    display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid rgba(15,23,36,0.06);
-    background: var(--surface); min-width:220px;
-  }
-  .search-input input{
-    border:0; outline:0; background:transparent; width:160px; color:var(--text);
-  }
+  .search-input{ display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid rgba(15,23,36,0.06); background:var(--surface); min-width:220px; }
+  .search-input input{ border:0; outline:0; width:160px; background:transparent; color:var(--text); }
   .btn{ background:var(--accent); color:#fff; border:0; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:700; }
   .toggle-btn{ background:transparent; border:1px solid rgba(255,255,255,0.12); color:#fff; padding:6px 8px; border-radius:8px; cursor:pointer; }
 
-  /* Main layout */
-  main.container{ max-width:var(--max-w); margin:18px auto; padding:0 16px 56px; }
+  /* Main container */
+  main.container{ max-width:var(--max-w); margin:18px auto; padding:0 18px 80px; }
 
-  /* Trending carousel */
+  /* Trending */
   .trending{ margin:10px 0 18px; border-radius:12px; overflow:hidden; background:var(--card); box-shadow:0 6px 18px rgba(2,6,23,0.04); padding:10px; }
   .track{ display:flex; transition:transform .55s cubic-bezier(.2,.9,.3,1); }
-  .t-item{ min-width:100%; padding:10px 6px; box-sizing:border-box; font-weight:700; color:var(--accent); }
-  .t-item .title{ font-weight:800; }
+  .t-item{ min-width:100%; padding:10px 6px; box-sizing:border-box; font-weight:700; color:var(--accent); cursor:pointer; }
 
-  /* Grid (Inshort-like cards but 2-col on desktop) */
-  .grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap:18px;
-    align-items:start;
-  }
+  /* Grid */
+  .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:var(--gap); align-items:start; }
 
+  /* Card (even layout) */
   .card{
-    background:var(--card);
-    border-radius:var(--radius);
-    overflow:hidden;
-    box-shadow:0 10px 30px rgba(2,6,23,0.04);
-    transition:transform .18s ease, box-shadow .18s ease;
-    display:flex;
-    flex-direction:column;
-    cursor:pointer;
+    background:var(--card); border-radius:14px; overflow:hidden; display:flex; flex-direction:column;
+    min-height:420px; box-shadow:0 8px 28px rgba(2,6,23,0.04); transition:transform .18s ease, box-shadow .18s ease; cursor:pointer;
   }
-  .card:hover{ transform:translateY(-8px); box-shadow:0 30px 70px rgba(2,6,23,0.06); }
-
-  .thumbnail{ width:100%; height:180px; object-fit:cover; display:block; background:#eef3ff; }
-  .card-body{ padding:14px; display:flex; flex-direction:column; gap:8px; flex:1; }
-  .card-title{ font-size:1.05rem; font-weight:800; color:var(--text); line-height:1.25; }
-  .card-summary{ color:var(--muted); font-size:0.95rem; flex:1; }
-  .card-meta{ display:flex; align-items:center; gap:10px; font-size:0.82rem; color:var(--muted); }
-
-  .tag{ padding:6px 10px; border-radius:999px; background:#eef2ff; color:var(--accent); font-weight:700; font-size:0.8rem; }
-
+  .card:hover{ transform:translateY(-10px); box-shadow:0 30px 70px rgba(2,6,23,0.08); }
+  .thumbnail{ width:100%; height:190px; object-fit:cover; display:block; background:#eef3ff; }
+  .card-body{ padding:16px; display:flex; flex-direction:column; gap:10px; flex:1; }
+  .card-title{ font-size:1.06rem; font-weight:800; line-height:1.25; min-height:44px; }
+  .card-summary{ color:var(--muted); font-size:0.95rem; flex-grow:1; min-height:58px; }
+  .card-meta{ display:flex; gap:12px; align-items:center; color:var(--muted); font-size:0.85rem; }
+  .tag{ padding:6px 10px; border-radius:999px; background:#eef2ff; color:var(--accent); font-weight:700; font-size:0.82rem; }
   .card-actions{ display:flex; gap:8px; align-items:center; margin-top:8px; }
 
-  /* Ads row */
+  /* Ad row */
   .ad-row{ grid-column:1/-1; padding:12px 0; display:flex; justify-content:center; }
 
-  /* Affiliate deals */
+  /* Deals */
   .deals{ margin-top:18px; display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
   .deal{ background:var(--card); border-radius:12px; padding:10px; text-align:center; box-shadow:0 8px 18px rgba(2,6,23,0.03); cursor:pointer; }
 
   /* Footer */
   footer{ margin-top:28px; padding:18px; text-align:center; color:var(--muted); }
 
-  /* Responsive */
-  @media (max-width:840px){
-    body{ padding-top:140px; }
-    .thumbnail{ height:160px; }
-  }
-  @media (max-width:520px){
-    .top-row{ padding:8px; top:60px; }
-    body{ padding-top:120px; }
-    .thumbnail{ height:140px; }
-    .search-input input{ width:100px; }
-  }
+  /* Load more */
+  #loadMore{ display:block; margin:22px auto; padding:12px 18px; background:var(--accent); color:#fff; border:0; border-radius:10px; font-weight:700; cursor:pointer; }
+
+  /* Responsive tweaks */
+  @media (max-width:880px){ body{ padding-top:140px } .thumbnail{ height:160px } }
+  @media (max-width:520px){ .top-row{ top:60px; } body{ padding-top:120px } .thumbnail{ height:140px } .search-input input{ width:100px } }
 </style>
 </head>
 <body>
 
 <header class="site-header" role="banner" aria-label="SmartWorld header">
-  <div class="brand">
-    <div class="logo" aria-hidden="true">SW</div>
+  <div class="brand" aria-hidden="true">
+    <div class="logo">SW</div>
     <div>SmartWorld</div>
   </div>
 
-  <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
-    <div style="font-weight:700;">Latest Tech</div>
+  <div style="margin-left:auto; display:flex; gap:10px; align-items:center;">
+    <div style="font-weight:700">News App Pro</div>
     <button id="themeToggle" class="toggle-btn" title="Toggle theme">🌙</button>
   </div>
 </header>
 
-<!-- top row: categories + search -->
+<!-- top row -->
 <div class="top-row" role="navigation" aria-label="categories and search">
   <div class="categories" id="categories" aria-hidden="false">
-    <div class="chip active" data-topic="technology">Technology</div>
-    <div class="chip" data-topic="ai">AI</div>
-    <div class="chip" data-topic="mobile">Mobile</div>
-    <div class="chip" data-topic="gadgets">Gadgets</div>
-    <div class="chip" data-topic="startups">Startups</div>
-    <div class="chip" data-topic="space">Space</div>
-    <div class="chip" data-topic="security">Cybersecurity</div>
+    <div class="chip active" data-topic="top">Top News</div>
+    <div class="chip" data-topic="india">India</div>
+    <div class="chip" data-topic="world">World</div>
+    <div class="chip" data-topic="tech">Tech</div>
+    <div class="chip" data-topic="business">Business</div>
+    <div class="chip" data-topic="sports">Sports</div>
+    <div class="chip" data-topic="entertainment">Entertainment</div>
   </div>
 
   <div class="search-wrap" role="search">
-    <div class="search-input">
-      <input id="searchInput" type="search" placeholder="Search AI, gadgets, mobile…" aria-label="Search news" />
-      <button id="searchBtn" class="btn">Search</button>
+    <div class="search-input" role="searchbox" aria-label="Search news">
+      <input id="searchInput" type="search" placeholder="Search (e.g. AI, Meta, Apple)" aria-label="Search input" />
     </div>
+    <button id="searchBtn" class="btn">Search</button>
   </div>
 </div>
 
@@ -191,15 +164,15 @@
   </section>
 
   <!-- News grid -->
-  <section id="news-container" class="grid" aria-live="polite">
+  <section id="news-container" class="grid" aria-live="polite" aria-busy="true">
     <div style="grid-column:1/-1;text-align:center;padding:28px;color:var(--muted);">Loading latest news...</div>
   </section>
 
-  <!-- Affiliate deals -->
+  <!-- Deals -->
   <h3 style="margin-top:26px;text-align:center">🔥 Top Tech Deals</h3>
-  <div class="deals" id="deals">
-    <!-- Deal cards will be filled by JS (clickable without <a>) -->
-  </div>
+  <div class="deals" id="deals"></div>
+
+  <button id="loadMore" style="display:none">Load More</button>
 
   <footer>
     © 2025 SmartWorld — Built with Flask + AI — Monetized with AdSense & Affiliate
@@ -207,52 +180,36 @@
 </main>
 
 <script>
-/* =========================
-   Configuration
-   ========================= */
+/* ========= CONFIG ========= */
 const CONFIG = {
   NEWS_API: '/api/news', // expects ?topic=...&page=...
   PAGE_SIZE: 10,
-  ADS_FREQUENCY: 6, // insert ad row after every N cards
-  ADS_CLIENT: 'ca-pub-1511379920245657', // replace if needed
-  ADS_SLOT: '2322607708', // replace if needed
-  DEALS: [ // affiliate tiles - replace links with your affiliate links
-    { title:'Smartphones Deals', img:'https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg', url:'https://www.amazon.in/l/1388921031?tag=online0c2b4-21' },
-    { title:'Smartwatches', img:'https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg', url:'https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21' },
-    { title:'Headphones', img:'https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg', url:'https://www.amazon.in/s?k=headphone&tag=online0c2b4-21' }
+  ADS_FREQUENCY: 6,
+  ADS_CLIENT: 'ca-pub-1511379920245657', // replace
+  ADS_SLOT: '2322607708', // replace
+  DEALS: [
+    { title: 'Smartphones Deals', img: 'https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg', url:'https://www.amazon.in/l/1388921031?tag=online0c2b4-21' },
+    { title: 'Smartwatches', img: 'https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg', url:'https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21' },
+    { title: 'Headphones', img: 'https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg', url:'https://www.amazon.in/s?k=headphone&tag=online0c2b4-21' }
   ]
 };
 
-/* =========================
-   Theme (light/dark) toggle
-   ========================= */
+/* ========= THEME ========= */
 const themeToggle = document.getElementById('themeToggle');
-function applyTheme(theme){
-  if(theme === 'dark'){
-    document.documentElement.setAttribute('data-theme','dark');
-    themeToggle.textContent = '☀️';
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-    themeToggle.textContent = '🌙';
-  }
-  try{ localStorage.setItem('sw_theme', theme); }catch(e){}
+function applyTheme(t){
+  if(t === 'dark'){ document.documentElement.setAttribute('data-theme','dark'); themeToggle.textContent = '☀️'; }
+  else { document.documentElement.removeAttribute('data-theme'); themeToggle.textContent = '🌙'; }
+  try{ localStorage.setItem('sw_theme', t); }catch(e){}
 }
-const savedTheme = (() => { try{ return localStorage.getItem('sw_theme'); }catch(e){return null;} })();
-applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
-themeToggle.addEventListener('click', ()=>{
-  const now = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  applyTheme(now === 'dark' ? 'dark' : 'light');
-});
+const saved = (function(){ try{ return localStorage.getItem('sw_theme'); }catch(e){return null;} })();
+applyTheme(saved === 'dark' ? 'dark' : 'light');
+themeToggle.addEventListener('click', ()=>{ const now = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark'; applyTheme(now); });
 
-/* =========================
-   Helpers
-   ========================= */
+/* ========= HELPERS ========= */
 const escapeHtml = s => s ? String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;') : '';
-const safeUrl = s => { try{ return encodeURI(s || '#'); }catch(e){ return '#'; } };
+const safeUrl = s => { try{ return encodeURI(s||'#'); }catch(e){return '#'; } };
 
-/* =========================
-   Build Deals (affiliate tiles) - no <a> tags
-   ========================= */
+/* ========= RENDER DEALS (no <a> tags) ========= */
 function renderDeals(){
   const el = document.getElementById('deals');
   el.innerHTML = '';
@@ -260,42 +217,40 @@ function renderDeals(){
     const card = document.createElement('div');
     card.className = 'deal';
     card.onclick = () => { if(d.url) window.open(d.url, '_blank'); };
-    card.innerHTML = `<img src="${escapeHtml(d.img)}" alt="${escapeHtml(d.title)}" style="width:100%;height:140px;object-fit:cover;border-radius:8px" />
+    card.innerHTML = `<img src="${escapeHtml(d.img)}" alt="${escapeHtml(d.title)}" style="width:100%;height:140px;object-fit:cover;border-radius:8px;" />
                       <div style="font-weight:800;margin-top:8px">${escapeHtml(d.title)}</div>`;
     el.appendChild(card);
   });
 }
 renderDeals();
 
-/* =========================
-   News loading / rendering
-   ========================= */
+/* ========= NEWS FETCH + RENDER ========= */
 let page = 1;
-let currentTopic = 'technology';
+let currentTopic = 'top';
 let loading = false;
 
 const newsContainer = document.getElementById('news-container');
 
 async function fetchNews(topic=currentTopic, p=1){
-  // Build URL
   const url = `${CONFIG.NEWS_API}?topic=${encodeURIComponent(topic)}&page=${p}`;
   const res = await fetch(url);
-  if(!res.ok) throw new Error('Network error');
+  if(!res.ok) throw new Error('Network error: ' + res.status);
   return await res.json();
 }
 
 function createCard(article){
   const card = document.createElement('article');
   card.className = 'card';
+  card.setAttribute('role','article');
   card.onclick = () => { if(article.url) window.open(article.url, '_blank'); };
 
-  // Thumbnail if exists
-  const thumbSrc = article.image || article.thumbnail || '';
-  const thumbHtml = thumbSrc ? `<img class="thumbnail" loading="lazy" src="${escapeHtml(thumbSrc)}" alt="${escapeHtml(article.title)}">` : '';
+  const thumb = article.image || article.thumbnail || '';
+  const thumbHtml = thumb ? `<img class="thumbnail" loading="lazy" src="${escapeHtml(thumb)}" alt="${escapeHtml(article.title)}">` : '';
 
   const title = escapeHtml(article.title || 'Untitled');
   const summary = escapeHtml(article.summary || article.description || '');
 
+  // Share button calls shareArticle but stops propagation
   card.innerHTML = `
     ${thumbHtml}
     <div class="card-body">
@@ -321,36 +276,28 @@ async function loadNews(topic=currentTopic, append=false){
     page = 1;
     newsContainer.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:28px;color:var(--muted);">Loading news…</div>`;
   } else {
-    const loader = document.createElement('div');
-    loader.className = 'loader';
-    loader.style.gridColumn = '1/-1';
-    loader.style.textAlign = 'center';
-    loader.style.padding = '18px';
-    loader.style.color = 'var(--muted)';
-    loader.textContent = 'Loading more…';
-    newsContainer.appendChild(loader);
+    const l = document.createElement('div'); l.className='loader'; l.style.gridColumn='1/-1'; l.style.textAlign='center'; l.style.padding='18px'; l.style.color='var(--muted)'; l.textContent='Loading more…';
+    newsContainer.appendChild(l);
   }
 
   try{
     const data = await fetchNews(topic, page);
     const articles = data.articles || [];
 
-    // clear initial loader
+    // remove loaders
     Array.from(newsContainer.querySelectorAll('.loader')).forEach(n=>n.remove());
     if(!append) newsContainer.innerHTML = '';
 
     if(articles.length === 0){
       if(!append) newsContainer.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:28px;color:var(--muted);">No stories found.</div>`;
-      loading = false;
-      return;
+      loading = false; return;
     }
 
-    // Append article cards & ads
     articles.forEach((a, idx)=>{
       const card = createCard(a);
       newsContainer.appendChild(card);
 
-      // global index for ad insertion
+      // Insert ad row after CONFIG.ADS_FREQUENCY items
       const globalIndex = ((page-1) * (data.pageSize || CONFIG.PAGE_SIZE)) + idx + 1;
       if(globalIndex % CONFIG.ADS_FREQUENCY === 0){
         const adRow = document.createElement('div');
@@ -367,13 +314,13 @@ async function loadNews(topic=currentTopic, append=false){
       }
     });
 
-    // If first page, load trending from first 5 articles
     if(page === 1) loadTrending(articles.slice(0,5));
 
-    // If number of articles less than pageSize -> no more
-    if(articles.length < (data.pageSize || CONFIG.PAGE_SIZE)){
-      // no more pages
-      // but we still allow manual retry or category switch
+    // show load more button as fallback if more items probably exist
+    if((articles.length || 0) >= (data.pageSize || CONFIG.PAGE_SIZE)){
+      document.getElementById('loadMore').style.display = 'block';
+    } else {
+      document.getElementById('loadMore').style.display = 'none';
     }
 
   }catch(err){
@@ -384,96 +331,74 @@ async function loadNews(topic=currentTopic, append=false){
   }
 }
 
-/* Search button */
+/* Search */
 document.getElementById('searchBtn').addEventListener('click', ()=>{
   const q = document.getElementById('searchInput').value.trim();
-  if(!q){ loadNews('technology', false); return; }
+  if(!q){ currentTopic = 'top'; loadNews('top', false); return; }
   currentTopic = q; page = 1; loadNews(currentTopic, false);
 });
-document.getElementById('searchInput').addEventListener('keydown', (e)=>{ if(e.key === 'Enter') document.getElementById('searchBtn').click(); });
+document.getElementById('searchInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') document.getElementById('searchBtn').click(); });
 
-/* Category chips */
+/* Categories click */
 document.getElementById('categories').addEventListener('click', (e)=>{
   const chip = e.target.closest('.chip');
   if(!chip) return;
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
   chip.classList.add('active');
   currentTopic = chip.dataset.topic || chip.textContent.trim().toLowerCase();
-  page = 1;
-  loadNews(currentTopic, false);
+  page = 1; loadNews(currentTopic, false);
 });
 
-/* Load initial page */
+/* Initial load */
 loadNews(currentTopic, false);
 
-/* =========================
-   Trending carousel
-   ========================= */
+/* ================= Trending carousel ================= */
 let carouselInterval = null;
 function loadTrending(items){
   const track = document.getElementById('carousel-track');
   track.innerHTML = '';
-  if(!items || items.length === 0){
-    track.innerHTML = '<div class="t-item">No trending stories</div>';
-    return;
-  }
+  if(!items || items.length === 0){ track.innerHTML = '<div class="t-item">No trending stories</div>'; return; }
   items.forEach(it=>{
-    const node = document.createElement('div');
-    node.className = 't-item';
-    node.textContent = it.title || '';
-    node.onclick = () => { if(it.url) window.open(it.url, '_blank'); };
-    track.appendChild(node);
+    const el = document.createElement('div');
+    el.className = 't-item';
+    el.textContent = it.title || '';
+    el.onclick = ()=>{ if(it.url) window.open(it.url, '_blank'); };
+    track.appendChild(el);
   });
-
-  if(carouselInterval){ clearInterval(carouselInterval); carouselInterval = null; }
+  if(carouselInterval) clearInterval(carouselInterval);
   if(items.length <= 1) return;
   let idx = 0;
-  carouselInterval = setInterval(()=>{
-    idx = (idx + 1) % items.length;
-    track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-  }, 4500);
+  carouselInterval = setInterval(()=>{ idx = (idx+1)%items.length; track.style.transform = 'translateX(-' + (idx*100) + '%)'; }, 4500);
 }
 
-/* =========================
-   Share function (native + WhatsApp fallback)
-   ========================= */
+/* ================= Share (native + whatsapp fallback) ================= */
 function shareArticle(title, url, text){
   const shareText = (title ? title + '\n\n' : '') + (text || '') + (url ? '\n\nRead more: ' + url : '');
   if(navigator.share){
-    try{
-      navigator.share({ title: title, text: text, url: url });
-    }catch(e){
-      // fallback to WhatsApp
-      window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
-    }
+    try{ navigator.share({ title, text, url }); }catch(e){ window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank'); }
   } else {
     window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
   }
 }
 
-/* =========================
-   Infinite scroll (IntersectionObserver)
-   ========================= */
+/* ========= Infinite scroll (IntersectionObserver) + Load More ========= */
 const sentinel = document.createElement('div');
 sentinel.style.cssText = 'height:1px';
 document.getElementById('main').appendChild(sentinel);
 
 const io = new IntersectionObserver(entries=>{
   if(entries[0].isIntersecting && !loading){
-    page++;
-    loadNews(currentTopic, true);
+    page++; loadNews(currentTopic, true);
   }
-}, { root:null, rootMargin:'500px' });
+}, { root:null, rootMargin: '500px' });
 io.observe(sentinel);
 
-/* =========================
-   Polite ad init
-   ========================= */
-try{
-  (adsbygoogle = window.adsbygoogle || []).push({});
-}catch(e){
-  // ignore
-}
+document.getElementById('loadMore').addEventListener('click', ()=>{
+  if(!loading){ page++; loadNews(currentTopic, true); }
+});
+
+/* polite ad init */
+try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
 </script>
 
 </body>
