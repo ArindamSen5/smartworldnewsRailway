@@ -1,322 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartWorld – Latest Tech News</title>
-
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>News Portal</title>
 
 <style>
-/* GLOBAL */
-body {
-  font-family: 'Inter', Arial, sans-serif;
-  background: #f3f4f6;
-  margin: 0;
-  padding-top: 150px;
-}
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+    }
 
-/* HEADER */
-header {
-  background: #0d6efd;
-  color: white;
-  padding: 1rem 0;
-  text-align: center;
-  font-size: 1.7rem;
-  font-weight: 700;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
-}
+    header {
+        background: #ffffff;
+        padding: 15px 20px;
+        font-size: 22px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
 
-/* TOPICS BAR */
-.topics {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 10px;
-  background: white;
-  position: sticky;
-  top: 60px;
-  z-index: 900;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-}
-.topics span {
-  padding: 7px 16px;
-  background: #e5e7eb;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: 0.25s;
-}
-.topics span:hover {
-  background: #0d6efd;
-  color: white;
-}
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
 
-/* SEARCH */
-.search-section {
-  background: white;
-  padding: 1rem;
-  text-align: center;
-  position: sticky;
-  top: 108px;
-  z-index: 800;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-.search-section input {
-  width: 250px;
-  padding: 0.7rem;
-  border-radius: 10px;
-  border: 1px solid #cdd2da;
-}
-.search-section button {
-  padding: 0.7rem 1.2rem;
-  background: #0d6efd;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.search-section button:hover {
-  background: #0a54c6;
-}
+    /* News Card */
+    .news-card {
+        background: #fff;
+        padding: 16px;
+        border-radius: 10px;
+        margin-bottom: 18px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-/* GRID */
-.grid {
-  max-width: 1200px;
-  margin: 1rem auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.2rem;
-  padding: 0 10px;
-}
+    .news-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
 
-/* NEWS CARD */
-.card {
-  background: white;
-  padding: 1rem;
-  border-radius: 14px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  transition: 0.25s ease;
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.17);
-}
-.card-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 6px;
-}
-.summary {
-  color: #4b5563;
-  font-size: 0.92rem;
-  margin-top: 5px;
-}
-.source {
-  color: #6b7280;
-  font-size: 0.8rem;
-  margin-top: 8px;
-}
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #222;
+    }
 
-/* TRENDING CAROUSEL */
-.trending-carousel {
-  max-width: 1200px;
-  margin: 1.5rem auto;
-  background: white;
-  padding: 1rem;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-.trending-carousel .track {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-.trending-carousel .item {
-  min-width: 100%;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 10px;
-  color: #0d6efd;
-}
+    .description {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+    }
 
-/* LOAD MORE BUTTON */
-#loadMoreBtn {
-  display: block;
-  margin: 1.5rem auto;
-  padding: 0.8rem 1.5rem;
-  background: #0d6efd;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-#loadMoreBtn:hover {
-  background: #0a54c6;
-}
+    /* Load More Button */
+    .load-more {
+        display: block;
+        width: 100%;
+        background: #0078ff;
+        color: #fff;
+        padding: 12px;
+        text-align: center;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 20px 0;
+        border: none;
+    }
 
-/* SECTION TITLE */
-.section-title {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-/* AMAZON SECTION */
-.amazon-grid .card {
-  text-align: center;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  background: #e5e7eb;
-  padding: 1rem;
-  margin-top: 2rem;
-  color: #374151;
-}
+    .load-more:hover {
+        background: #005fcc;
+    }
 </style>
-
 </head>
+
 <body>
 
-<header>SmartWorld – Latest Technology News</header>
+<header>Daily News</header>
 
-<div class="topics">
-  <span onclick="loadNews('technology')">Technology</span>
-  <span onclick="loadNews('ai')">AI</span>
-  <span onclick="loadNews('mobile')">Mobile</span>
-  <span onclick="loadNews('gadgets')">Gadgets</span>
-  <span onclick="loadNews('startups')">Startups</span>
-  <span onclick="loadNews('space')">Space</span>
-  <span onclick="loadNews('security')">Cybersecurity</span>
+<div class="container" id="news-container">
+    <!-- News will load here -->
 </div>
 
-<div class="search-section">
-  <input id="searchInput" placeholder="Search AI, gadgets, mobile…">
-  <button onclick="searchNews()">Search</button>
-</div>
-
-<!-- TRENDING CAROUSEL -->
-<div class="trending-carousel">
-  <div id="carousel-track" class="track">
-      <div class="item">Loading trending news...</div>
-  </div>
-</div>
-
-<!-- NEWS GRID -->
-<div id="news-container" class="grid">
-  <p style="grid-column:1/-1;text-align:center;">Loading latest news…</p>
-</div>
-
-<button id="loadMoreBtn" onclick="loadMoreNews()">Load More News</button>
-
-<!-- AMAZON SECTION -->
-<h2 class="section-title">🔥 Top Tech Deals</h2>
-<div class="grid amazon-grid">
-  <div class="card" onclick="window.open('https://www.amazon.in/l/1388921031?tag=online0c2b4-21')">
-    <img src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg">
-    <h3>Smartphone Deals</h3>
-    <p>Best offers on 2025 smartphones.</p>
-  </div>
-
-  <div class="card" onclick="window.open('https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21')">
-    <img src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg">
-    <h3>Smartwatches</h3>
-    <p>Most popular smartwatches under budget.</p>
-  </div>
-
-  <div class="card" onclick="window.open('https://www.amazon.in/s?k=headphone&tag=online0c2b4-21')">
-    <img src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg">
-    <h3>Headphones</h3>
-    <p>Gaming + Bass headphones bestsellers.</p>
-  </div>
-</div>
-
-<footer>© 2025 SmartWorld — Powered by Flask + AI — Monetized with AdSense & Amazon Affiliate</footer>
+<button class="load-more" onclick="loadMore()">Load More</button>
 
 <script>
 let page = 1;
-let currentTopic = "technology";
 
-/* LOAD NEWS */
-async function loadNews(topic="technology", append=false){
-  currentTopic = topic;
-
-  const container = document.getElementById("news-container");
-  if (!append) container.innerHTML = "<p>Loading...</p>";
-
-  try {
-    const res = await fetch(`/api/news?topic=${topic}&page=${page}`);
-    const data = await res.json();
-
-    if (!append) container.innerHTML = "";
-
-    data.articles.forEach(a => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.onclick = () => window.open(a.url, "_blank");
-
-      card.innerHTML = `
-        <div class="card-title">${a.title}</div>
-        <div class="summary">${a.summary || ""}</div>
-        <div class="source">${a.source} • ${a.published || ""}</div>
-      `;
-      container.appendChild(card);
-    });
-
-    loadTrending(data.articles.slice(0,5));
-
-  } catch (e) {
-    container.innerHTML = "<p>Error loading news.</p>";
-  }
+function openNews(url) {
+    window.open(url, "_blank");
 }
 
-function searchNews(){
-  page = 1;
-  const q = document.getElementById("searchInput").value.trim();
-  loadNews(q || "technology");
+async function loadNews() {
+    try {
+        // Replace with your API URL
+        const api = `https://your-api-url.com/news?page=${page}`;
+
+        const res = await fetch(api);
+        const data = await res.json();
+
+        const container = document.getElementById("news-container");
+
+        data.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "news-card";
+            card.onclick = () => openNews(item.url); // CLICKABLE WITHOUT <a>
+
+            card.innerHTML = `
+                <div class="title">${item.title}</div>
+                <div class="description">${item.description}</div>
+            `;
+
+            container.appendChild(card);
+        });
+
+    } catch (e) {
+        console.error("Error loading news:", e);
+    }
 }
 
-function loadMoreNews(){
-  page++;
-  loadNews(currentTopic, true);
+function loadMore() {
+    page++;
+    loadNews();
 }
 
-/* TRENDING CAROUSEL */
-function loadTrending(topArticles){
-  const track = document.getElementById("carousel-track");
-  track.innerHTML = "";
-
-  topArticles.forEach(a => {
-    const item = document.createElement("div");
-    item.className = "item";
-    item.innerHTML = `${a.title}`;
-    item.onclick = () => window.open(a.url);
-    track.appendChild(item);
-  });
-
-  let index = 0;
-  setInterval(() => {
-    index = (index + 1) % topArticles.length;
-    track.style.transform = `translateX(-${index * 100}%)`;
-  }, 5000);
-}
-
+// Load first page
 loadNews();
 </script>
 
