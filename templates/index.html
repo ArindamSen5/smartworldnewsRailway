@@ -4,17 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SmartWorld – Latest Tech News</title>
-
 <style>
-/* Base */
 body {
   font-family: 'Inter', Arial, sans-serif;
   background: #f1f5f9;
   margin: 0;
   padding-top: 160px;
 }
-
-/* Header */
 header {
   background: #0c66d9;
   color: white;
@@ -28,8 +24,6 @@ header {
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
-
-/* Topics */
 .topics {
   display: flex;
   overflow-x: auto;
@@ -49,12 +43,7 @@ header {
   white-space: nowrap;
   font-size: 0.9rem;
 }
-.topics span:hover {
-  background: #0c66d9;
-  color: white;
-}
-
-/* Search Section */
+.topics span:hover { background: #0c66d9; color:white; }
 .search-section {
   background: white;
   padding: 1rem;
@@ -83,43 +72,51 @@ header {
   cursor: pointer;
 }
 
-/* Trending Carousel */
-.trending-carousel {
+/* Trending */
+.trending-section {
   max-width: 1200px;
-  margin: 2rem auto;
-  overflow: hidden;
+  margin: 1rem auto;
+}
+.trending-section h2 { margin-bottom: 0.5rem; color: #0c66d9; }
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 0.8rem;
+}
+.trending-grid .card {
+  background: #0c66d9;
+  color: white;
+  min-height: 80px; /* smaller height */
   position: relative;
-}
-.trending-carousel .track {
+  padding: 0.8rem 1rem 1rem 1rem;
+  padding-top: 1.8rem;
   display: flex;
-  gap: 1rem;
-  transition: transform 0.5s ease-in-out;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-size: 0.9rem;
 }
-.trending-carousel .item {
-  min-width: 300px;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-  flex-shrink: 0;
-}
-.trending-carousel .item a {
-  text-decoration: none;
+.trending-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #ffcc00;
   color: #0f172a;
   font-weight: 700;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
+.trending-grid .card-title a { color:white; text-decoration:none; font-weight:700; font-size:0.95rem; }
 
 /* News Grid */
 .grid {
   max-width: 1200px;
-  margin: 1.5rem auto;
+  margin: 1rem auto;
   padding: 0 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+  grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
   gap: 1rem;
 }
-
-/* Cards */
 .card {
   background: white;
   display: flex;
@@ -130,43 +127,15 @@ header {
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
   transition: 0.2s ease;
   padding: 1rem;
-  min-height: 200px;
+  min-height: 150px;
 }
-.card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
-}
-.card-title a {
-  text-decoration: none;
-  color: #0f172a;
-  font-weight: 700;
-  font-size: 1.15rem;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.summary {
-  color: #475569;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-bottom: 0.5rem;
-}
-.source {
-  color: #64748b;
-  font-size: 0.85rem;
-}
+.card:hover { transform: translateY(-5px) scale(1.02); box-shadow:0 6px 14px rgba(0,0,0,0.2);}
+.card-title a { text-decoration:none;color:#0f172a;font-weight:700;font-size:1.1rem;margin-bottom:0.5rem;display:block;}
+.summary { color:#475569; display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:0.5rem;}
+.source { color:#64748b; font-size:0.85rem; margin-top:auto; }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #e2e8f0;
-  color: #475569;
-  margin-top: 2rem;
-}
+footer { text-align:center;padding:1rem; background:#e2e8f0; color:#475569; margin-top:2rem; }
 
-/* Load More Button */
 .load-more-btn {
   display: block;
   margin: 1rem auto 2rem auto;
@@ -180,7 +149,7 @@ footer {
 }
 
 @media(max-width:768px){
-  .grid { grid-template-columns: 1fr; }
+  .grid, .trending-grid { grid-template-columns: 1fr; }
   .search-section input { width: 70%; }
 }
 </style>
@@ -204,105 +173,78 @@ footer {
   <button onclick="searchNews()">Search</button>
 </div>
 
-<!-- Trending Carousel -->
-<div class="trending-carousel" id="trending-carousel">
-  <div class="track" id="carousel-track"></div>
+<div class="trending-section">
+  <h2>Trending</h2>
+  <div id="trending-container" class="trending-grid"></div>
 </div>
 
-<!-- News Grid -->
 <div id="news-container" class="grid"></div>
 <button id="loadMoreBtn" class="load-more-btn">Load More News</button>
 
-<footer>
-  © 2025 SmartWorld | Clean & Professional Tech News
-</footer>
+<footer>© 2025 SmartWorld | Clean & Professional Tech News</footer>
 
 <script>
-let currentTopic = 'technology';
-let currentPage = 1;
-const pageSize = 6;
+let currentTopic='technology', currentPage=1, pageSize=6;
+let displayedUrls=new Set();
 
-// Load News
-async function loadNews(topic = 'technology', append = false){
-  if(!append){
-    currentPage = 1;
-    document.getElementById('news-container').innerHTML = '';
-  }
-  const container = document.getElementById("news-container");
+async function loadNews(topic='technology', append=false){
+  if(!append){ currentPage=1; document.getElementById('news-container').innerHTML=''; }
+  const container=document.getElementById('news-container');
   try{
-    const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${currentPage}&size=${pageSize}`);
-    const data = await res.json();
-
-    if(data.articles.length === 0 && !append){
-      container.innerHTML = '<p style="text-align:center;">No news found.</p>';
-      document.getElementById("loadMoreBtn").style.display="none";
+    const res=await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${currentPage}&size=${pageSize}`);
+    const data=await res.json();
+    const newArticles=data.articles.filter(a=>!displayedUrls.has(a.url));
+    if(newArticles.length===0){
+      if(!append) container.innerHTML='<p style="text-align:center;">No news found.</p>';
       return;
     }
-
-    data.articles.forEach((a) => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
-        <div class="summary">${a.summary || ''}</div>
-        <div class="source">${a.source || ''} • ${a.published || ''}</div>
-      `;
+    newArticles.forEach(a=>{
+      displayedUrls.add(a.url);
+      const card=document.createElement('div');
+      card.className='card';
+      card.innerHTML=`<div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
+      <div class="summary">${a.summary||''}</div>
+      <div class="source">${a.source||''} • ${a.published||''}</div>`;
       container.appendChild(card);
     });
-
     currentPage++;
-    if(data.articles.length < pageSize){
-      document.getElementById("loadMoreBtn").style.display="none";
-    } else {
-      document.getElementById("loadMoreBtn").style.display="block";
-    }
-  } catch(err){
-    console.error(err);
-    if(!append) container.innerHTML="<p style='text-align:center'>Failed to load news.</p>";
-  }
+    // show load more only if there might be more unique articles
+    document.getElementById("loadMoreBtn").style.display = 'block';
+  } catch(err){ console.error(err); if(!append) container.innerHTML="<p style='text-align:center'>Failed to load news.</p>"; }
 }
 
-// Search
 function searchNews(){
-  const q = document.getElementById("searchInput").value.trim();
-  currentTopic = q || 'technology';
-  loadNews(currentTopic, false);
+  const q=document.getElementById('searchInput').value.trim();
+  currentTopic=q||'technology';
+  displayedUrls.clear();
+  loadTrending();
+  loadNews(currentTopic,false);
 }
 
-// Load More
-document.getElementById("loadMoreBtn").addEventListener('click', ()=>{
-  loadNews(currentTopic, true);
-});
+document.getElementById("loadMoreBtn").addEventListener('click', ()=>loadNews(currentTopic,true));
 
-// Initial load
+async function loadTrending(){
+  const trendingContainer=document.getElementById('trending-container');
+  trendingContainer.innerHTML='';
+  try{
+    const res=await fetch(`/api/news?topic=technology&page=1&size=10`);
+    const data=await res.json();
+    const trendingArticles=data.articles.filter(a=>!displayedUrls.has(a.url)).slice(0,4);
+    trendingArticles.forEach(a=>{
+      displayedUrls.add(a.url);
+      const card=document.createElement('div');
+      card.className='card';
+      card.innerHTML=`<div class="trending-badge">Trending</div>
+      <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
+      <div class="summary">${a.summary||''}</div>
+      <div class="source">${a.source||''} • ${a.published||''}</div>`;
+      trendingContainer.appendChild(card);
+    });
+  } catch(err){ console.error(err); trendingContainer.innerHTML='<p style="text-align:center;">Trending news not available.</p>'; }
+}
+
+loadTrending();
 loadNews(currentTopic);
-
-// Trending Carousel
-function loadTrending(topArticles){
-  const track = document.getElementById("carousel-track");
-  track.innerHTML = "";
-  topArticles.forEach(a=>{
-    const item = document.createElement("div");
-    item.className = "item";
-    item.innerHTML = `<a href="${a.url}" target="_blank">${a.title}</a>`;
-    track.appendChild(item);
-  });
-  let index = 0;
-  setInterval(()=>{
-    index = (index + 1) % topArticles.length;
-    track.style.transform = `translateX(-${index * 100}%)`;
-  }, 5000);
-}
-
-// Example trending load
-// Replace this with API call if needed
-loadTrending([
-  {url:'#', title:'Top AI breakthrough in 2025'},
-  {url:'#', title:'New smartphone trends'},
-  {url:'#', title:'SpaceX latest mission'},
-  {url:'#', title:'Cybersecurity tips for everyone'}
-]);
 </script>
-
 </body>
 </html>
