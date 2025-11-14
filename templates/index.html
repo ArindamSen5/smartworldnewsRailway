@@ -87,21 +87,19 @@ header {
 .trending-carousel {
   max-width: 1200px;
   margin: 2rem auto;
-  overflow: hidden;
-  position: relative;
-}
-.trending-carousel .track {
-  display: flex;
-  gap: 1rem;
-  transition: transform 0.5s ease-in-out;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 1rem;
 }
 .trending-carousel .item {
+  display: inline-block;
   min-width: 300px;
   background: #fff;
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-  flex-shrink: 0;
+  margin-right: 1rem;
+  vertical-align: top;
 }
 .trending-carousel .item a {
   text-decoration: none;
@@ -206,7 +204,10 @@ footer {
 
 <!-- Trending Carousel -->
 <div class="trending-carousel" id="trending-carousel">
-  <div class="track" id="carousel-track"></div>
+  <div class="item"><a href="#">Top AI breakthrough in 2025</a></div>
+  <div class="item"><a href="#">New smartphone trends</a></div>
+  <div class="item"><a href="#">SpaceX latest mission</a></div>
+  <div class="item"><a href="#">Cybersecurity tips for everyone</a></div>
 </div>
 
 <!-- News Grid -->
@@ -266,6 +267,8 @@ async function loadNews(topic = 'technology', append = false){
 function searchNews(){
   const q = document.getElementById("searchInput").value.trim();
   currentTopic = q || 'technology';
+  // Encode spaces and special characters
+  currentTopic = encodeURIComponent(currentTopic);
   loadNews(currentTopic, false);
 }
 
@@ -276,32 +279,6 @@ document.getElementById("loadMoreBtn").addEventListener('click', ()=>{
 
 // Initial load
 loadNews(currentTopic);
-
-// Trending Carousel
-function loadTrending(topArticles){
-  const track = document.getElementById("carousel-track");
-  track.innerHTML = "";
-  topArticles.forEach(a=>{
-    const item = document.createElement("div");
-    item.className = "item";
-    item.innerHTML = `<a href="${a.url}" target="_blank">${a.title}</a>`;
-    track.appendChild(item);
-  });
-  let index = 0;
-  setInterval(()=>{
-    index = (index + 1) % topArticles.length;
-    track.style.transform = `translateX(-${index * 100}%)`;
-  }, 5000);
-}
-
-// Example trending load
-// Replace this with API call if needed
-loadTrending([
-  {url:'#', title:'Top AI breakthrough in 2025'},
-  {url:'#', title:'New smartphone trends'},
-  {url:'#', title:'SpaceX latest mission'},
-  {url:'#', title:'Cybersecurity tips for everyone'}
-]);
 </script>
 
 </body>
