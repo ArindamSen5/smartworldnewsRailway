@@ -1,366 +1,431 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartWorld – Latest Tech News</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartWorld — Latest Tech News</title>
 
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
+  <!-- Google AdSense (keeps inline ads only) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
-<style>
-/* Global */
-body {
-  font-family: 'Inter', Arial, sans-serif;
-  background: #f1f5f9;
-  margin: 0;
-  padding-top: 160px;
-}
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#ffffff;
+      --muted:#64748b;
+      --accent:#0c66d9;
+      --glass: rgba(255,255,255,0.06);
+      --max-width:1200px;
+      --radius:12px;
+    }
 
-/* Header */
-header {
-  background: #0c66d9;
-  color: white;
-  padding: 1rem;
-  font-size: 1.8rem;
-  text-align: center;
-  font-weight: 700;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-}
+    /* Light / default palette (modern soft) */
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f1f5f9;
+        --card:#ffffff;
+        --muted:#64748b;
+        --glass: rgba(15,23,36,0.04);
+      }
+    }
 
-/* Topics */
-.topics {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 0.8rem;
-  background: white;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 60px;
-  z-index: 999;
-}
-.topics span {
-  padding: 6px 14px;
-  background: #e2e8f0;
-  border-radius: 20px;
-  cursor: pointer;
-  white-space: nowrap;
-  font-size: 0.9rem;
-  transition: 0.3s;
-}
-.topics span:hover { background: #0c66d9; color: white; }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--bg), #e9eef7 140%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color: #0f172a;
+      padding-top:150px; /* room for fixed header + bars */
+      line-height:1.45;
+    }
 
-/* Search Section */
-.search-section {
-  background: white;
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
-  position: sticky;
-  top: 110px;
-  z-index: 998;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-.search-section input {
-  width: 260px;
-  padding: 0.7rem;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-}
-.search-section button {
-  background: #0c66d9;
-  color: white;
-  padding: 0.7rem 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.search-section button:hover { background: #0845a8; }
+    /* ---------- Header ---------- */
+    header.site-header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 20px;
+      z-index:1100;
+      backdrop-filter: blur(6px) saturate(120%);
+      background: linear-gradient(90deg, rgba(12,102,217,0.95), rgba(10,84,180,0.95));
+      color:white;
+      box-shadow: 0 6px 18px rgba(12,66,128,0.15);
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      font-weight:700;
+      font-size:1.1rem;
+    }
+    .brand .logo{
+      width:40px;height:40px;border-radius:10px;background:#fff2;border:2px solid rgba(255,255,255,0.08);
+      display:grid;place-items:center;color:var(--accent);font-weight:800;font-size:1.05rem;
+      background:linear-gradient(180deg,#fff,#f3f7ff);
+    }
 
-/* Grid */
-.grid {
-  max-width: 1200px;
-  margin: 1rem auto;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-  gap: 1rem; /* spacing between cards */
-}
+    /* ---------- Category / search bars ---------- */
+    .top-row{
+      position:fixed;
+      top:72px;
+      left:0;
+      right:0;
+      z-index:1090;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:10px 14px;
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 1px 6px rgba(15,23,36,0.06);
+    }
+    .categories{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding:6px;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .categories::-webkit-scrollbar{ display:none; }
+    .cat{
+      white-space:nowrap;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#0b3b8b;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .18s ease;
+      border:1px solid rgba(12,102,217,0.06);
+    }
+    .cat:hover{ transform:translateY(-3px); box-shadow:0 6px 20px rgba(12,102,217,0.08); }
+    .cat.active{ background:var(--accent); color:#fff; }
 
-/* Cards */
-.card {
-  background: white;
-  padding: 0.8rem;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
-  transition: 0.2s ease;
-}
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
-}
-.card img {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-}
-.card-title a {
-  text-decoration: none;
-  color: #0f172a;
-  font-weight: 700;
-  font-size: 1.15rem;
-}
-.summary { color: #475569; margin-top: 0.4rem; font-size: 0.92rem; }
-.source { color: #64748b; margin-top: 0.4rem; font-size: 0.8rem; }
+    .search-wrap{
+      margin-left:auto;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .search-input{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--glass);
+      border-radius:999px;
+      padding:8px 12px;
+      border:1px solid rgba(15,23,36,0.06);
+      min-width:220px;
+      max-width:380px;
+      box-shadow: 0 2px 8px rgba(2,6,23,0.02);
+    }
+    .search-input input{
+      border:0;outline:0;background:transparent;font-size:0.95rem;width:160px;
+    }
+    .search-input button{
+      background:var(--accent);
+      color:white;border:0;padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:600;
+    }
 
-/* Ads Section */
-.ads-section {
-  text-align: center;
-  margin: 1rem 0;
-  grid-column: 1/-1;
-}
+    /* ---------- Main content layout ---------- */
+    main.container{
+      max-width:var(--max-width);
+      margin:18px auto;
+      padding: 0 16px 48px;
+    }
 
-/* Amazon Grid */
-.amazon-grid a { text-decoration: none; color: black; }
-.amazon-grid .card { text-align: center; }
-.amazon-grid h3 { margin: 0.5rem 0; font-size: 1rem; }
+    /* Trending carousel */
+    .trending{
+      margin:8px 0 18px;
+      border-radius:12px;
+      overflow:hidden;
+      background:linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,0.6));
+      box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+      padding:12px;
+    }
+    .track{ display:flex; transition:transform .55s cubic-bezier(.2,.9,.3,1); }
+    .t-item{ min-width:100%; padding:6px 8px; box-sizing:border-box; }
+    .t-item a{ text-decoration:none; color:var(--accent); font-weight:700; font-size:1.05rem; }
 
-/* Section Title */
-.section-title { text-align: center; margin-top: 40px; font-size: 1.4rem; font-weight: 700; }
+    /* Grid layout */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap:18px;
+      align-items:start;
+    }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #e2e8f0;
-  color: #475569;
-  margin-top: 2rem;
-}
+    /* Card style (glass + soft shadow) */
+    .card{
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.95));
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: 0 8px 20px rgba(2,6,23,0.06);
+      transition: transform .18s ease, box-shadow .18s ease;
+      display:flex;
+      flex-direction:column;
+      min-height:160px;
+    }
+    .card:hover{ transform:translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.08); }
+    .card-thumb{ width:100%; height:170px; object-fit:cover; display:block; }
+    .card-content{ padding:14px; display:flex; flex-direction:column; gap:8px; flex:1; }
+    .card-title{ font-weight:800; font-size:1rem; color:#0b1730; text-decoration:none; line-height:1.2; }
+    .card-excerpt{ color:var(--muted); font-size:0.95rem; margin-top:4px; flex:1; }
+    .meta{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:10px; font-size:0.82rem; color:var(--muted); }
+    .tag{ padding:6px 10px; border-radius:999px; background:#eef2ff; color:var(--accent); font-weight:700; font-size:0.78rem; }
 
-/* Floating banners */
-.floating-banner, .floating-adsense {
-  position: fixed;
-  bottom: 20px;
-  z-index: 1000;
-}
-.floating-banner { right: 20px; }
-.floating-adsense { left: 20px; }
-.floating-banner img, .floating-adsense img {
-  width: 120px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  cursor: pointer;
-}
+    /* Full width ad row in grid */
+    .ad-row{ grid-column:1/-1; display:flex; justify-content:center; padding:10px 0; background:transparent; }
 
-/* Trending carousel */
-.trending-carousel {
-  max-width: 1200px;
-  margin: 1.5rem auto;
-  overflow: hidden;
-  position: relative;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-.trending-carousel .track {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-.trending-carousel .item {
-  min-width: 100%;
-  padding: 0.8rem 1rem;
-  box-sizing: border-box;
-}
-.trending-carousel .item a {
-  text-decoration: none;
-  color: #0c66d9;
-  font-weight: 700;
-  font-size: 1rem;
-}
+    /* Load more */
+    #loadMoreBtn{ display:block; margin:28px auto; padding:12px 18px; border-radius:10px; border:0; background:var(--accent); color:white; cursor:pointer; font-weight:700; box-shadow:0 8px 20px rgba(12,102,217,0.12); }
 
-/* Load More Button */
-#loadMoreBtn {
-  display: block;
-  margin: 1.5rem auto;
-  padding: 0.8rem 1.5rem;
-  background: #0c66d9;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-#loadMoreBtn:hover { background: #0845a8; }
+    /* Footer */
+    footer{ text-align:center; color:var(--muted); margin-top:36px; padding:24px 8px; font-size:0.92rem; }
 
-@media(max-width:768px){
-  .grid { grid-template-columns:1fr; }
-  .search-section input { width: 70%; }
-  .floating-banner img { width: 100px; }
-  .floating-adsense { display: none; }
-}
-</style>
+    /* Responsive tweaks */
+    @media (max-width:880px){
+      .top-row{ padding:10px 10px; }
+      .search-input input{ width:100px; }
+    }
+    @media (max-width:520px){
+      header.site-header{ padding:10px; height:68px; }
+      .brand{ font-size:1rem; }
+      body{ padding-top:140px; }
+      .card-thumb{ height:150px; }
+      .search-input input{ width:70px; }
+    }
+  </style>
 </head>
 <body>
 
-<header>SmartWorld – Latest Technology News</header>
+  <!-- Header -->
+  <header class="site-header" role="banner" aria-label="SmartWorld header">
+    <div class="brand" aria-hidden="true">
+      <div class="logo">SW</div>
+      <div>SmartWorld</div>
+    </div>
 
-<div class="topics">
-  <span onclick="loadNews('technology')">Technology</span>
-  <span onclick="loadNews('ai')">AI</span>
-  <span onclick="loadNews('mobile')">Mobile</span>
-  <span onclick="loadNews('gadgets')">Gadgets</span>
-  <span onclick="loadNews('startups')">Startups</span>
-  <span onclick="loadNews('space')">Space</span>
-  <span onclick="loadNews('security')">Cybersecurity</span>
-</div>
+    <nav style="display:flex;gap:8px;align-items:center;">
+      <div style="font-weight:600; color:rgba(255,255,255,0.95);font-size:0.95rem;">Latest Tech • AI • Gadgets</div>
+    </nav>
+  </header>
 
-<div class="search-section">
-  <input id="searchInput" placeholder="Search AI, gadgets, mobile…" />
-  <button onclick="searchNews()">Search</button>
-</div>
+  <!-- Category + Search -->
+  <div class="top-row" role="navigation" aria-label="categories and search">
+    <div class="categories" id="categories">
+      <div class="cat active" data-topic="technology">Technology</div>
+      <div class="cat" data-topic="ai">AI</div>
+      <div class="cat" data-topic="mobile">Mobile</div>
+      <div class="cat" data-topic="gadgets">Gadgets</div>
+      <div class="cat" data-topic="startups">Startups</div>
+      <div class="cat" data-topic="space">Space</div>
+      <div class="cat" data-topic="security">Cybersecurity</div>
+    </div>
 
-<!-- Trending Carousel -->
-<div class="trending-carousel" id="trending-carousel">
-  <div class="track" id="carousel-track">
-    <div class="item">Loading trending news...</div>
+    <div class="search-wrap">
+      <div class="search-input" role="search">
+        <input id="searchInput" type="search" placeholder="Search AI, gadgets, mobile..." aria-label="Search news" />
+        <button id="searchBtn" aria-label="search">Search</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- News Grid -->
-<div id="news-container" class="grid">
-  <p style="grid-column:1/-1; text-align:center;">Loading latest tech news...</p>
-</div>
+  <!-- Main content -->
+  <main class="container" id="main">
+    <!-- Trending -->
+    <section class="trending" aria-label="Trending news">
+      <div class="track" id="carousel-track">
+        <div class="t-item">Loading trending...</div>
+      </div>
+    </section>
 
-<!-- Load More Button -->
-<button id="loadMoreBtn" onclick="loadMoreNews()">Load More News</button>
+    <!-- News grid -->
+    <section id="news-container" class="grid" aria-live="polite">
+      <div style="grid-column:1/-1;text-align:center;padding:32px 0;color:var(--muted);">Loading latest tech news...</div>
+    </section>
 
-<!-- Amazon Affiliate Section -->
-<h2 class="section-title">🔥 Top Tech Deals</h2>
-<div class="grid amazon-grid">
-  <a href="https://www.amazon.in/l/1388921031?tag=online0c2b4-21" target="_blank" class="card">
-    <img src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg" alt="Smartphones">
-    <h3>Smartphones Deals</h3>
-    <p>Top 2025 smartphones under best offers. Updated hourly.</p>
-  </a>
-  <a href="https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21" target="_blank" class="card">
-    <img src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg" alt="Smartwatches">
-    <h3>Smartwatches</h3>
-    <p>Best-selling budget smartwatches customers buy the most.</p>
-  </a>
-  <a href="https://www.amazon.in/s?k=headphone&tag=online0c2b4-21" target="_blank" class="card">
-    <img src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg" alt="Headphones">
-    <h3>Headphones & Gaming Headsets</h3>
-    <p>Highest commission category for affiliates.</p>
-  </a>
-</div>
+    <!-- Load more -->
+    <button id="loadMoreBtn">Load More News</button>
 
-<!-- Floating Amazon Banner -->
-<div class="floating-banner">
-  <a href="https://www.amazon.in/s?k=electronics&tag=online0c2b4-21" target="_blank">
-    <img src="https://m.media-amazon.com/images/G/31/IMG15/Electronics/Meghana/Gateway/SBC/May/Tallhero_300x250._CB559927508_.jpg" alt="Amazon Deals">
-  </a>
-</div>
+    <!-- Amazon deals (affiliate) -->
+    <h2 style="margin-top:28px;text-align:center;font-size:1.15rem;">🔥 Top Tech Deals</h2>
+    <div class="grid" style="margin-top:12px;">
+      <a class="card" href="https://www.amazon.in/l/1388921031?tag=online0c2b4-21" target="_blank" rel="noopener">
+        <img class="card-thumb" loading="lazy" alt="Smartphones deals" src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg" />
+        <div class="card-content">
+          <div class="card-title">Smartphones — Top Deals</div>
+          <div class="card-excerpt">Best 2025 smartphones and hot discounts updated hourly.</div>
+          <div class="meta"><div class="tag">Smartphones</div><div class="meta-right">Amazon</div></div>
+        </div>
+      </a>
 
-<!-- Floating AdSense -->
-<div class="floating-adsense">
-  <ins class="adsbygoogle"
-       style="display:block;width:120px;height:240px;"
-       data-ad-client="ca-pub-1511379920245657"
-       data-ad-slot="2322607708"></ins>
-</div>
+      <a class="card" href="https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21" target="_blank" rel="noopener">
+        <img class="card-thumb" loading="lazy" alt="Smartwatches" src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg" />
+        <div class="card-content">
+          <div class="card-title">Smartwatches — Budget Picks</div>
+          <div class="card-excerpt">Popular and budget-friendly smartwatches that sell fast.</div>
+          <div class="meta"><div class="tag">Wearables</div><div class="meta-right">Amazon</div></div>
+        </div>
+      </a>
 
-<footer>
-  © 2025 SmartWorld | Built Using Flask + AI | Monetized with AdSense + Amazon Affiliate
-</footer>
+      <a class="card" href="https://www.amazon.in/s?k=headphone&tag=online0c2b4-21" target="_blank" rel="noopener">
+        <img class="card-thumb" loading="lazy" alt="Headphones" src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg" />
+        <div class="card-content">
+          <div class="card-title">Headphones & Gaming Headsets</div>
+          <div class="card-excerpt">Top picks for music and gaming with great reviews.</div>
+          <div class="meta"><div class="tag">Audio</div><div class="meta-right">Amazon</div></div>
+        </div>
+      </a>
+    </div>
 
-<script>
-let page=1; // for Load More
-let currentTopic="technology";
+    <footer>
+      © 2025 SmartWorld — Built with Flask + AI — Monetized by AdSense & Affiliate
+    </footer>
+  </main>
 
-// Load news function
-async function loadNews(topic="technology", append=false){
-  currentTopic = topic;
-  const container=document.getElementById("news-container");
-  if(!append) container.innerHTML="<p style='grid-column:1/-1;text-align:center;'>Loading news...</p>";
-  try{
-    const res=await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${page}`);
-    const data=await res.json();
-    if(!append) container.innerHTML="";
-    let count=0;
-    data.articles.forEach(a=>{
-      count++;
-      const card=document.createElement("div");
-      card.className="card";
-      card.innerHTML=`
-        <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
-        <div class="summary">${a.summary||""}</div>
-        <div class="source">${a.source} • ${a.published||""}</div>
-      `;
-      container.appendChild(card);
-      if(count%4===0){
-        const ad=document.createElement("div");
-        ad.className="ads-section";
-        ad.innerHTML=`<ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-1511379920245657"
-          data-ad-slot="2322607708"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>`;
-        container.appendChild(ad);
-        (adsbygoogle=window.adsbygoogle||[]).push({});
+  <script>
+    // ---------- small client side logic (works with your /api/news) ----------
+    let page = 1;
+    let currentTopic = 'technology';
+
+    // Utility to create a news card element
+    function createCard(a){
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.innerHTML = `
+        ${a.image ? `<img class="card-thumb" loading="lazy" alt="${escapeHtml(a.title)}" src="${escapeHtml(a.image)}">` : ''}
+        <div class="card-content">
+          <a class="card-title" href="${escapeUrl(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.title)}</a>
+          <div class="card-excerpt">${escapeHtml(a.summary || a.description || '')}</div>
+          <div class="meta"><div class="tag">${escapeHtml(a.source || '')}</div><div class="meta-right">${escapeHtml(a.published || '')}</div></div>
+        </div>`;
+      return el;
+    }
+
+    // Safe helpers (very small)
+    function escapeHtml(s){ if(!s) return ''; return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+    function escapeUrl(s){ try{ return encodeURI(s || '#'); }catch(e){ return '#'; } }
+
+    async function loadNews(topic = 'technology', append=false){
+      currentTopic = topic;
+      const container = document.getElementById('news-container');
+      if(!append){
+        page = 1;
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:28px 0;color:var(--muted);">Loading news...</div>';
       }
+      try{
+        const resp = await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${page}`);
+        if(!resp.ok) throw new Error('Fetch failed');
+        const data = await resp.json();
+
+        if(!append) container.innerHTML = '';
+
+        // Each article -> card
+        let count = 0;
+        (data.articles || []).forEach(a=>{
+          count++;
+          const card = createCard(a);
+          container.appendChild(card);
+
+          // Insert a full-width ad every 6 cards (keeps layout stable and AdSense-friendly)
+          if(count % 6 === 0){
+            const adRow = document.createElement('div');
+            adRow.className = 'ad-row';
+            adRow.innerHTML = `<ins class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-1511379920245657"
+              data-ad-slot="2322607708"
+              data-ad-format="auto"
+              data-full-width-responsive="true"></ins>`;
+            container.appendChild(adRow);
+            try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
+          }
+        });
+
+        // If there were fewer articles than expected, hide load more
+        if(!data.articles || data.articles.length === 0 || (data.articles.length < (data.pageSize || 10))){
+          document.getElementById('loadMoreBtn').style.display = 'none';
+        } else {
+          document.getElementById('loadMoreBtn').style.display = 'block';
+        }
+
+        // Load trending (top 5)
+        loadTrending((data.articles || []).slice(0,5));
+      }catch(err){
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:28px 0;color:var(--muted);">Failed to load news.</div>';
+        console.error(err);
+      }
+    }
+
+    // Load more
+    document.getElementById('loadMoreBtn').addEventListener('click', ()=>{
+      page++;
+      loadNews(currentTopic, true);
     });
-    loadTrending(data.articles.slice(0,5));
-  }catch(err){
-    container.innerHTML="<p style='text-align:center'>Failed to load news.</p>";
-  }
-}
 
-function searchNews(){
-  const q=document.getElementById("searchInput").value.trim();
-  page=1;
-  loadNews(q||"technology");
-}
+    // Search
+    document.getElementById('searchBtn').addEventListener('click', ()=>{
+      const q = document.getElementById('searchInput').value.trim();
+      if(!q) return loadNews('technology');
+      page = 1;
+      loadNews(q);
+    });
 
-// Load More function
-function loadMoreNews(){
-  page++;
-  loadNews(currentTopic, true);
-}
+    // Category clicks
+    document.getElementById('categories').addEventListener('click', (e)=>{
+      const el = e.target.closest('.cat');
+      if(!el) return;
+      // mark active
+      Array.from(document.querySelectorAll('.cat')).forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      page = 1;
+      loadNews(el.dataset.topic || el.textContent.trim().toLowerCase());
+    });
 
-// Trending Carousel
-function loadTrending(topArticles){
-  const track=document.getElementById("carousel-track");
-  track.innerHTML="";
-  if(topArticles.length === 0) return;
-  topArticles.forEach(a=>{
-    const item=document.createElement("div");
-    item.className="item";
-    item.innerHTML=`<a href="${a.url}" target="_blank">${a.title}</a>`;
-    track.appendChild(item);
-  });
-  if(topArticles.length === 1) return;
-  let index=0;
-  setInterval(()=>{
-    index = (index+1) % topArticles.length;
-    track.style.transform=`translateX(-${index*100}%)`;
-  },5000);
-}
+    // Trending carousel logic
+    let carouselInterval = null;
+    function loadTrending(items){
+      const track = document.getElementById('carousel-track');
+      track.innerHTML = '';
+      if(!items || items.length === 0){
+        track.innerHTML = '<div class="t-item">No trending stories</div>';
+        return;
+      }
+      items.forEach(it=>{
+        const node = document.createElement('div');
+        node.className = 't-item';
+        node.innerHTML = `<a href="${escapeUrl(it.url)}" target="_blank" rel="noopener">${escapeHtml(it.title)}</a>`;
+        track.appendChild(node);
+      });
 
-// Initialize floating AdSense
-(adsbygoogle=window.adsbygoogle||[]).push({});
+      if(carouselInterval) { clearInterval(carouselInterval); carouselInterval = null; }
+      if(items.length <= 1) return;
 
-// Initial load
-loadNews();
-</script>
+      let idx = 0;
+      carouselInterval = setInterval(()=>{
+        idx = (idx + 1) % items.length;
+        track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+      }, 4500);
+    }
 
+    // Initial load
+    loadNews();
+
+    // Accessibility: allow Enter on search input
+    document.getElementById('searchInput').addEventListener('keydown', function(e){
+      if(e.key === 'Enter') document.getElementById('searchBtn').click();
+    });
+  </script>
 </body>
 </html>
