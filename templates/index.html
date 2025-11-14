@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SmartWorld – Latest Tech News</title>
 
-<!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
-
 <style>
 body {
   font-family: 'Inter', Arial, sans-serif;
@@ -101,6 +98,7 @@ header {
   box-shadow:0 2px 6px rgba(0,0,0,0.12);
   transition:0.2s ease;
   padding:1rem;
+  min-height:150px; /* uniform card height */
 }
 .card:hover {
   transform:translateY(-5px);
@@ -127,17 +125,6 @@ header {
   font-size:0.85rem;
 }
 
-/* Ads Section */
-.ads-section {
-  text-align:center;
-  margin:1rem 0;
-  grid-column:1/-1;
-}
-
-/* Amazon Grid */
-.amazon-grid a { text-decoration:none; color:black; }
-.amazon-grid img { height:180px; object-fit:cover; }
-
 /* Section Title */
 .section-title { text-align:center; margin-top:40px; }
 
@@ -150,52 +137,7 @@ footer {
   margin-top:2rem;
 }
 
-/* Floating banners */
-.floating-banner {
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  z-index:1000;
-}
-.floating-banner img {
-  width:120px;
-  border-radius:10px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
-  cursor:pointer;
-}
-.floating-adsense {
-  position:fixed;
-  bottom:20px;
-  left:20px;
-  z-index:1000;
-}
-
-/* Trending carousel */
-.trending-carousel {
-  max-width:1200px;
-  margin:2rem auto;
-  overflow:hidden;
-  position:relative;
-  border-radius:12px;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,0.15);
-}
-.trending-carousel .track {
-  display:flex;
-  transition:transform 0.5s ease;
-}
-.trending-carousel .item {
-  min-width:100%;
-  padding:1rem;
-  box-sizing:border-box;
-}
-.trending-carousel .item a {
-  text-decoration:none;
-  color:#0c66d9;
-  font-weight:700;
-  font-size:1.1rem;
-}
-
+/* Load More Button */
 .load-more-btn {
   display:block;
   margin:1rem auto 2rem auto;
@@ -211,7 +153,6 @@ footer {
 @media(max-width:768px){
   .grid { grid-template-columns:1fr; }
   .search-section input { width:70%; }
-  .floating-banner img { width:100px; }
 }
 </style>
 </head>
@@ -235,7 +176,7 @@ footer {
 </div>
 
 <!-- Trending Carousel -->
-<div class="trending-carousel" id="trending-carousel">
+<div class="trending-carousel" id="trending-carousel" style="max-width:1200px;margin:2rem auto;overflow:hidden;">
   <div class="track" id="carousel-track">
     <div class="item">Loading trending news...</div>
   </div>
@@ -245,40 +186,8 @@ footer {
 <div id="news-container" class="grid"></div>
 <button id="loadMoreBtn" class="load-more-btn">Load More News</button>
 
-<!-- Amazon Affiliate Section -->
-<h2 class="section-title">🔥 Top Tech Deals</h2>
-<div class="grid amazon-grid">
-  <a href="https://www.amazon.in/l/1388921031?tag=online0c2b4-21" target="_blank" class="card">
-    <h3>Smartphones Deals</h3>
-    <p>Top 2025 smartphones under best offers. Updated hourly.</p>
-  </a>
-  <a href="https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21" target="_blank" class="card">
-    <h3>Smartwatches</h3>
-    <p>Best-selling budget smartwatches customers buy the most.</p>
-  </a>
-  <a href="https://www.amazon.in/s?k=headphone&tag=online0c2b4-21" target="_blank" class="card">
-    <h3>Headphones & Gaming Headsets</h3>
-    <p>Highest commission category for affiliates.</p>
-  </a>
-</div>
-
-<!-- Floating Amazon Banner -->
-<div class="floating-banner">
-  <a href="https://www.amazon.in/s?k=electronics&tag=online0c2b4-21" target="_blank">
-    <img src="https://m.media-amazon.com/images/G/31/IMG15/Electronics/Meghana/Gateway/SBC/May/Tallhero_300x250._CB559927508_.jpg" alt="Amazon Deals">
-  </a>
-</div>
-
-<!-- Floating AdSense -->
-<div class="floating-adsense">
-  <ins class="adsbygoogle"
-       style="display:block;width:120px;height:240px;"
-       data-ad-client="ca-pub-1511379920245657"
-       data-ad-slot="2322607708"></ins>
-</div>
-
 <footer>
-  © 2025 SmartWorld | Built Using Flask + AI | Monetized with AdSense + Amazon Affiliate
+  © 2025 SmartWorld | Clean & Professional Tech News
 </footer>
 
 <script>
@@ -286,7 +195,6 @@ let currentTopic = 'technology';
 let currentPage = 1;
 const pageSize = 6;
 
-// Load news
 async function loadNews(topic = 'technology', append = false){
   if(!append) {
     currentPage = 1;
@@ -302,7 +210,7 @@ async function loadNews(topic = 'technology', append = false){
       return;
     }
 
-    data.articles.forEach((a, index) => {
+    data.articles.forEach((a) => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
@@ -311,20 +219,8 @@ async function loadNews(topic = 'technology', append = false){
         <div class="source">${a.source} • ${a.published || ''}</div>
       `;
       container.appendChild(card);
-
-      if(((currentPage-1)*pageSize + index +1) % 6 === 0){
-        const ad = document.createElement("div");
-        ad.className="ads-section";
-        ad.innerHTML=`<ins class="adsbygoogle"
-          style="display:block"
-          data-ad-client="ca-pub-1511379920245657"
-          data-ad-slot="2322607708"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>`;
-        container.appendChild(ad);
-        (adsbygoogle=window.adsbygoogle||[]).push({});
-      }
     });
+
     currentPage++;
   }catch(err){
     console.error(err);
@@ -363,9 +259,6 @@ function loadTrending(topArticles){
     track.style.transform=`translateX(-${index*100}%)`;
   },5000);
 }
-
-// Initialize floating AdSense
-(adsbygoogle=window.adsbygoogle||[]).push({});
 </script>
 
 </body>
