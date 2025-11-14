@@ -1,151 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mini News – Inshorts Style</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartWorld – Latest Tech News</title>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
 <style>
-    body {
-        margin: 0;
-        background: #f2f2f2;
-        font-family: Arial, sans-serif;
-    }
+/* Global */
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f1f5f9;
+  margin: 0;
+  padding-top: 160px;
+}
 
-    header {
-        background: #ff3c41;
-        padding: 15px;
-        text-align: center;
-        color: white;
-        font-size: 22px;
-        font-weight: bold;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
+/* Header */
+header {
+  background: #0c66d9;
+  color: white;
+  padding: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 700;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
 
-    .container {
-        max-width: 650px;
-        margin: auto;
-        padding: 15px;
-    }
+/* Topics */
+.topics {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 0.8rem;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+}
+.topics span {
+  padding: 6px 14px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.topics span:hover { background: #0c66d9; color: white; }
 
-    .card {
-        background: #fff;
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 16px;
-        box-shadow: 0px 3px 10px rgba(0,0,0,0.10);
-        cursor: pointer;
-        transition: 0.2s;
-    }
+/* Search Section */
+.search-section {
+  background: white;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 110px;
+  z-index: 998;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.search-section input {
+  width: 260px;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+.search-section button {
+  background: #0c66d9;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.search-section button:hover { background: #0845a8; }
 
-    .card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-    }
+/* Grid */
+.grid {
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+  gap: 1rem; /* spacing between cards */
+}
 
-    .news-img {
-        width: 100%;
-        border-radius: 12px;
-        margin-bottom: 10px;
-        object-fit: cover;
-    }
+/* Cards */
+.card {
+  background: white;
+  padding: 0.8rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  transition: 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.card-title a {
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.summary { color: #475569; margin-top: 0.4rem; font-size: 0.92rem; }
+.source { color: #64748b; margin-top: 0.4rem; font-size: 0.8rem; }
 
-    .title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #222;
-    }
+/* Ads Section */
+.ads-section {
+  text-align: center;
+  margin: 1rem 0;
+  grid-column: 1/-1;
+}
 
-    .content {
-        font-size: 15px;
-        color: #555;
-        line-height: 1.5;
-    }
+/* Amazon Grid */
+.amazon-grid a { text-decoration: none; color: black; }
+.amazon-grid .card { text-align: center; }
+.amazon-grid h3 { margin: 0.5rem 0; font-size: 1rem; }
 
-    .load-more {
-        width: 100%;
-        background: #ff3c41;
-        padding: 12px;
-        border-radius: 10px;
-        color: #fff;
-        font-size: 17px;
-        border: none;
-        margin: 20px 0;
-        cursor: pointer;
-    }
+/* Section Title */
+.section-title { text-align: center; margin-top: 40px; font-size: 1.4rem; font-weight: 700; }
 
-    .load-more:hover {
-        background: #d63236;
-    }
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #e2e8f0;
+  color: #475569;
+  margin-top: 2rem;
+}
+
+/* Floating banners */
+.floating-banner, .floating-adsense {
+  position: fixed;
+  bottom: 20px;
+  z-index: 1000;
+}
+.floating-banner { right: 20px; }
+.floating-adsense { left: 20px; }
+.floating-banner img, .floating-adsense img {
+  width: 120px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+/* Trending carousel */
+.trending-carousel {
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.trending-carousel .track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+.trending-carousel .item {
+  min-width: 100%;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
+}
+.trending-carousel .item a {
+  text-decoration: none;
+  color: #0c66d9;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* Load More Button */
+#loadMoreBtn {
+  display: block;
+  margin: 1.5rem auto;
+  padding: 0.8rem 1.5rem;
+  background: #0c66d9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+#loadMoreBtn:hover { background: #0845a8; }
+
+@media(max-width:768px){
+  .grid { grid-template-columns:1fr; }
+  .search-section input { width: 70%; }
+  .floating-banner img { width: 100px; }
+  .floating-adsense { display: none; }
+}
 </style>
 </head>
-
 <body>
 
-<header>Mini News</header>
+<header>SmartWorld – Latest Technology News</header>
 
-<div class="container" id="news-container"></div>
+<div class="topics">
+  <span onclick="loadNews('technology')">Technology</span>
+  <span onclick="loadNews('ai')">AI</span>
+  <span onclick="loadNews('mobile')">Mobile</span>
+  <span onclick="loadNews('gadgets')">Gadgets</span>
+  <span onclick="loadNews('startups')">Startups</span>
+  <span onclick="loadNews('space')">Space</span>
+  <span onclick="loadNews('security')">Cybersecurity</span>
+</div>
 
-<button class="load-more" onclick="loadMore()">Load More</button>
+<div class="search-section">
+  <input id="searchInput" placeholder="Search AI, gadgets, mobile…" />
+  <button onclick="searchNews()">Search</button>
+</div>
+
+<!-- Trending Carousel -->
+<div class="trending-carousel" id="trending-carousel">
+  <div class="track" id="carousel-track">
+    <div class="item">Loading trending news...</div>
+  </div>
+</div>
+
+<!-- News Grid -->
+<div id="news-container" class="grid">
+  <p style="grid-column:1/-1; text-align:center;">Loading latest tech news...</p>
+</div>
+
+<!-- Load More Button -->
+<button id="loadMoreBtn" onclick="loadMoreNews()">Load More News</button>
+
+<!-- Amazon Affiliate Section -->
+<h2 class="section-title">🔥 Top Tech Deals</h2>
+<div class="grid amazon-grid">
+  <a href="https://www.amazon.in/l/1388921031?tag=online0c2b4-21" target="_blank" class="card">
+    <img src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg" alt="Smartphones">
+    <h3>Smartphones Deals</h3>
+    <p>Top 2025 smartphones under best offers. Updated hourly.</p>
+  </a>
+  <a href="https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21" target="_blank" class="card">
+    <img src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg" alt="Smartwatches">
+    <h3>Smartwatches</h3>
+    <p>Best-selling budget smartwatches customers buy the most.</p>
+  </a>
+  <a href="https://www.amazon.in/s?k=headphone&tag=online0c2b4-21" target="_blank" class="card">
+    <img src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg" alt="Headphones">
+    <h3>Headphones & Gaming Headsets</h3>
+    <p>Highest commission category for affiliates.</p>
+  </a>
+</div>
+
+<!-- Floating Amazon Banner -->
+<div class="floating-banner">
+  <a href="https://www.amazon.in/s?k=electronics&tag=online0c2b4-21" target="_blank">
+    <img src="https://m.media-amazon.com/images/G/31/IMG15/Electronics/Meghana/Gateway/SBC/May/Tallhero_300x250._CB559927508_.jpg" alt="Amazon Deals">
+  </a>
+</div>
+
+<!-- Floating AdSense -->
+<div class="floating-adsense">
+  <ins class="adsbygoogle"
+       style="display:block;width:120px;height:240px;"
+       data-ad-client="ca-pub-1511379920245657"
+       data-ad-slot="2322607708"></ins>
+</div>
+
+<footer>
+  © 2025 SmartWorld | Built Using Flask + AI | Monetized with AdSense + Amazon Affiliate
+</footer>
 
 <script>
-let page = 1;
+let page=1; // for Load More
+let currentTopic="technology";
 
-// OPEN NEWS WITHOUT <a>
-function openNews(url) {
-    window.open(url, "_blank");
-}
-
-// DUMMY NEWS DATA (safe, site won’t break)
-const sampleNews = [
-    {
-        title: "India launches new space mission",
-        description: "ISRO successfully launched a new satellite to boost communication infrastructure.",
-        image: "https://picsum.photos/700/400?random=1",
-        url: "https://news.example.com/1"
-    },
-    {
-        title: "Tech company announces new AI device",
-        description: "The device promises to change the future of automation and productivity.",
-        image: "https://picsum.photos/700/400?random=2",
-        url: "https://news.example.com/2"
-    },
-    {
-        title: "Big update in the entertainment industry",
-        description: "A major celebrity announced a new project that fans are excited about.",
-        image: "https://picsum.photos/700/400?random=3",
-        url: "https://news.example.com/3"
-    }
-];
-
-function loadNews() {
-    const container = document.getElementById("news-container");
-
-    // Load 3 sample cards each page
-    sampleNews.forEach(news => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.onclick = () => openNews(news.url);
-
-        card.innerHTML = `
-            <img class="news-img" src="${news.image}" />
-            <div class="title">${news.title}</div>
-            <div class="content">${news.description}</div>
-        `;
-
-        container.appendChild(card);
+// Load news function
+async function loadNews(topic="technology", append=false){
+  currentTopic = topic;
+  const container=document.getElementById("news-container");
+  if(!append) container.innerHTML="<p style='grid-column:1/-1;text-align:center;'>Loading news...</p>";
+  try{
+    const res=await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${page}`);
+    const data=await res.json();
+    if(!append) container.innerHTML="";
+    let count=0;
+    data.articles.forEach(a=>{
+      count++;
+      const card=document.createElement("div");
+      card.className="card";
+      card.innerHTML=`
+        <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
+        <div class="summary">${a.summary||""}</div>
+        <div class="source">${a.source} • ${a.published||""}</div>
+      `;
+      container.appendChild(card);
+      if(count%4===0){
+        const ad=document.createElement("div");
+        ad.className="ads-section";
+        ad.innerHTML=`<ins class="adsbygoogle"
+          style="display:block"
+          data-ad-client="ca-pub-1511379920245657"
+          data-ad-slot="2322607708"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>`;
+        container.appendChild(ad);
+        (adsbygoogle=window.adsbygoogle||[]).push({});
+      }
     });
+    loadTrending(data.articles.slice(0,5));
+  }catch(err){
+    container.innerHTML="<p style='text-align:center'>Failed to load news.</p>";
+  }
 }
 
-function loadMore() {
-    page++;
-    loadNews();
+function searchNews(){
+  const q=document.getElementById("searchInput").value.trim();
+  page=1;
+  loadNews(q||"technology");
 }
 
-loadNews(); // Load first set
+// Load More function
+function loadMoreNews(){
+  page++;
+  loadNews(currentTopic, true);
+}
+
+// Trending Carousel
+function loadTrending(topArticles){
+  const track=document.getElementById("carousel-track");
+  track.innerHTML="";
+  if(topArticles.length === 0) return;
+  topArticles.forEach(a=>{
+    const item=document.createElement("div");
+    item.className="item";
+    item.innerHTML=`<a href="${a.url}" target="_blank">${a.title}</a>`;
+    track.appendChild(item);
+  });
+  if(topArticles.length === 1) return;
+  let index=0;
+  setInterval(()=>{
+    index = (index+1) % topArticles.length;
+    track.style.transform=`translateX(-${index*100}%)`;
+  },5000);
+}
+
+// Initialize floating AdSense
+(adsbygoogle=window.adsbygoogle||[]).push({});
+
+// Initial load
+loadNews();
 </script>
 
 </body>
