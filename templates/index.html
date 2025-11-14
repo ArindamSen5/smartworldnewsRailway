@@ -96,6 +96,16 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
 }
+.trending-grid .card {
+  background: #0c66d9;
+  color: white;
+  min-height: 150px;
+}
+.trending-grid .card a {
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
 
 /* News Grid */
 .grid {
@@ -256,7 +266,7 @@ function searchNews(){
   const q = document.getElementById("searchInput").value.trim();
   currentTopic = q || 'technology';
   currentTopic = encodeURIComponent(currentTopic);
-  displayedUrls.clear(); // clear to avoid conflict
+  displayedUrls.clear(); // reset displayed URLs
   loadTrending(); // reload trending
   loadNews(currentTopic, false);
 }
@@ -273,7 +283,8 @@ async function loadTrending(){
   try{
     const res = await fetch(`/api/news?topic=technology&page=1&size=10`);
     const data = await res.json();
-    const trendingArticles = data.articles.filter(a => !displayedUrls.has(a.url)).slice(0,5);
+    // Only latest 4 trending articles, filter duplicates
+    const trendingArticles = data.articles.filter(a => !displayedUrls.has(a.url)).slice(0,4);
 
     trendingArticles.forEach(a => {
       displayedUrls.add(a.url);
