@@ -9,178 +9,204 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
 <style>
+/* Global */
 body {
   font-family: 'Inter', Arial, sans-serif;
-  background:#f1f5f9;
-  margin:0;
-  padding-top:160px;
+  background: #f1f5f9;
+  margin: 0;
+  padding-top: 160px;
 }
+
 /* Header */
 header {
-  background:#0c66d9;
-  color:white;
-  padding:1rem;
-  font-size:1.8rem;
-  text-align:center;
-  font-weight:700;
-  position:fixed;
-  top:0;
-  width:100%;
-  z-index:1000;
-  box-shadow:0 2px 8px rgba(0,0,0,0.25);
+  background: #0c66d9;
+  color: white;
+  padding: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 700;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
+
 /* Topics */
 .topics {
-  display:flex;
-  overflow-x:auto;
-  gap:10px;
-  padding:0.8rem;
-  background:white;
-  box-shadow:0 1px 6px rgba(0,0,0,0.1);
-  position:sticky;
-  top:60px;
-  z-index:999;
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 0.8rem;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 60px;
+  z-index: 999;
 }
 .topics span {
-  padding:6px 12px;
-  background:#e2e8f0;
-  border-radius:20px;
-  cursor:pointer;
-  white-space:nowrap;
-  font-size:0.9rem;
+  padding: 6px 14px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  transition: 0.3s;
 }
-.topics span:hover { background:#0c66d9; color:white; }
+.topics span:hover { background: #0c66d9; color: white; }
+
 /* Search Section */
 .search-section {
-  background:white;
-  padding:1rem;
-  text-align:center;
-  box-shadow:0 1px 6px rgba(0,0,0,0.15);
-  position:sticky;
-  top:110px;
-  z-index:998;
-  display:flex;
-  justify-content:center;
-  gap:10px;
+  background: white;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 110px;
+  z-index: 998;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 .search-section input {
-  width:260px;
-  padding:0.7rem;
-  border-radius:8px;
-  border:1px solid #cbd5e1;
+  width: 260px;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
 }
 .search-section button {
-  background:#0c66d9;
-  color:white;
-  padding:0.7rem 1rem;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
+  background: #0c66d9;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
 }
+.search-section button:hover { background: #0845a8; }
+
 /* Grid */
 .grid {
-  max-width:1200px;
-  margin:1rem auto;
-  padding:0;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:0;
+  max-width: 1200px;
+  margin: 1rem auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+  gap: 1rem; /* spacing between cards */
 }
+
 /* Cards */
 .card {
-  background:white;
-  padding:0.8rem;
-  border-radius:12px;
-  box-shadow:0 1px 4px rgba(0,0,0,0.12);
-  transition:0.2s ease;
-  margin:0;
+  background: white;
+  padding: 0.8rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  transition: 0.2s ease;
 }
 .card:hover {
-  transform:translateY(-3px);
-  box-shadow:0 3px 10px rgba(0,0,0,0.18);
+  transform: translateY(-3px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
 }
 .card img {
-  width:100%;
-  height:auto;
-  border-radius:12px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
 }
 .card-title a {
-  text-decoration:none;
-  color:#0f172a;
-  font-weight:700;
-  font-size:1.15rem;
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 1.15rem;
 }
-.summary { color:#475569; margin-top:0.4rem; font-size:0.92rem; }
-.source { color:#64748b; margin-top:0.4rem; font-size:0.8rem; }
+.summary { color: #475569; margin-top: 0.4rem; font-size: 0.92rem; }
+.source { color: #64748b; margin-top: 0.4rem; font-size: 0.8rem; }
+
 /* Ads Section */
 .ads-section {
-  text-align:center;
-  margin:0.8rem 0;
-  grid-column:1/-1;
+  text-align: center;
+  margin: 1rem 0;
+  grid-column: 1/-1;
 }
+
 /* Amazon Grid */
-.amazon-grid a { text-decoration:none; color:black; }
+.amazon-grid a { text-decoration: none; color: black; }
+.amazon-grid .card { text-align: center; }
+.amazon-grid h3 { margin: 0.5rem 0; font-size: 1rem; }
+
 /* Section Title */
-.section-title { text-align:center; margin-top:40px; }
+.section-title { text-align: center; margin-top: 40px; font-size: 1.4rem; font-weight: 700; }
+
 /* Footer */
 footer {
-  text-align:center;
-  padding:1rem;
-  background:#e2e8f0;
-  color:#475569;
-  margin-top:2rem;
+  text-align: center;
+  padding: 1rem;
+  background: #e2e8f0;
+  color: #475569;
+  margin-top: 2rem;
 }
+
 /* Floating banners */
-.floating-banner {
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  z-index:1000;
+.floating-banner, .floating-adsense {
+  position: fixed;
+  bottom: 20px;
+  z-index: 1000;
 }
-.floating-banner img {
-  width:120px;
-  border-radius:10px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
-  cursor:pointer;
+.floating-banner { right: 20px; }
+.floating-adsense { left: 20px; }
+.floating-banner img, .floating-adsense img {
+  width: 120px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
 }
-.floating-adsense {
-  position:fixed;
-  bottom:20px;
-  left:20px;
-  z-index:1000;
-}
+
 /* Trending carousel */
 .trending-carousel {
-  max-width:1200px;
-  margin:1.5rem auto;
-  overflow:hidden;
-  position:relative;
-  border-radius:12px;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 .trending-carousel .track {
-  display:flex;
-  transition:transform 0.5s ease;
+  display: flex;
+  transition: transform 0.5s ease;
 }
 .trending-carousel .item {
-  min-width:100%;
-  padding:0.8rem 1rem;
-  box-sizing:border-box;
+  min-width: 100%;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
 }
 .trending-carousel .item a {
-  text-decoration:none;
-  color:#0c66d9;
-  font-weight:700;
-  font-size:1rem;
+  text-decoration: none;
+  color: #0c66d9;
+  font-weight: 700;
+  font-size: 1rem;
 }
+
+/* Load More Button */
+#loadMoreBtn {
+  display: block;
+  margin: 1.5rem auto;
+  padding: 0.8rem 1.5rem;
+  background: #0c66d9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+#loadMoreBtn:hover { background: #0845a8; }
+
 @media(max-width:768px){
   .grid { grid-template-columns:1fr; }
-  .search-section input { width:70%; }
-  .floating-banner img { width:100px; }
+  .search-section input { width: 70%; }
+  .floating-banner img { width: 100px; }
+  .floating-adsense { display: none; }
 }
 </style>
-
 </head>
 <body>
 
@@ -212,6 +238,9 @@ footer {
 <div id="news-container" class="grid">
   <p style="grid-column:1/-1; text-align:center;">Loading latest tech news...</p>
 </div>
+
+<!-- Load More Button -->
+<button id="loadMoreBtn" onclick="loadMoreNews()">Load More News</button>
 
 <!-- Amazon Affiliate Section -->
 <h2 class="section-title">🔥 Top Tech Deals</h2>
@@ -253,14 +282,18 @@ footer {
 </footer>
 
 <script>
-// Load news
-async function loadNews(topic="technology"){
+let page=1; // for Load More
+let currentTopic="technology";
+
+// Load news function
+async function loadNews(topic="technology", append=false){
+  currentTopic = topic;
   const container=document.getElementById("news-container");
-  container.innerHTML="<p>Loading news...</p>";
+  if(!append) container.innerHTML="<p style='grid-column:1/-1;text-align:center;'>Loading news...</p>";
   try{
-    const res=await fetch(`/api/news?topic=${encodeURIComponent(topic)}`);
+    const res=await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${page}`);
     const data=await res.json();
-    container.innerHTML="";
+    if(!append) container.innerHTML="";
     let count=0;
     data.articles.forEach(a=>{
       count++;
@@ -290,31 +323,43 @@ async function loadNews(topic="technology"){
     container.innerHTML="<p style='text-align:center'>Failed to load news.</p>";
   }
 }
+
 function searchNews(){
   const q=document.getElementById("searchInput").value.trim();
+  page=1;
   loadNews(q||"technology");
 }
-loadNews();
+
+// Load More function
+function loadMoreNews(){
+  page++;
+  loadNews(currentTopic, true);
+}
 
 // Trending Carousel
 function loadTrending(topArticles){
   const track=document.getElementById("carousel-track");
   track.innerHTML="";
+  if(topArticles.length === 0) return;
   topArticles.forEach(a=>{
     const item=document.createElement("div");
     item.className="item";
     item.innerHTML=`<a href="${a.url}" target="_blank">${a.title}</a>`;
     track.appendChild(item);
   });
+  if(topArticles.length === 1) return;
   let index=0;
   setInterval(()=>{
-    index = (index+1)%topArticles.length;
+    index = (index+1) % topArticles.length;
     track.style.transform=`translateX(-${index*100}%)`;
   },5000);
 }
 
 // Initialize floating AdSense
 (adsbygoogle=window.adsbygoogle||[]).push({});
+
+// Initial load
+loadNews();
 </script>
 
 </body>
