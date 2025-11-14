@@ -95,14 +95,17 @@ header {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 0.8rem;
-  position: relative;
 }
 .trending-grid .card {
   background: #0c66d9;
   color: white;
   min-height: 120px;
   position: relative;
-  padding-top: 1.2rem; /* space for badge */
+  padding: 1rem;
+  padding-top: 2rem; /* space for badge */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .trending-grid .card a {
   color: white;
@@ -167,6 +170,7 @@ header {
 .source {
   color: #64748b;
   font-size: 0.85rem;
+  margin-top: auto;
 }
 
 /* Footer */
