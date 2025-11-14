@@ -6,7 +6,6 @@
 <title>SmartWorld – Latest Tech News</title>
 
 <style>
-/* Base */
 body {
   font-family: 'Inter', Arial, sans-serif;
   background: #f1f5f9;
@@ -203,12 +202,7 @@ footer {
 </div>
 
 <!-- Trending Carousel -->
-<div class="trending-carousel" id="trending-carousel">
-  <div class="item"><a href="#">Top AI breakthrough in 2025</a></div>
-  <div class="item"><a href="#">New smartphone trends</a></div>
-  <div class="item"><a href="#">SpaceX latest mission</a></div>
-  <div class="item"><a href="#">Cybersecurity tips for everyone</a></div>
-</div>
+<div class="trending-carousel" id="trending-carousel"></div>
 
 <!-- News Grid -->
 <div id="news-container" class="grid"></div>
@@ -267,7 +261,6 @@ async function loadNews(topic = 'technology', append = false){
 function searchNews(){
   const q = document.getElementById("searchInput").value.trim();
   currentTopic = q || 'technology';
-  // Encode spaces and special characters
   currentTopic = encodeURIComponent(currentTopic);
   loadNews(currentTopic, false);
 }
@@ -277,8 +270,28 @@ document.getElementById("loadMoreBtn").addEventListener('click', ()=>{
   loadNews(currentTopic, true);
 });
 
+// Load Trending News dynamically
+async function loadTrending(){
+  const container = document.getElementById("trending-carousel");
+  container.innerHTML = '';
+  try{
+    const res = await fetch(`/api/news?topic=technology&page=1&size=5`);
+    const data = await res.json();
+    data.articles.forEach(a=>{
+      const item = document.createElement("div");
+      item.className = "item";
+      item.innerHTML = `<a href="${a.url}" target="_blank">${a.title}</a>`;
+      container.appendChild(item);
+    });
+  } catch(err){
+    console.error(err);
+    container.innerHTML = '<p style="text-align:center;">Trending news not available.</p>';
+  }
+}
+
 // Initial load
 loadNews(currentTopic);
+loadTrending();
 </script>
 
 </body>
