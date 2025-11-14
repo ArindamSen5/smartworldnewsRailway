@@ -1,137 +1,353 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>News Portal</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>QuickTech — Short Tech News (Inshorts-style)</title>
+<meta name="description" content="QuickTech — short, punchy tech news. Stay updated with bite-sized stories, deals, and trending headlines." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- Google AdSense: replace ca-pub with your publisher id -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511379920245657" crossorigin="anonymous"></script>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f5f5f5;
-    }
+  :root{
+    --bg:#f7fafc; --card:#fff; --muted:#6b7280; --accent:#0c66d9; --max-w:980px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    background:var(--bg); color:#0b1320; -webkit-font-smoothing:antialiased;
+    padding-top:124px;
+  }
 
-    header {
-        background: #ffffff;
-        padding: 15px 20px;
-        font-size: 22px;
-        font-weight: bold;
-        border-bottom: 1px solid #ddd;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
+  /* Header */
+  header.fixed {
+    position:fixed; top:0; left:0; right:0; height:64px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:10px 14px; z-index:1200; background:linear-gradient(90deg,var(--accent),#0956c0);
+    color:white; box-shadow:0 6px 18px rgba(2,6,23,0.12);
+  }
+  .brand { display:flex; gap:10px; align-items:center; font-weight:700; }
+  .logo { width:44px;height:44px;border-radius:8px;background:#ffffff;color:var(--accent);
+    display:grid;place-items:center;font-weight:800; }
 
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 20px;
-    }
+  /* Topbar - categories + search */
+  .topbar {
+    position:fixed; top:64px; left:0; right:0; z-index:1190; display:flex; gap:10px;
+    padding:10px 12px; align-items:center; background:white; box-shadow:0 1px 6px rgba(2,6,23,0.04);
+  }
+  .cats{ display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:4px; }
+  .cat{ padding:8px 12px; border-radius:999px; background:#eef2ff; color:#063b8a; font-weight:700; cursor:pointer; white-space:nowrap; }
+  .cat.active{ background:var(--accent); color:#fff; }
 
-    /* News Card */
-    .news-card {
-        background: #fff;
-        padding: 16px;
-        border-radius: 10px;
-        margin-bottom: 18px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        cursor: pointer;
-        transition: 0.2s;
-    }
+  .search {
+    margin-left:auto; display:flex; gap:8px; align-items:center;
+  }
+  .search input{ padding:8px 12px; border-radius:999px; border:1px solid #e6eefc; min-width:150px; }
 
-    .news-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-    }
+  /* Main */
+  main.container{ max-width:var(--max-w); margin:18px auto; padding:0 14px 80px; }
 
-    .title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #222;
-    }
+  /* Trending micro-strip */
+  .trending{ display:flex; align-items:center; gap:12px; background:#fff; padding:10px; border-radius:10px; box-shadow:0 6px 18px rgba(2,6,23,0.03); margin-bottom:12px; overflow:hidden; }
+  .trend-item{ color:var(--accent); font-weight:700; white-space:nowrap; }
 
-    .description {
-        font-size: 14px;
-        color: #555;
-        line-height: 1.5;
-    }
+  /* List cards (Inshorts style - compact) */
+  .list{ display:grid; gap:12px; grid-template-columns:1fr; }
+  .card{
+    display:flex; gap:12px; background:var(--card); border-radius:12px; padding:12px; box-shadow:0 8px 28px rgba(2,6,23,0.03);
+    cursor:pointer; transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .card:hover{ transform:translateY(-6px); box-shadow:0 22px 60px rgba(2,6,23,0.06); }
+  .thumb{ width:110px; height:78px; flex:0 0 110px; border-radius:8px; overflow:hidden; background:#eef3ff; }
+  .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .content{ flex:1; display:flex; flex-direction:column; gap:6px; }
+  .title{ font-weight:800; font-size:1rem; color:#07102a; line-height:1.2; }
+  .excerpt{ color:var(--muted); font-size:0.92rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .meta{ display:flex; gap:8px; align-items:center; color:var(--muted); font-size:0.82rem; margin-top:6px; }
+  .source{ background:#f1f5f9; padding:6px 8px; border-radius:999px; font-weight:700; color:var(--accent); font-size:0.78rem; }
 
-    /* Load More Button */
-    .load-more {
-        display: block;
-        width: 100%;
-        background: #0078ff;
-        color: #fff;
-        padding: 12px;
-        text-align: center;
-        font-size: 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        margin: 20px 0;
-        border: none;
-    }
+  /* Ad row (full width) */
+  .ad-row{ display:flex; justify-content:center; padding:8px 0; }
 
-    .load-more:hover {
-        background: #005fcc;
-    }
+  /* Load more */
+  .loader{ text-align:center; color:var(--muted); padding:18px 0; }
+  .btn{ display:inline-block; background:var(--accent); color:#fff; padding:10px 14px; border-radius:10px; font-weight:700; border:0; cursor:pointer; }
+
+  /* Affiliate section */
+  .deals{ margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+  .deal{ background:#fff; border-radius:12px; overflow:hidden; padding:12px; text-align:center; box-shadow:0 8px 18px rgba(2,6,23,0.03); }
+  .deal img{ width:100%; height:140px; object-fit:cover; border-radius:8px; }
+
+  footer{ text-align:center; color:var(--muted); margin-top:24px; padding:24px 10px; }
+
+  @media(max-width:640px){
+    .thumb{ width:98px; height:72px; flex:0 0 98px; }
+    body{ padding-top:112px; }
+    .topbar{ top:60px; }
+  }
 </style>
 </head>
-
 <body>
 
-<header>Daily News</header>
+<header class="fixed" role="banner">
+  <div class="brand"><div class="logo">QT</div><div>QuickTech</div></div>
+  <div style="font-weight:700">Short Tech News</div>
+</header>
 
-<div class="container" id="news-container">
-    <!-- News will load here -->
+<div class="topbar" role="navigation" aria-label="categories and search">
+  <div class="cats" id="categories">
+    <div class="cat active" data-topic="technology">Technology</div>
+    <div class="cat" data-topic="ai">AI</div>
+    <div class="cat" data-topic="mobile">Mobile</div>
+    <div class="cat" data-topic="gadgets">Gadgets</div>
+    <div class="cat" data-topic="startups">Startups</div>
+    <div class="cat" data-topic="space">Space</div>
+    <div class="cat" data-topic="security">Cybersecurity</div>
+  </div>
+
+  <div class="search" role="search">
+    <input id="q" placeholder="Search (e.g. AI, Meta)"/>
+    <button id="searchBtn" class="btn">Search</button>
+  </div>
 </div>
 
-<button class="load-more" onclick="loadMore()">Load More</button>
+<main class="container" id="main">
+  <div class="trending" id="trending">
+    <div class="trend-item" id="trend-track">Loading trending…</div>
+  </div>
+
+  <section id="news" class="list" aria-live="polite">
+    <div class="loader">Loading stories…</div>
+  </section>
+
+  <!-- sentinel for intersection observer (infinite scroll) -->
+  <div id="sentinel" style="height:1px"></div>
+
+  <!-- affiliate deals -->
+  <h3 style="margin-top:20px">🔥 Top Deals</h3>
+  <div class="deals">
+    <!-- Example affiliate cards (replace href with your affiliate URLs) -->
+    <div class="deal" onclick="window.open('https://www.amazon.in/l/1388921031?tag=online0c2b4-21','_blank')">
+      <img src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg" alt="smartphones"/>
+      <div style="font-weight:800;margin-top:8px">Smartphone Deals</div>
+      <div style="color:var(--muted);margin-top:6px">Top discounts and best buys</div>
+    </div>
+
+    <div class="deal" onclick="window.open('https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21','_blank')">
+      <img src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg" alt="smartwatch"/>
+      <div style="font-weight:800;margin-top:8px">Smartwatches</div>
+      <div style="color:var(--muted);margin-top:6px">Budget & premium picks</div>
+    </div>
+
+    <div class="deal" onclick="window.open('https://www.amazon.in/s?k=headphone&tag=online0c2b4-21','_blank')">
+      <img src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg" alt="headphones"/>
+      <div style="font-weight:800;margin-top:8px">Headphones</div>
+      <div style="color:var(--muted);margin-top:6px">Gaming & audio favorites</div>
+    </div>
+  </div>
+
+  <footer>© 2025 QuickTech • Built with Flask • Monetized with AdSense & Affiliate</footer>
+</main>
 
 <script>
+/*
+  INTEGRATION NOTES:
+  - Your backend should expose: /api/news?topic=TOPIC&page=PAGE
+    It should return JSON: { articles: [{title, summary, url, image, source, published}], pageSize: N }
+  - Replace AdSense client and ad-slot IDs in ad-row placeholders before publishing.
+  - Replace affiliate URLs with your real affiliate tagged URLs.
+*/
+
+/* Simple client-side logic:
+   - infinite scroll via IntersectionObserver
+   - clickable cards WITHOUT <a href> (card onclick opens URL in new tab)
+   - inject ad rows every 6 items (AdSense inline).
+*/
+
 let page = 1;
+let topic = 'technology';
+let loading = false;
+let noMore = false;
 
-function openNews(url) {
-    window.open(url, "_blank");
+const newsEl = document.getElementById('news');
+const sentinel = document.getElementById('sentinel');
+const categories = document.getElementById('categories');
+
+// helpers
+const esc = s => (s? String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;') : '');
+const safeUrl = u => { try{ return encodeURI(u||'#') }catch(e){ return '#'; } };
+
+// Create card element (no <a href>)
+function createCard(article){
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.onclick = () => { if(article.url) window.open(article.url, '_blank'); };
+
+  const thumb = document.createElement('div');
+  thumb.className = 'thumb';
+  if(article.image){
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.src = article.image;
+    img.alt = article.title || 'news';
+    thumb.appendChild(img);
+  } else {
+    // placeholder
+    thumb.style.background = '#eef3ff';
+  }
+
+  const content = document.createElement('div');
+  content.className = 'content';
+  const title = document.createElement('div');
+  title.className = 'title';
+  title.innerText = article.title || 'Untitled';
+
+  const excerpt = document.createElement('div');
+  excerpt.className = 'excerpt';
+  excerpt.innerText = article.summary || article.description || '';
+
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  const source = document.createElement('div');
+  source.className = 'source';
+  source.innerText = article.source || 'Source';
+  const published = document.createElement('div');
+  published.style.marginLeft = 'auto';
+  published.style.fontSize = '0.82rem';
+  published.style.color = 'var(--muted)';
+  published.innerText = article.published || '';
+
+  meta.appendChild(source);
+  meta.appendChild(published);
+
+  content.appendChild(title);
+  content.appendChild(excerpt);
+  content.appendChild(meta);
+
+  card.appendChild(thumb);
+  card.appendChild(content);
+
+  return card;
 }
 
-async function loadNews() {
-    try {
-        // Replace with your API URL
-        const api = `https://your-api-url.com/news?page=${page}`;
+async function fetchNews(append=false){
+  if(loading || noMore) return;
+  loading = true;
+  if(!append){
+    newsEl.innerHTML = '<div class="loader">Loading stories…</div>';
+    noMore = false;
+  } else {
+    const loader = document.createElement('div'); loader.className = 'loader'; loader.innerText='Loading more…';
+    newsEl.appendChild(loader);
+  }
 
-        const res = await fetch(api);
-        const data = await res.json();
+  try{
+    // CHANGE THIS to your real API endpoint
+    const resp = await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${page}`);
+    if(!resp.ok) throw new Error('Network error');
+    const json = await resp.json();
+    const articles = json.articles || [];
 
-        const container = document.getElementById("news-container");
+    // remove loaders
+    Array.from(newsEl.querySelectorAll('.loader')).forEach(x => x.remove());
 
-        data.forEach(item => {
-            const card = document.createElement("div");
-            card.className = "news-card";
-            card.onclick = () => openNews(item.url); // CLICKABLE WITHOUT <a>
+    if(!append) newsEl.innerHTML = '';
 
-            card.innerHTML = `
-                <div class="title">${item.title}</div>
-                <div class="description">${item.description}</div>
-            `;
-
-            container.appendChild(card);
-        });
-
-    } catch (e) {
-        console.error("Error loading news:", e);
+    if(articles.length === 0){
+      if(!append) newsEl.innerHTML = '<div class="loader">No stories found.</div>';
+      noMore = true;
+      return;
     }
+
+    // append cards & ads
+    articles.forEach((a, idx) => {
+      const card = createCard(a);
+      newsEl.appendChild(card);
+
+      // insert ad every 6 items (change frequency as you like)
+      const globalIdx = ((page-1) * (json.pageSize || 10)) + idx + 1;
+      if(globalIdx % 6 === 0){
+        const adRow = document.createElement('div');
+        adRow.className = 'ad-row';
+        // Inline AdSense slot (update data-ad-slot and client)
+        adRow.innerHTML = `
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1511379920245657"
+               data-ad-slot="2322607708"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>`;
+        newsEl.appendChild(adRow);
+        try{ (adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
+      }
+    });
+
+    // trending: if first page, populate top 5 in the micro-strip
+    if(page === 1){
+      populateTrending(articles.slice(0,5));
+    }
+
+    // pagination heuristics
+    if(articles.length < (json.pageSize || 10)){
+      noMore = true;
+    } else {
+      noMore = false;
+    }
+  }catch(err){
+    console.error(err);
+    if(!append) newsEl.innerHTML = '<div class="loader">Failed to load stories.</div>';
+  } finally {
+    loading = false;
+  }
 }
 
-function loadMore() {
-    page++;
-    loadNews();
+// trending micro-strip simple rotation
+function populateTrending(items){
+  const track = document.getElementById('trend-track');
+  if(!items || items.length === 0){ track.innerText = 'No trending stories'; return; }
+  let idx = 0;
+  track.innerText = items[0].title || '—';
+  if(items.length > 1){
+    setInterval(()=>{ idx = (idx+1) % items.length; track.innerText = items[idx].title || ''; }, 4000);
+  }
 }
 
-// Load first page
-loadNews();
+// categories click
+document.getElementById('categories').addEventListener('click', (e)=>{
+  const el = e.target.closest('.cat');
+  if(!el) return;
+  document.querySelectorAll('.cat').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  topic = el.dataset.topic || el.textContent.trim().toLowerCase();
+  page = 1; noMore = false;
+  fetchNews(false);
+});
+
+// search
+document.getElementById('searchBtn').addEventListener('click', ()=>{
+  const q = document.getElementById('q').value.trim();
+  if(!q) return;
+  topic = q;
+  page = 1; noMore = false;
+  fetchNews(false);
+});
+document.getElementById('q').addEventListener('keydown', (e)=>{ if(e.key === 'Enter') document.getElementById('searchBtn').click(); });
+
+// infinite scroll sentinel
+const io = new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting && !loading && !noMore){
+    page++; fetchNews(true);
+  }
+}, {root:null, rootMargin:'400px'});
+io.observe(sentinel);
+
+// initial load
+fetchNews();
+
+/* OPTIONAL: register service worker, analytics, etc. Insert your GA/FB pixel here if needed. */
 </script>
-
 </body>
 </html>
