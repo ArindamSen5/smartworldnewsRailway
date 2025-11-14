@@ -6,153 +6,185 @@
 <title>SmartWorld – Latest Tech News</title>
 
 <style>
+/* Base */
 body {
   font-family: 'Inter', Arial, sans-serif;
-  background:#f1f5f9;
-  margin:0;
-  padding-top:160px;
+  background: #f1f5f9;
+  margin: 0;
+  padding-top: 160px;
 }
 
 /* Header */
 header {
-  background:#0c66d9;
-  color:white;
-  padding:1rem;
-  font-size:1.8rem;
-  text-align:center;
-  font-weight:700;
-  position:fixed;
-  top:0;
-  width:100%;
-  z-index:1000;
-  box-shadow:0 2px 8px rgba(0,0,0,0.25);
+  background: #0c66d9;
+  color: white;
+  padding: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 700;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
 /* Topics */
 .topics {
-  display:flex;
-  overflow-x:auto;
-  gap:10px;
-  padding:0.8rem;
-  background:white;
-  box-shadow:0 1px 6px rgba(0,0,0,0.1);
-  position:sticky;
-  top:60px;
-  z-index:999;
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 0.8rem;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 70px;
+  z-index: 999;
 }
 .topics span {
-  padding:6px 12px;
-  background:#e2e8f0;
-  border-radius:20px;
-  cursor:pointer;
-  white-space:nowrap;
-  font-size:0.9rem;
+  padding: 6px 12px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.9rem;
 }
-.topics span:hover { background:#0c66d9; color:white; }
+.topics span:hover {
+  background: #0c66d9;
+  color: white;
+}
 
 /* Search Section */
 .search-section {
-  background:white;
-  padding:1rem;
-  text-align:center;
-  box-shadow:0 1px 6px rgba(0,0,0,0.15);
-  position:sticky;
-  top:110px;
-  z-index:998;
-  display:flex;
-  justify-content:center;
-  gap:10px;
+  background: white;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 120px;
+  z-index: 998;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 .search-section input {
-  width:260px;
-  padding:0.7rem;
-  border-radius:8px;
-  border:1px solid #cbd5e1;
+  flex: 1;
+  min-width: 150px;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
 }
 .search-section button {
-  background:#0c66d9;
-  color:white;
-  padding:0.7rem 1rem;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
+  background: #0c66d9;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Trending Carousel */
+.trending-carousel {
+  max-width: 1200px;
+  margin: 2rem auto;
+  overflow: hidden;
+  position: relative;
+}
+.trending-carousel .track {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.5s ease-in-out;
+}
+.trending-carousel .item {
+  min-width: 300px;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  flex-shrink: 0;
+}
+.trending-carousel .item a {
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 700;
 }
 
 /* News Grid */
 .grid {
-  max-width:1200px;
-  margin:1.5rem auto;
-  padding:0 1rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
-  gap:1rem;
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+  gap: 1rem;
 }
 
 /* Cards */
 .card {
-  background:white;
-  display:flex;
-  flex-direction:column;
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.12);
-  transition:0.2s ease;
-  padding:1rem;
-  min-height:150px; /* uniform card height */
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transition: 0.2s ease;
+  padding: 1rem;
+  min-height: 180px;
 }
 .card:hover {
-  transform:translateY(-5px);
-  box-shadow:0 4px 12px rgba(0,0,0,0.18);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
 }
 .card-title a {
-  text-decoration:none;
-  color:#0f172a;
-  font-weight:700;
-  font-size:1.15rem;
-  display:block;
-  margin-bottom:0.5rem;
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 1.15rem;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 .summary {
-  color:#475569;
-  display:-webkit-box;
-  -webkit-line-clamp:3;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-  margin-bottom:0.5rem;
+  color: #475569;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
 }
 .source {
-  color:#64748b;
-  font-size:0.85rem;
+  color: #64748b;
+  font-size: 0.85rem;
 }
 
 /* Section Title */
-.section-title { text-align:center; margin-top:40px; }
+.section-title { text-align: center; margin-top: 40px; }
 
 /* Footer */
 footer {
-  text-align:center;
-  padding:1rem;
-  background:#e2e8f0;
-  color:#475569;
-  margin-top:2rem;
+  text-align: center;
+  padding: 1rem;
+  background: #e2e8f0;
+  color: #475569;
+  margin-top: 2rem;
 }
 
 /* Load More Button */
 .load-more-btn {
-  display:block;
-  margin:1rem auto 2rem auto;
-  padding:0.7rem 1.2rem;
-  background:#0c66d9;
-  color:white;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:700;
+  display: block;
+  margin: 1rem auto 2rem auto;
+  padding: 0.7rem 1.2rem;
+  background: #0c66d9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
 }
 
 @media(max-width:768px){
-  .grid { grid-template-columns:1fr; }
-  .search-section input { width:70%; }
+  .grid { grid-template-columns: 1fr; }
+  .search-section input { width: 70%; }
 }
 </style>
 </head>
@@ -176,10 +208,8 @@ footer {
 </div>
 
 <!-- Trending Carousel -->
-<div class="trending-carousel" id="trending-carousel" style="max-width:1200px;margin:2rem auto;overflow:hidden;">
-  <div class="track" id="carousel-track">
-  
-  </div>
+<div class="trending-carousel" id="trending-carousel">
+  <div class="track" id="carousel-track"></div>
 </div>
 
 <!-- News Grid -->
@@ -195,8 +225,9 @@ let currentTopic = 'technology';
 let currentPage = 1;
 const pageSize = 6;
 
+// Load News
 async function loadNews(topic = 'technology', append = false){
-  if(!append) {
+  if(!append){
     currentPage = 1;
     document.getElementById('news-container').innerHTML = '';
   }
@@ -205,8 +236,9 @@ async function loadNews(topic = 'technology', append = false){
     const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${currentPage}&size=${pageSize}`);
     const data = await res.json();
 
-    if(data.articles.length === 0 && !append) {
+    if(data.articles.length === 0 && !append){
       container.innerHTML = '<p style="text-align:center;">No news found.</p>';
+      document.getElementById("loadMoreBtn").style.display="none";
       return;
     }
 
@@ -216,13 +248,19 @@ async function loadNews(topic = 'technology', append = false){
       card.innerHTML = `
         <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
         <div class="summary">${a.summary || ''}</div>
-        <div class="source">${a.source} • ${a.published || ''}</div>
+        <div class="source">${a.source || ''} • ${a.published || ''}</div>
       `;
       container.appendChild(card);
     });
 
     currentPage++;
-  }catch(err){
+    // Hide Load More if less than pageSize
+    if(data.articles.length < pageSize){
+      document.getElementById("loadMoreBtn").style.display="none";
+    } else {
+      document.getElementById("loadMoreBtn").style.display="block";
+    }
+  } catch(err){
     console.error(err);
     if(!append) container.innerHTML="<p style='text-align:center'>Failed to load news.</p>";
   }
@@ -230,8 +268,8 @@ async function loadNews(topic = 'technology', append = false){
 
 // Search
 function searchNews(){
-  const q=document.getElementById("searchInput").value.trim();
-  currentTopic = q || 'technology';
+  const q = document.getElementById("searchInput").value.trim();
+  currentTopic = encodeURIComponent(q) || 'technology';
   loadNews(currentTopic, false);
 }
 
@@ -245,21 +283,15 @@ loadNews(currentTopic);
 
 // Trending Carousel
 function loadTrending(topArticles){
-  const track=document.getElementById("carousel-track");
-  track.innerHTML="";
+  const track = document.getElementById("carousel-track");
+  track.innerHTML = "";
   topArticles.forEach(a=>{
-    const item=document.createElement("div");
-    item.className="item";
-    item.innerHTML=`<a href="${a.url}" target="_blank">${a.title}</a>`;
+    const item = document.createElement("div");
+    item.className = "item";
+    item.innerHTML = `<a href="${a.url}" target="_blank">${a.title}</a>`;
     track.appendChild(item);
   });
-  let index=0;
+  let index = 0;
   setInterval(()=>{
-    index = (index+1)%topArticles.length;
-    track.style.transform=`translateX(-${index*100}%)`;
-  },5000);
-}
-</script>
-
-</body>
-</html>
+    index = (index + 1) % topArticles.length;
+    track.style.transform = `transl
