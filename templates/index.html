@@ -1,301 +1,474 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inshort News – Clean UI</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SmartWorld – Latest Technology News & Product Insights</title>
+<meta name="description" content="SmartWorld — Latest technology & AI news. Now with product management insights, device tracking, and an improved, stable UI with dark mode and 'Load More' news." />
+<meta name="keywords" content="technology, AI, gadgets, product management, device tracking, news" />
+<link rel="canonical" href="https://web-production-6fb1.up.railway.app/" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="SmartWorld – Latest Technology News & Product Insights" />
+<meta property="og:description" content="Latest technology & AI news. Product management and device-tracking ideas integrated with SmartWorld." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://web-production-6fb1.up.railway.app/" />
+<meta property="og:image" content="https://web-production-6fb1.up.railway.app/og-image.png" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SmartWorld – Latest Technology News & Product Insights" />
+<meta name="twitter:description" content="Latest technology & AI news. Product management and device-tracking ideas integrated with SmartWorld." />
+
+<!-- Google AdSense (kept async & non-blocking) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+  crossorigin="anonymous" ></script>
 
 <style>
-/* ---------- THEME VARIABLES ---------- */
-:root {
-  --bg: #f5f5f7;
-  --text: #000;
-  --card-bg: #fff;
-  --text-light: #555;
-  --shadow: 0 3px 12px rgba(0,0,0,0.12);
-  --header-bg: #ffffff;
-}
+  :root{
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --muted: #64748b;
+    --accent: #0c66d9;
+    --text: #0f172a;
+    --glass: rgba(15,23,42,0.04);
+  }
+  [data-theme="dark"]{
+    --bg:#071026;
+    --card:#07182a;
+    --muted:#9fb0c6;
+    --accent:#4ea8ff;
+    --text:#e6f0ff;
+    --glass: rgba(255,255,255,0.03);
+  }
 
-.dark-mode {
-  --bg: #121212;
-  --text: #fff;
-  --card-bg: #1f1f1f;
-  --text-light: #bdbdbd;
-  --shadow: 0 3px 12px rgba(255,255,255,0.06);
-  --header-bg: #1a1a1a;
-}
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body {
+    background:var(--bg);
+    color:var(--text);
+    padding-top:128px;
+    margin:0;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
 
-/* ---------- GLOBAL ---------- */
-body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    font-family: Arial, sans-serif;
-    color: var(--text);
-    transition: 0.3s ease;
-}
+  /* Header */
+  header{
+    position:fixed;top:0;left:0;right:0;height:128px;
+    background:linear-gradient(180deg,var(--accent),#0959b8);
+    color:white;display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;
+    gap:1rem;box-shadow:0 6px 18px rgba(2,6,23,0.25);z-index:1200;
+  }
+  .brand {font-weight:800;font-size:1.25rem;letter-spacing:0.2px}
+  .sub {font-weight:500;font-size:0.86rem;opacity:0.95;margin-left:8px;color:rgba(255,255,255,0.9)}
 
-header {
-    background: var(--header-bg);
-    padding: 16px;
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
+  /* Header controls */
+  .controls {display:flex;align-items:center;gap:0.6rem;}
+  .toggle-btn {
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.06);
+    color:white;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600;
+  }
 
-.container {
-    width: 92%;
-    margin: auto;
-}
+  /* Topics bar */
+  .topics {
+    position:sticky;top:88px;z-index:1100;
+    display:flex;gap:8px;overflow:auto;padding:12px 1rem;background:var(--card);
+    box-shadow:0 2px 8px var(--glass);align-items:center;
+  }
+  .topic {padding:6px 12px;border-radius:999px;background:#e2e8f0;color:var(--text);cursor:pointer;white-space:nowrap;}
+  [data-theme="dark"] .topic {background:rgba(255,255,255,0.06); color:var(--text);}
+  .topic:hover {transform:translateY(-2px);transition:all .15s ease}
 
-/* ---------- TOPICS BAR ---------- */
-.topics {
-    display: flex;
-    overflow-x: auto;
-    gap: 12px;
-    padding: 10px 0;
-}
+  /* Search area */
+  .search-section {
+    position:sticky;top:116px;display:flex;justify-content:center;gap:10px;padding:12px;background:transparent;z-index:1090;
+  }
+  .search-box{display:flex;gap:8px;width:100%;max-width:760px;}
+  .search-box input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);font-size:0.95rem;background:transparent; color:var(--text);}
+  .search-box button{background:var(--accent);border:none;padding:10px 12px;border-radius:10px;color:white;font-weight:700;cursor:pointer;}
 
-.topic-btn {
-    padding: 8px 16px;
-    border-radius: 20px;
-    background: var(--card-bg);
-    box-shadow: var(--shadow);
-    white-space: nowrap;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
+  /* Main grid */
+  main{max-width:1200px;margin:1.25rem auto;padding:0 1rem;}
+  .grid {
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;
+  }
 
-/* ---------- SEARCH ---------- */
-.search-bar {
-    display: flex;
-    margin-top: 14px;
-}
+  /* Card */
+  .card {
+    background:var(--card);border-radius:12px;padding:12px;box-shadow:0 6px 16px var(--glass);overflow:hidden;
+  }
+  .card:hover{transform:translateY(-6px);transition:all .18s ease}
+  .card .media {
+    width:100%;height:160px;border-radius:10px;overflow:hidden;background:linear-gradient(90deg,rgba(0,0,0,0.04),rgba(0,0,0,0.02));
+    display:flex;align-items:center;justify-content:center;
+  }
+  /* Reserve image aspect ratio to avoid CLS */
+  .media img {width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:16/9;}
 
-.search-bar input {
-    flex-grow: 1;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: none;
-    box-shadow: var(--shadow);
-    background: var(--card-bg);
-    color: var(--text);
-}
+  .card-title{font-weight:800;margin-top:10px;font-size:1.05rem;color:var(--text);}
+  .summary{margin-top:6px;color:var(--muted);font-size:0.95rem;min-height:2.6em;}
+  .meta{margin-top:8px;color:var(--muted);font-size:0.83rem}
 
-/* ---------- CAROUSEL ---------- */
-.carousel {
-    margin-top: 18px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-}
+  /* Load more */
+  .load-more-wrap {grid-column:1/-1;display:flex;justify-content:center;margin:1rem 0;}
+  .load-more {background:var(--accent);color:white;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:700;box-shadow:0 6px 18px rgba(12,102,217,0.18)}
+  .load-more[disabled]{opacity:0.5;cursor:not-allowed;box-shadow:none}
 
-.carousel img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-}
+  /* Ads block spans full width without breaking layout */
+  .ads-section {grid-column:1/-1;display:flex;justify-content:center;padding:10px 0}
 
-/* ---------- NEWS GRID ---------- */
-.news-grid {
-    margin-top: 25px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 18px;
-}
+  /* Product Management panel */
+  .pm-panel {grid-column:1/-1;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:14px;border-radius:12px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+  .pm-left {display:flex;gap:12px;align-items:center}
+  .pm-left h3{margin:0;font-size:1.05rem}
+  .pm-cta {background:transparent;border:1px solid rgba(15,23,42,0.06);padding:8px 12px;border-radius:8px;cursor:pointer}
+  [data-theme="dark"] .pm-cta {border-color:rgba(255,255,255,0.06)}
 
-@media (min-width: 768px) {
-    .news-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+  /* Footer */
+  footer{grid-column:1/-1;text-align:center;padding:20px;color:var(--muted);margin-top:26px}
 
-.news-card {
-    background: var(--card-bg);
-    border-radius: 14px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 360px;
-    transition: 0.2s ease;
-    cursor: pointer;
-}
+  /* Loading skeleton */
+  .skeleton {background:linear-gradient(90deg, rgba(0,0,0,0.04), rgba(0,0,0,0.06), rgba(0,0,0,0.04));height:12px;border-radius:6px;opacity:0.7}
 
-.news-card:hover {
-    transform: scale(1.02);
-}
-
-.news-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.news-title {
-    margin-top: 12px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    flex-grow: 1;
-}
-
-.news-desc {
-    font-size: 0.9rem;
-    color: var(--text-light);
-    margin-top: 8px;
-    min-height: 48px;
-}
-
-/* ---------- SHARE ---------- */
-.share-btn {
-    margin-top: 14px;
-    padding: 10px;
-    background: #0077ff;
-    color: #fff;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-/* ---------- AMAZON PRODUCT GRID ---------- */
-.product-grid {
-    margin-top: 30px;
-    display: grid;
-    gap: 18px;
-}
-
-.product-card {
-    background: var(--card-bg);
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    text-align: center;
-}
-
-.product-card img {
-    width: 100%;
-    max-height: 200px;
-    object-fit: contain;
-}
-
-/* ---------- FOOTER ---------- */
-footer {
-    margin-top: 30px;
-    padding: 18px;
-    background: var(--header-bg);
-    text-align: center;
-    color: var(--text-light);
-}
+  @media(max-width:640px){
+    header{height:112px;padding:0.8rem}
+    .media{height:140px}
+  }
 </style>
-
 </head>
 <body>
 
-<!-- ---------- HEADER ---------- -->
 <header>
-  <div class="container">
-    <h2>Inshort News</h2>
-
-    <div class="topics">
-        <div class="topic-btn">Latest</div>
-        <div class="topic-btn">Trending</div>
-        <div class="topic-btn">Tech</div>
-        <div class="topic-btn">Sports</div>
-        <div class="topic-btn">World</div>
-        <div class="topic-btn">India</div>
-    </div>
-
-    <div class="search-bar">
-        <input type="text" placeholder="Search news...">
-    </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="brand">SmartWorld <span class="sub">Tech · AI · Products</span></div>
+  </div>
+  <div class="controls" aria-hidden="false">
+    <button id="themeToggle" class="toggle-btn" aria-pressed="false">🌙 Dark</button>
   </div>
 </header>
 
-<div class="container">
-
-<!-- ---------- CAROUSEL ---------- -->
-<div class="carousel">
-    <img src="https://source.unsplash.com/featured/?news" alt="Trending">
+<!-- Topics bar -->
+<div class="topics" role="toolbar" aria-label="Topics">
+  <div class="topic" data-topic="technology">Technology</div>
+  <div class="topic" data-topic="ai">AI</div>
+  <div class="topic" data-topic="mobile">Mobile</div>
+  <div class="topic" data-topic="gadgets">Gadgets</div>
+  <div class="topic" data-topic="startups">Startups</div>
+  <div class="topic" data-topic="space">Space</div>
+  <div class="topic" data-topic="security">Cybersecurity</div>
 </div>
 
-<!-- ---------- NEWS FEED ---------- -->
-<div class="news-grid" id="newsArea"></div>
+<!-- Search -->
+<div class="search-section">
+  <div class="search-box" role="search" aria-label="Search news">
+    <input id="searchInput" placeholder="Search AI, gadgets, mobile..." aria-label="Search news" />
+    <button id="searchBtn">Search</button>
+  </div>
+</div>
 
-<!-- ---------- AMAZON AFFILIATE ---------- -->
-<h2 style="margin-top: 35px;">Recommended Deals</h2>
-
-<div class="product-grid">
-    <div class="product-card">
-        <img src="https://m.media-amazon.com/images/I/61Q4QeJM1tL._AC_UL320_.jpg">
-        <p>Amazon Bestseller Product</p>
-        <button onclick="window.open('YOUR_AMAZON_AFFILIATE_LINK')">Buy Now</button>
+<main>
+  <!-- Trending carousel (keeps simple, avoids heavy images) -->
+  <section id="trending" class="card" aria-label="Trending">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0">Trending</h3>
+      <small style="color:var(--muted)">Top headlines</small>
     </div>
-</div>
+    <div id="trending-track" style="margin-top:12px;display:flex;gap:12px;overflow:hidden">
+      <div class="skeleton" style="width:30%;height:18px"></div>
+      <div class="skeleton" style="width:30%;height:18px"></div>
+      <div class="skeleton" style="width:30%;height:18px"></div>
+    </div>
+  </section>
 
-</div>
+  <!-- News grid -->
+  <section id="news-container" class="grid" aria-live="polite">
+    <!-- Initial placeholder -->
+    <p style="grid-column:1/-1;text-align:center;color:var(--muted)">Loading latest tech news...</p>
+  </section>
 
-<!-- ---------- FOOTER ---------- -->
-<footer>
-    © 2025 Your News Site. All Rights Reserved.
-</footer>
+  <!-- Product Management panel (brief CTA / demo info) -->
+  <section class="pm-panel" aria-label="Product management">
+    <div class="pm-left">
+      <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(90deg,var(--accent),#0b4fa0);display:flex;align-items:center;justify-content:center;color:white;font-weight:800">PM</div>
+      <div>
+        <h3>Product Management & Device Tracking</h3>
+        <div style="color:var(--muted);font-size:0.92rem">Integrate SmartWorld with SAP Commerce Cloud (Hybris) to manage devices, repairs, and AI-driven maintenance insights.</div>
+      </div>
+    </div>
+    <div>
+      <button class="pm-cta" id="pmCTA">Explore integration →</button>
+    </div>
+  </section>
+
+  <!-- Amazon affiliate grid -->
+  <h2 style="grid-column:1/-1;text-align:center;margin-top:12px">🔥 Top Tech Deals</h2>
+  <div class="grid" style="grid-column:1/-1">
+    <a href="https://www.amazon.in/l/1388921031?tag=online0c2b4-21" target="_blank" class="card" style="display:flex;gap:12px;align-items:center">
+      <div style="width:110px;height:72px;background:#eceff6;border-radius:8px;display:flex;align-items:center;justify-content:center">
+        <img src="https://m.media-amazon.com/images/I/71geVdy6-OS._SL1500_.jpg" alt="Smartphones" style="width:100%;height:100%;object-fit:cover;border-radius:6px" />
+      </div>
+      <div>
+        <strong>Smartphones Deals</strong>
+        <div style="color:var(--muted)">Top 2025 smartphones under best offers. Updated hourly.</div>
+      </div>
+    </a>
+
+    <a href="https://www.amazon.in/s?k=smartwatch&tag=online0c2b4-21" target="_blank" class="card" style="display:flex;gap:12px;align-items:center">
+      <div style="width:110px;height:72px;background:#eceff6;border-radius:8px;display:flex;align-items:center;justify-content:center">
+        <img src="https://m.media-amazon.com/images/I/61aJc8oFvcL._SL1500_.jpg" alt="Smartwatches" style="width:100%;height:100%;object-fit:cover;border-radius:6px" />
+      </div>
+      <div>
+        <strong>Smartwatches</strong>
+        <div style="color:var(--muted)">Best-selling budget smartwatches customers buy the most.</div>
+      </div>
+    </a>
+
+    <a href="https://www.amazon.in/s?k=headphone&tag=online0c2b4-21" target="_blank" class="card" style="display:flex;gap:12px;align-items:center">
+      <div style="width:110px;height:72px;background:#eceff6;border-radius:8px;display:flex;align-items:center;justify-content:center">
+        <img src="https://m.media-amazon.com/images/I/61kZjy3D3NL._SL1500_.jpg" alt="Headphones" style="width:100%;height:100%;object-fit:cover;border-radius:6px" />
+      </div>
+      <div>
+        <strong>Headphones & Gaming Headsets</strong>
+        <div style="color:var(--muted)">Highest commission category for affiliates.</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Floating banner / Adsense placeholders -->
+  <div class="ads-section" aria-hidden="true">
+    <!-- non-blocking ad slot; AdSense will fill if account eligible -->
+    <ins class="adsbygoogle"
+         style="display:block;max-width:970px;width:100%;height:90px"
+         data-ad-client="ca-pub-1511379920245657"
+         data-ad-slot="2322607708"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <div class="load-more-wrap">
+    <button id="loadMoreBtn" class="load-more" aria-label="Load more news">Load More</button>
+  </div>
+
+  <footer>
+    © 2025 SmartWorld | Built Using Flask + AI | Monetized with AdSense & Amazon Affiliate
+  </footer>
+
+</main>
 
 <script>
-/* News Loader */
-const newsList = [
-    {
-        title: "Sample News Title 1",
-        desc: "This is a short summary of the news article.",
-        img: "https://source.unsplash.com/featured/?breaking-news",
-        url: "https://google.com"
-    },
-    {
-        title: "Sample News Title 2",
-        desc: "Another interesting news article description goes here.",
-        img: "https://source.unsplash.com/featured/?politics",
-        url: "https://google.com"
+/*
+  Client-side 'Load More' implementation (Option A):
+  - Fetches a single /api/news?topic=... request (or /api/news for search query),
+  - Stores articles in memory,
+  - Renders in batches of `BATCH_SIZE` (10),
+  - Avoids layout gaps and improves UX with skeletons.
+*/
+
+const BATCH_SIZE = 10;
+let articles = [];      // full list from API
+let displayed = 0;      // count displayed so far
+let currentTopic = 'technology';
+let lastQuery = '';
+
+const newsContainer = document.getElementById('news-container');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+const topics = document.querySelectorAll('.topic');
+const trendingTrack = document.getElementById('trending-track');
+
+async function fetchAllNews(topic = 'technology', query = '') {
+  // unify topic/search into q param for flexibility with your backend
+  const q = query || topic || 'technology';
+  currentTopic = topic;
+  lastQuery = q;
+
+  // Show a lightweight loading state (skeleton)
+  newsContainer.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted)">Loading latest tech news...</p>';
+  trendingTrack.innerHTML = '<div class="skeleton" style="width:30%;height:18px"></div><div class="skeleton" style="width:30%;height:18px"></div><div class="skeleton" style="width:30%;height:18px"></div>';
+
+  try {
+    // Single API call - expecting a large list in .articles
+    const resp = await fetch(`/api/news?topic=${encodeURIComponent(q)}`);
+    if(!resp.ok) throw new Error('Network response not ok');
+    const data = await resp.json();
+
+    // Defensive: ensure array
+    articles = Array.isArray(data.articles) ? data.articles : (data.items || []);
+    displayed = 0;
+
+    if (articles.length === 0) {
+      newsContainer.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted)">No news found.</p>';
+      loadMoreBtn.style.display = 'none';
+      trendingTrack.innerHTML = '';
+      return;
     }
-];
 
-function loadNews() {
-    const box = document.getElementById("newsArea");
+    // Render first batch
+    renderNextBatch();
 
-    newsList.forEach(n => {
-        const card = document.createElement("div");
-        card.className = "news-card";
-        card.onclick = () => window.open(n.url, "_blank");
-
-        card.innerHTML = `
-            <img src="${n.img}" class="news-image">
-            <div class="news-title">${n.title}</div>
-            <div class="news-desc">${n.desc}</div>
-            <div class="share-btn" onclick="event.stopPropagation(); shareNews('${n.title}', '${n.url}')">
-                Share
-            </div>
-        `;
-
-        box.appendChild(card);
-    });
+    // Fill trending with top 5 titles
+    loadTrending(articles.slice(0, Math.min(5, articles.length)));
+  } catch (err) {
+    console.error('Failed to fetch articles', err);
+    newsContainer.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--muted)">Failed to load news.</p>';
+    loadMoreBtn.style.display = 'none';
+    trendingTrack.innerHTML = '';
+  }
 }
 
-loadNews();
+function renderNextBatch() {
+  // Ensure container is ready
+  if(displayed === 0) newsContainer.innerHTML = '';
 
-/* Share Function */
-function shareNews(title, url) {
-    if (navigator.share) {
-        navigator.share({ title, url });
-    } else {
-        window.open(`https://wa.me/?text=${title} - ${url}`);
-    }
+  const slice = articles.slice(displayed, displayed + BATCH_SIZE);
+  slice.forEach(a => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    // If image missing, we show a neutral placeholder DIV to keep aspect ratio
+    const imageHtml = a.image ? `<div class="media"><img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title||'')}" loading="lazy" /></div>` : `<div class="media" aria-hidden="true"><div style="width:30%;height:18px" class="skeleton"></div></div>`;
+    const summary = a.summary ? escapeHtml(a.summary) : '';
+    const source = escapeHtml(a.source || '');
+    const published = escapeHtml(a.published || '');
+    const url = escapeHtml(a.url || '#');
+
+    card.innerHTML = `
+      ${imageHtml}
+      <div class="card-title"><a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(a.title||'Untitled')}</a></div>
+      <div class="summary">${summary}</div>
+      <div class="meta">${source} • ${published}</div>
+    `;
+    newsContainer.appendChild(card);
+  });
+
+  displayed += slice.length;
+
+  // Insert an ad after every 40 items (example) to avoid gaps and respect flow
+  if(displayed % 40 === 0 && displayed < articles.length) {
+    const adWrap = document.createElement('div');
+    adWrap.className = 'ads-section';
+    adWrap.innerHTML = `<ins class="adsbygoogle" style="display:block;max-width:970px;width:100%;height:90px"
+                          data-ad-client="ca-pub-1511379920245657"
+                          data-ad-slot="2322607708"
+                          data-ad-format="auto"
+                          data-full-width-responsive="true"></ins>`;
+    newsContainer.appendChild(adWrap);
+    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){/* ignore */ }
+  }
+
+  // Hide button if nothing left
+  if(displayed >= articles.length) {
+    loadMoreBtn.disabled = true;
+    loadMoreBtn.textContent = 'No more news';
+    setTimeout(()=> { loadMoreBtn.style.display = 'none'; }, 800);
+  } else {
+    loadMoreBtn.disabled = false;
+    loadMoreBtn.style.display = 'inline-block';
+    loadMoreBtn.textContent = 'Load More';
+  }
 }
 
-/* Dark Mode */
-function toggleMode() {
-    document.body.classList.toggle("dark-mode");
+// Minimal escaping to avoid breaking markup
+function escapeHtml(s){ if(!s) return ''; return s.replaceAll && s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
+
+// Trending loader
+function loadTrending(topArticles) {
+  trendingTrack.innerHTML = '';
+  topArticles.forEach(a => {
+    const el = document.createElement('div');
+    el.style.minWidth = '33%';
+    el.style.padding = '6px 8px';
+    el.innerHTML = `<a href="${escapeHtml(a.url||'#')}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:var(--accent);font-weight:700">${escapeHtml(a.title||'')}</a>`;
+    trendingTrack.appendChild(el);
+  });
+
+  // simple marquee-like auto-slide (non-blocking)
+  let idx = 0;
+  if(topArticles.length > 1){
+    setInterval(()=> {
+      idx = (idx + 1) % topArticles.length;
+      trendingTrack.style.transform = `translateX(-${idx * 33}%)`;
+      trendingTrack.style.transition = 'transform .7s ease';
+    }, 4500);
+  }
+}
+
+/* Event bindings */
+loadMoreBtn.addEventListener('click', () => {
+  loadMoreBtn.disabled = true;
+  loadMoreBtn.textContent = 'Loading...';
+  // Small timeout to show loading state (instant if data present)
+  setTimeout(()=> renderNextBatch(), 250);
+});
+
+searchBtn.addEventListener('click', () => {
+  const q = searchInput.value.trim();
+  if(!q) fetchAllNews(currentTopic, '');
+  else fetchAllNews(currentTopic, q);
+});
+
+// clickable topics
+topics.forEach(t => {
+  t.addEventListener('click', () => {
+    const topic = t.getAttribute('data-topic') || 'technology';
+    // visually mark active topic
+    topics.forEach(x => x.style.opacity = '0.9');
+    t.style.opacity = '1';
+    searchInput.value = '';
+    fetchAllNews(topic, '');
+    // scroll to main
+    window.scrollTo({top:140,behavior:'smooth'});
+  });
+});
+
+/* Product Management CTA hook (example) */
+document.getElementById('pmCTA').addEventListener('click', () => {
+  // open a modal or navigate to integration page - placeholder
+  alert('Interested in integrating SmartWorld with SAP Commerce Cloud + AI? Let\'s connect — email: team@smartworld.example (placeholder).');
+});
+
+/* Theme toggle: prefers-system + persist */
+const themeToggle = document.getElementById('themeToggle');
+const userPref = localStorage.getItem('sw_theme');
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+const root = document.documentElement;
+function applyTheme(t) {
+  root.setAttribute('data-theme', t);
+  themeToggle.textContent = t === 'dark' ? '🌙 Dark' : '☀️ Light';
+  themeToggle.setAttribute('aria-pressed', t === 'dark');
+}
+if(userPref) {
+  applyTheme(userPref);
+} else {
+  applyTheme(prefersDark ? 'dark' : 'light');
+}
+themeToggle.addEventListener('click', () => {
+  const cur = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  localStorage.setItem('sw_theme', next);
+});
+
+/* Initialize: fetch initial dataset (single call; later Load More reveals batches) */
+fetchAllNews(currentTopic, '');
+
+/* Accessibility: enable keyboard activation for topics */
+document.querySelectorAll('.topic').forEach(el=>{
+  el.tabIndex = 0;
+  el.addEventListener('keypress', (e)=>{ if(e.key === 'Enter') el.click(); });
+});
+</script>
+
+<!-- JSON-LD placeholder for SEO (populated minimally; can be updated server-side) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsMediaOrganization",
+  "name": "SmartWorld",
+  "url": "https://web-production-6fb1.up.railway.app/",
+  "logo": "https://web-production-6fb1.up.railway.app/logo.png",
+  "sameAs": []
 }
 </script>
 
