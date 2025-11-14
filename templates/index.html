@@ -85,32 +85,46 @@ header {
 /* Trending Section */
 .trending-section {
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: 1.5rem auto;
 }
 .trending-section h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: #0c66d9;
 }
 .trending-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+  position: relative;
 }
 .trending-grid .card {
   background: #0c66d9;
   color: white;
-  min-height: 150px;
+  min-height: 120px;
+  position: relative;
+  padding-top: 1.2rem; /* space for badge */
 }
 .trending-grid .card a {
   color: white;
   font-weight: 700;
   text-decoration: none;
 }
+.trending-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #ffcc00;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
 
 /* News Grid */
 .grid {
   max-width: 1200px;
-  margin: 1.5rem auto;
+  margin: 1rem auto;
   padding: 0 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
@@ -233,11 +247,11 @@ async function loadNews(topic = 'technology', append = false){
     const res = await fetch(`/api/news?topic=${encodeURIComponent(topic)}&page=${currentPage}&size=${pageSize}`);
     const data = await res.json();
 
-    // filter out duplicates
     const newArticles = data.articles.filter(a => !displayedUrls.has(a.url));
-    if(newArticles.length === 0 && !append){
-      container.innerHTML = '<p style="text-align:center;">No news found.</p>';
-      document.getElementById("loadMoreBtn").style.display="none";
+
+    if(newArticles.length === 0){
+      if(!append) container.innerHTML = '<p style="text-align:center;">No news found.</p>';
+      document.getElementById("loadMoreBtn").style.display = 'none';
       return;
     }
 
@@ -266,8 +280,8 @@ function searchNews(){
   const q = document.getElementById("searchInput").value.trim();
   currentTopic = q || 'technology';
   currentTopic = encodeURIComponent(currentTopic);
-  displayedUrls.clear(); // reset displayed URLs
-  loadTrending(); // reload trending
+  displayedUrls.clear();
+  loadTrending();
   loadNews(currentTopic, false);
 }
 
@@ -283,7 +297,6 @@ async function loadTrending(){
   try{
     const res = await fetch(`/api/news?topic=technology&page=1&size=10`);
     const data = await res.json();
-    // Only latest 4 trending articles, filter duplicates
     const trendingArticles = data.articles.filter(a => !displayedUrls.has(a.url)).slice(0,4);
 
     trendingArticles.forEach(a => {
@@ -291,6 +304,7 @@ async function loadTrending(){
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
+        <div class="trending-badge">Trending</div>
         <div class="card-title"><a href="${a.url}" target="_blank">${a.title}</a></div>
         <div class="summary">${a.summary || ''}</div>
         <div class="source">${a.source || ''} • ${a.published || ''}</div>
